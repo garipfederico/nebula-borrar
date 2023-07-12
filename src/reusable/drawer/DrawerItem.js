@@ -6,9 +6,15 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 
 export default function DrawerItem(props) {
     const navigate = useNavigate()
+const handleClick = () => {
+  navigate(props.url)
+  props.handleDrawerClose()
+}
+
+
   return (
     // <Link to={props.url} onClick={props.handleDrawerClose} className={'Link'} >
-      <ListItem disablePadding onClick={()=>navigate(props.url)}>
+      <ListItem disablePadding onClick={handleClick}>
         <ListItemButton>
           <ListItemIcon sx={{color: "primary.main"}}>
             {props.icon}

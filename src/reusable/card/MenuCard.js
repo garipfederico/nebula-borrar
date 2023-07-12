@@ -3,7 +3,7 @@ import React from "react";
 import HomeIcon from "@mui/icons-material/Home";
 import {Link, useNavigate} from "react-router-dom";
 
-function Card({title, subtitle, description, url}) {
+function MenuCard({title, subtitle, description, url, icon}) {
   const navigate = useNavigate();
   const handleClick = (url) => {
     navigate(url);
@@ -15,7 +15,9 @@ function Card({title, subtitle, description, url}) {
       sx={{
         width: "400px",
         height: "180px",
-        marginTop: "12px", // borrar esta prop
+        // marginTop: "12px", // borrar esta prop
+        
+        
       }}
       onClick={() => {
         handleClick(url);
@@ -26,8 +28,8 @@ function Card({title, subtitle, description, url}) {
           <Paper
             elevation={6}
             sx={{
-              width: "150px",
-              height: "145px",
+              width: "130px",
+              height: "115px",
               position: "relative",
               top: "-60px",
               left: "22px",
@@ -40,7 +42,8 @@ function Card({title, subtitle, description, url}) {
               justifyContent="center"
               alignItems="center"
             >
-              <HomeIcon sx={{fontSize: "70px", color: "white"}} />
+              {icon}
+              <HomeIcon sx={{fontSize: "60px", color: "white"}} />
             </Stack>
           </Paper>
           <Box sx={{p: 2}}>
@@ -63,4 +66,4 @@ function Card({title, subtitle, description, url}) {
   );
 }
 
-export default Card;
+export default MenuCard;
