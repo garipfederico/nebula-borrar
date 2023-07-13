@@ -41,12 +41,20 @@ function a11yProps(index) {
   };
 }
 
-export default function BasicTabs(formik, editing, isLoading, submit) {
+export default function BasicTabs({formik, editing, isLoading}) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  
+  const nth1StackStyle = {
+    direction: "column",
+    width:"30%",
+    alignItems:"center",
+    sx:{marginX: "auto", my:4},
+    spacing:5
+  }
 
   return (
     <Box sx={{width: "100%"}}>
@@ -64,41 +72,35 @@ export default function BasicTabs(formik, editing, isLoading, submit) {
       </Box>
       <CustomTabPanel value={value} index={0}>
         <Stack
-          direction="column"
-          width="30%"
-          alignItems="center"
-          sx={{marginX: "auto"}}
+        {...nth1StackStyle}
+          // direction="column"
+          // width="30%"
+          // alignItems="center"
+          // sx={{marginX: "auto", my:4}}
+          // spacing={5}
         >
           <TextInput
-            nombreVariable="Id de Caja"
-            text={formik.cajaId}
+            nombreVariable="cajaId"
+            text={formik.values.cajaId}
             variant="h6"
-            editing={editing}
-            isLoading={isLoading}
+            editing={true}
+            isLoading={false}
             formik={formik}
+            type='number'
           />
           <TextInput
             nombreVariable="cantidad"
-            text={formik.cantidad}
+            text={formik.values.cantidad}
             variant="h6"
             editing={editing}
             isLoading={isLoading}
             formik={formik}
           />
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            sx={{mt: 4}}
-            onClick={()=>formik.onSubmit}
-          >
-            Crear e Imprimir
-          </Button>
           <SubmitButton
-            requestType='POST' // suele podria se useSelector de redux o un useState
-            isLoading={isLoading} // suele podria se useSelector de redux o un useState
-            postOrPutTexts={["Crear e Imprimir", "Guardar"]}
-            handleSubmit={submit}
+            requestType="POST" // suele podria se useSelector de redux o un useState
+            isLoading={false} // suele podria se useSelector de redux o un useState
+            postOrPutTexts={["Crear e Imprimir", ""]}
+            handleSubmit={() => formik.handleSubmit()}
           />
         </Stack>
       </CustomTabPanel>

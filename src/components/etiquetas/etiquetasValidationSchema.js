@@ -5,9 +5,19 @@ const obligatorioTXT = "Este campo es obligatorio";
 const debeSerStringTXT = "Este campo debe ser de texto";
 
 const validationSchema = yup.object({
-    cajaId: yup.number().required(obligatorioTXT).max(12, tieneComoMaxTXT(2)).positive("Debe ser un valor positivo"),
-  cantidad: yup.number().required(obligatorioTXT).max(5, tieneComoMaxTXT(5)).positive("Debe ser un valor positivo"),
-  })
+  cajaId: yup
+    .number()
+    .typeError('Los caracteres deben ser de tipo numéricos')
+    .required(obligatorioTXT)
+    .max(999999999999, tieneComoMaxTXT(12))
+    .positive("Debe ser un valor positivo"),
+    cantidad: yup
+    .number()
+    .typeError('Los caracteres deben ser de tipo numéricos')
+    .required(obligatorioTXT)
+    .max(99999, tieneComoMaxTXT(5))
+    .positive("Debe ser un valor positivo"),
+});
 const etiquetasSchema = {
   validationSchema,
 };

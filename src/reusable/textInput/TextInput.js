@@ -15,7 +15,7 @@ import {startCase} from "lodash";
  *            formik={formik}
  *            multiline
  *            rows="3"
- * sxProp={}
+ * sxTextFieldProp={}
  *          />
  */
 function TextInput({
@@ -28,6 +28,7 @@ function TextInput({
   multiline,
   rows,
   sxTextFieldProp,
+  type,
 }) {
   const textFieldValidationProps = (nombreVariable) => {
     return {
@@ -50,15 +51,15 @@ function TextInput({
         fullWidth: true,
         fontSize: "large",
         size: "large",
-        inputProps: {fontSize: "100px"}
+        inputProps: {fontSize: "100px"},
       };
 
-      const calcHeight= rows? rows*50: 50
+  const calcHeight = rows ? rows * 50 : 50;
   return (
     // <Box sx={{mt: 2}}>
     <>
       {isLoading ? (
-        <Skeleton width={"80vw"} height={calcHeight+"px"} />
+        <Skeleton width={"80vw"} height={calcHeight + "px"} />
       ) : (
         <TextField
           variant="standard"
@@ -67,6 +68,11 @@ function TextInput({
           {...sxProp}
           {...textFieldValidationProps(nombreVariable)}
           value={text}
+          // type={type ? 'numeric' : "numeric"}
+          // inputProps={{
+            // inputMode: "numeric", // Permite la entrada numérica en dispositivos móviles
+            // pattern: "[0-9]*", // Asegura que solo se ingresen dígitos
+          // }}
         />
       )}
     </>

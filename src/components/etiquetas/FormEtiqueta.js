@@ -6,10 +6,11 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import {Paper} from "@mui/material";
+import {Button, Paper} from "@mui/material";
 import Tabs from "./Tabs";
 import {useFormik} from "formik";
 import etiquetasSchema from "./etiquetasValidationSchema";
+import SubmitButton from "../../reusable/buttons/SubmitButton";
 
 function FormEtiqueta() {
   const [editing, setEditing] = useState(true);
@@ -17,17 +18,19 @@ function FormEtiqueta() {
 
   const formik = useFormik({
     initialValues: {
-        cajaId: "",
-        cantidad: ""
+      cajaId: "",
+      cantidad: ""
     },
     validationSchema: etiquetasSchema.validationSchema,
     onSubmit: () => {
+      console.log("hola mundo1");
       handleSubmit();
     },
   });
-
+  
   const handleSubmit = () => {
-    console.log('hola mundo')
+    console.log("hola mundo2");
+    console.log(formik.values)
   };
 
   return (
@@ -47,7 +50,13 @@ function FormEtiqueta() {
   </FormControl>
  */}
 
-      <Tabs loading={loading} editing={editing} formik={formik} submit={formik.onSubmit}/>
+      <Tabs
+        loading={loading}
+        editing={editing}
+        formik={formik}
+      />
+      
+      
     </Paper>
   );
 }
