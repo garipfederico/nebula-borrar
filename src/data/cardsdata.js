@@ -1,45 +1,49 @@
-import { Home, Person, Topic, Scanner } from "@mui/icons-material"
+import { AllInbox, Home, Person, QrCode2, Topic, Scanner } from "@mui/icons-material"
 
-export const dataHomeCard = 
+const dataHomeIconStyle = {sx:{fontSize: "70px", color: "white"}}
+
+export const dataInicioCard = 
     [ 
         {
         title:'Digitalizacion', 
         subtitle:'Creación e Impresion de Etiquetas',
         description:'Creación de etiquetas y pasos, reimpresión de etiquetas',
         url:'/digitalizacion',
-        icon:<Scanner/>
+        icon:<Scanner {...dataHomeIconStyle}/>
     },
     {
         title:'Documentos', 
         subtitle:'Visualización de Lotes',
         description:'Visualización y modificación de estado, de documentos correspondientes al lote de una fecha.',
-        url:'/home',
-        icon:<Topic/>
+        url:'/documentos',
+        icon:<Topic {...dataHomeIconStyle}/>
     },
     {
         title:'Gestion de Usuarios', 
         subtitle:'Visualización de Lotes',
         description:'Visualización y modificación de estado, de documentos correspondientes al lote de una fecha.',
-        url:'/home',
-        icon:<Person/>
+        url:'/gestionDeUsuarios',
+        icon:<Person {...dataHomeIconStyle}/>
         }
     
 ]
 
 
-export const dataInicializacionCard = 
+export const dataDigitalizacionCard = 
     [ 
         {
         title:'Etiquetas', 
         subtitle:'Creación e impresion de etiquetas',
-        description:'Creación de etiquetas y pasos, reimpresión de etiquetas',
-        url:'etiquetas'
+        description:'Crear etiquetas y pasos, reimprimir etiquetas',
+        url:'etiquetas',
+        icon:<QrCode2 {...dataHomeIconStyle}/>
     },
     {
         title:'Lotes', 
         subtitle:'Visualización de Lotes',
-        description:'Visualización y modificación de estado, de documentos correspondientes al lote de una fecha.',
-        url:'/home'
+        description:'Consultar documentos por fecha y modificar su estado',
+        url:'lotes',
+        icon:<AllInbox {...dataHomeIconStyle}/>
         }
     
 ]

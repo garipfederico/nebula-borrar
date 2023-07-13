@@ -21,9 +21,9 @@ function Dashboard({cardsDataArray}) {
       }}
     >
       {cardsDataArray.map((cardData, index) => {
-        const {title, subtitle, description, url} = cardData;
+        const {title, subtitle, description, url, icon} = cardData;
         return (
-          <MenuCard key={index} title={title} subtitle={subtitle} description={description} url={url}/>
+          <MenuCard key={index} title={title} subtitle={subtitle} description={description} url={url} icon={icon}/>
         );
       })}
     </Stack>

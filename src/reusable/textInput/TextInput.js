@@ -59,7 +59,7 @@ function TextInput({
     // <Box sx={{mt: 2}}>
     <>
       {isLoading ? (
-        <Skeleton width={"80vw"} height={calcHeight + "px"} />
+        <Skeleton width={"100%"} height={calcHeight + "px"} />
       ) : (
         <TextField
           variant="standard"

@@ -84,7 +84,7 @@ export default function BasicTabs({formik, editing, isLoading}) {
             text={formik.values.cajaId}
             variant="h6"
             editing={true}
-            isLoading={false}
+            isLoading={isLoading}
             formik={formik}
             type='number'
           />
