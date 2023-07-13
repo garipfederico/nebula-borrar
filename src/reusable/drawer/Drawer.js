@@ -31,7 +31,7 @@ import {
   Timeline,
   Scanner,
 } from "@mui/icons-material";
-import edificio from "../../images/Edificio.jpg";
+import edificio from "../../images/edificio.jpg";
 import AvatarProfilePic from "../AvatarProfilePic";
 import DrawerItem from "./DrawerItem";
 import {Stack} from "@mui/material";
@@ -210,11 +210,7 @@ export default function PersistentDrawerLeft() {
         </List>
       </Drawer>
       <Main open={open}>
-        <DrawerHeader sx={{backgroundImage: {edificio}}} id="DrawerHeader" />
-        {/* <img 
-       alt='imagen de fondo del edificio de la municipalidad de Berazategui'
-       src= {edificio} 
-       sx = {{position:'relative', top:'-100px'}} /> */}
+        <DrawerHeader />
       </Main>
       {open && (
                 <Box
