@@ -26,6 +26,7 @@ function App() {
             />
             <Route path="/digitalizacion/etiquetas" element={<Etiquetas />} />
             <Route path="/digitalizacion/lotes" element={<Lotes />} />
+            <Route path="/digitalizacion/lotes/:id" element={<Lotes />} />
             <Route path="/gestionDeUsuarios" element={<GestionDeUsuarios />} />
             <Route path="/documentos" element={<Documentos />} />
             <Route path="/login" element={<MenuCard />} />
