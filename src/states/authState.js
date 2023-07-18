@@ -1,13 +1,15 @@
 import {createSlice} from "@reduxjs/toolkit";
 
+const initialState = {
+  isLoading: false,
+  isLoggedIn: null,
+  isError: null,
+  response: null,
+};
+
 export const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    isLoading: false,
-    isLoggedIn: null,
-    isError: null,
-    response: null,
-  },
+  initialState: initialState,
   reducers: {
     loggingIn: (state, action) => {
       state.isLoading = true;
@@ -17,7 +19,7 @@ export const authSlice = createSlice({
       state.isLoading = false;
       state.isLoggedIn = false;
       state.isError = true;
-      state.response = error;
+      state.response = error.response;
     },
     loggingInSuccess: (state, action) => {
       state.isLoading = false;
@@ -32,9 +34,11 @@ export const authSlice = createSlice({
       state.isLoading = false;
       state.isLoggedIn = false;
     },
-
-    incrementBy: (state, action) => {
-      state.counter += action.payload;
+    loggingReset: (state) => {
+      state.isLoading = initialState.isLoading;
+      state.isLoggedIn = initialState.isLoggedIn;
+      state.isError = initialState.isError;
+      state.response = initialState.response;
     },
   },
 });
@@ -45,6 +49,7 @@ export const {
   loggingInSuccess,
   loggingOut,
   loggingOutSuccess,
+  loggingReset,
 } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -1,23 +1,23 @@
 // client/src/components/LogIn.js
 
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Formik, useFormik} from "formik";
+import {useDispatch, useSelector} from "react-redux";
 // import { Alert, Breadcrumb, Button, Card, Form } from 'react-bootstrap'; // new
 import {Link, Navigate, useNavigate} from "react-router-dom";
 import {Button, Stack, Typography} from "@mui/material";
 import TextInput from "../../reusable/textInput/TextInput";
 import loginSchema from "./logInValidationSchema";
 import SubmitButton from "../../reusable/buttons/SubmitButton";
-import {loggingIn} from "../../states/authState";
-import {useDispatch, useSelector} from "react-redux";
+import {loggingIn, loggingReset} from "../../states/authState";
+import {openAlertDialog} from "../../states/reusable/AlertDialogSlice";
 
 // changed
 function LogIn(props) {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
-  const { isLoading } = useSelector(state => state.auth)
+  const navigate = useNavigate();
+  const {isLoading, isError, response} = useSelector((state) => state.auth);
   const [isSubmitted, setSubmitted] = useState(false);
-  const { isError } = useSelector(state=>state.auth)
 
   const formik = useFormik({
     initialValues: {
@@ -35,30 +35,30 @@ function LogIn(props) {
     console.log(username);
     try {
       dispatch(loggingIn({username, password, navigate}));
-      // console.log("Hola mundosss");
-      // console.info("isError ",isError )
-      // !isError && navigate('/home')
-      //     const {response, isError} = await props.logIn(
-      //       values.username,
-      //       values.password
-      //     );
-      //     if (!isError) {
-      //       setSubmitted(true);
-      //       return;
-      //     }
-      //     const data = response.response.data;
-
-      //     if (data.detail) {
-      //       actions.setFieldError("__all__", data.detail);
-      //     } else {
-      //       for (const value in data) {
-      //         actions.setFieldError(value, data[value].join(" "));
-      //       }
-      //     }
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (isError) {
+      console.log(response.status)
+      dispatch(
+        openAlertDialog({
+          title: "Lo sentimos ha ocurrido un error",
+          content: (response.status === 401 ? "El usuario o la contraseña son incorrectos":""),
+          icon: 'cancel',
+          otherMessages: [
+            response.status === 400 ?
+            "Message: " + response.message : null,
+            // "Name:" + response?.name,
+            // "Code: " + response?.code,
+          ],
+          actionCancelButton: () => dispatch(loggingReset()),
+        })
+      );
+    }
+  }, [isError]);
 
   if (props.isLoggedIn || isSubmitted) {
     return <Navigate to="/menu" />;
