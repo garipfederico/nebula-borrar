@@ -14,6 +14,7 @@ function CustomTabPanel(props) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
+      data-cy={`simple-tab`}
       {...other}
     >
       {value === index && (
@@ -65,7 +66,11 @@ export default function BasicTabs(props) {
         >
         
       {props.labels.map((aLabel, index) => (
-         <Tab label={aLabel} {...a11yProps(index)} />
+         <Tab 
+         label={aLabel}
+          {...a11yProps(index)}
+          data-cy="tab-text"
+           />
       ))}
         </Tabs>
       </Box>

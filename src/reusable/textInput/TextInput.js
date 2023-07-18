@@ -19,6 +19,7 @@ import { Password } from "@mui/icons-material";
  *            rows="3"
  *            sxTextFieldProp={}
  *            type='password' //default string
+ *            data-cy='unNombreParaCypress'
  *          />
  */
 function TextInput({
@@ -33,6 +34,7 @@ function TextInput({
   rows,
   sxTextFieldProp,
   type,
+  dataCy,
 
 }) {
   const textFieldValidationProps = (nombreVariable) => {
