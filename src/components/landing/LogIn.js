@@ -1,44 +1,101 @@
 // client/src/components/LogIn.js
 
-import React, { useState } from 'react';
-import { Formik } from 'formik';
-import { Alert, Breadcrumb, Button, Card, Form } from 'react-bootstrap'; // new
-import { Link, Navigate } from 'react-router-dom';
+import React, {useState} from "react";
+import {Formik, useFormik} from "formik";
+// import { Alert, Breadcrumb, Button, Card, Form } from 'react-bootstrap'; // new
+import {Link, Navigate, useNavigate} from "react-router-dom";
+import {Button, Stack, Typography} from "@mui/material";
+import TextInput from "../../reusable/textInput/TextInput";
+import loginSchema from "./logInValidationSchema";
+import SubmitButton from "../../reusable/buttons/SubmitButton";
+import {loggingIn} from "../../states/authState";
+import {useDispatch, useSelector} from "react-redux";
 
 // changed
-function LogIn (props) {
+function LogIn(props) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const { isLoading } = useSelector(state => state.auth)
+  const [isSubmitted, setSubmitted] = useState(false);
+  const { isError } = useSelector(state=>state.auth)
 
-  const [isSubmitted, setSubmitted] = useState(false)
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    validationSchema: loginSchema.validationSchema,
+    onSubmit: () => {
+      onSubmit();
+    },
+  });
+
   const onSubmit = async (values, actions) => {
+    const {username, password} = formik.values;
+    console.log(username);
     try {
-      const { response, isError} = await props.logIn(values.username, values.password);
-      if (!isError) {
-        setSubmitted(true);
-        return;
-      }
-      
-      const data = response.response.data;
+      dispatch(loggingIn({username, password, navigate}));
+      // console.log("Hola mundosss");
+      // console.info("isError ",isError )
+      // !isError && navigate('/home')
+      //     const {response, isError} = await props.logIn(
+      //       values.username,
+      //       values.password
+      //     );
+      //     if (!isError) {
+      //       setSubmitted(true);
+      //       return;
+      //     }
+      //     const data = response.response.data;
 
-      if (data.detail) {
-        actions.setFieldError('__all__', data.detail);
-      } else {
-        for (const value in data) {
-          actions.setFieldError(value, data[value].join(' '));
-        }
-      }
-
+      //     if (data.detail) {
+      //       actions.setFieldError("__all__", data.detail);
+      //     } else {
+      //       for (const value in data) {
+      //         actions.setFieldError(value, data[value].join(" "));
+      //       }
+      //     }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   if (props.isLoggedIn || isSubmitted) {
-    return <Navigate to='/menu'/>
+    return <Navigate to="/menu" />;
   }
 
   return (
     <>
-      <Breadcrumb>
+      <Stack spacing={5} sx={{pt: 3}}>
+        <TextInput
+          nombreVariable="username"
+          text={formik.values.username}
+          variant="h6"
+          editing={true}
+          isLoading={isLoading}
+          formik={formik}
+          label="Nombre de usuario"
+        />
+        <TextInput
+          nombreVariable="password"
+          text={formik.password}
+          variant="h6"
+          editing={true}
+          isLoading={isLoading}
+          formik={formik}
+          label="Contraseña"
+          type="password"
+        />
+        <Stack>
+          <SubmitButton
+            requestType={"POST"} // suele podria se useSelector de redux o un useState
+            isLoading={isLoading} // suele podria se useSelector de redux o un useState
+            postOrPutTexts={["Ingresar", "Guardar"]}
+            handleSubmit={formik.handleSubmit}
+          />
+        </Stack>
+      </Stack>
+      {/* <Breadcrumb>
         <Breadcrumb.Item href='/#/'>Inicio</Breadcrumb.Item>
         <Breadcrumb.Item active>Ingreso</Breadcrumb.Item>
       </Breadcrumb>
@@ -101,7 +158,7 @@ function LogIn (props) {
             ¿No tenés cuenta aún? <Link to='/sign-up'>Registrate!</Link>
           </Card.Text>
         </Card.Body>
-      </Card>
+      </Card> */}
     </>
   );
 }

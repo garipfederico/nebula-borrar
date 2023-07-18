@@ -1,26 +1,35 @@
-import { call, put, takeEvery } from 'redux-saga/effects'  
-import { postCrearLote } from '../states/etiquetasState'
+import {call, put, takeEvery} from "redux-saga/effects";
+import {loggingInSuccess, loggingInFail, loggingOutSuccess} from "../states/authState";
+import axios from "axios";
 
-function* workGetEtiquetasFetch(){
-    // yield aca lo usamos como un await
-    const cats = yield call(() => fetch('https://api.thecatapi.com/v1/breeds'));
-    const formattedCats = yield cats.json();
-    const formattedCatsShortened = formattedCats.slice(0,10);
-
-    // Sí, put en Redux Saga es similar a dispatch en Redux. 
-// Ambos se utilizan para despachar acciones y actualizar el estado de la aplicación.
-    // yield put(postCrearLote(formattedCatsShortened));
+function* workPostAuthFetch(action) {
+  const {username, password, navigate} = action.payload;
+  console.log("hola saga");
+  console.info("username saga ", username);
+  const url = `${process.env.REACT_APP_BASE_URL}/api/log-in/`;
+  try {
+    console.info("url ", url);
+    const response = yield call(axios.post, url, {
+      email: username,
+      password: password,
+    });
+    window.localStorage.setItem("docu.auth", JSON.stringify(response.data));
+    yield put(loggingInSuccess({response}));
+    yield call(navigate, "./home");
+  } catch (error) {
+    console.error(error);
+    yield put(loggingInFail({error}));
+  }
 }
-// 4.1>
 
-// Aca empezaria la explicacion de todo
-function* etiquetaSaga(){
-    // cats es el nombre del createSlice.name
-    // getCatsFetch es el nombre del reducer
-    yield takeEvery('etiquetas/postCrearLote', workGetEtiquetasFetch);
-
+function* workDeleteAuthFetch() {
+  window.localStorage.removeItem("docu.auth");
+  yield put(loggingOutSuccess());
 }
 
+function* etiquetaSaga() {
+  yield takeEvery("auth/loggingIn", workPostAuthFetch);
+  yield takeEvery("auth/loggingOut", workDeleteAuthFetch);
+}
 
-
-export default etiquetaSaga
+export default etiquetaSaga;

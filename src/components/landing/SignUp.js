@@ -2,8 +2,9 @@
 
 import React, { useState} from 'react';
 import { Formik } from 'formik';
-import { Breadcrumb, Button, Card, Form } from 'react-bootstrap'; // new
+// import { Breadcrumb, Button, Card, Form } from 'react-bootstrap'; // new
 import { Link, Navigate } from 'react-router-dom';
+import { Typography } from '@mui/material';
 
 // changed
 function SignUp (props) {
@@ -16,7 +17,8 @@ function SignUp (props) {
   }
   return (
     <>
-      <Breadcrumb>
+    <Typography>Signup</Typography>
+      {/* <Breadcrumb>
         <Breadcrumb.Item href='/#/'>Home</Breadcrumb.Item>
         <Breadcrumb.Item active>Sign up</Breadcrumb.Item>
       </Breadcrumb>
@@ -72,7 +74,10 @@ function SignUp (props) {
                     type='password'
                     value={values.password}
                   />
-                </Form.Group>
+                </Form.Group> */}
+
+
+                
                 {/* <Form.Group className='mb-3' controlId='group'>
                   <Form.Label>Group:</Form.Label>
                   <Form.Select
@@ -93,7 +98,11 @@ function SignUp (props) {
                     value={values.photo}
                   />
                 </Form.Group> */}
-                <div className='d-grid mb-3'>
+
+
+
+
+                {/* <div className='d-grid mb-3'>
                   <Button type='submit' variant='primary'>Sign up</Button>
                 </div>
               </Form>
@@ -103,7 +112,7 @@ function SignUp (props) {
             Already have an account? <Link to='/log-in'>Log in!</Link>
           </Card.Text>
         </Card.Body>
-      </Card>
+      </Card> */}
     </>
   );
 }

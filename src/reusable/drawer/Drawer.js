@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState, useEffect} from "react";
 import {styled, useTheme} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -24,18 +24,24 @@ import {
   Home,
   ListAlt,
   Lock,
+  Logout,
   Mail,
   Person,
   Receipt,
   SquareFoot,
   Timeline,
   Scanner,
+  SupportAgent,
 } from "@mui/icons-material";
 import edificio from "../../images/edificio.jpg";
 import AvatarProfilePic from "../AvatarProfilePic";
 import DrawerItem from "./DrawerItem";
 import {Stack} from "@mui/material";
 import UserInfo from "./UserInfo";
+import { useDispatch, useSelector } from "react-redux";
+
+import { loggingOut } from "../../states/authState";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -75,7 +81,7 @@ export const menuItem = [
     text: "Documentos",
     icon: <FolderCopy />,
     iconName: "Mail",
-    url: "/mis-planes",
+    url: "/documentos",
     permiso: "mis-planes",
     descripcion: "Entra al plan que tenes vigente y entrena!",
   },
@@ -83,7 +89,7 @@ export const menuItem = [
     text: "Gestion de Usuarios",
     icon: <Person />,
     iconName: "FolderCopy",
-    url: "/historico-planes",
+    url: "/gestionDeUsuarios",
     permiso: "mis-planes",
     descripcion: "Revisa los planes que finalizaste y los que vienen",
   },
@@ -116,8 +122,11 @@ const DrawerHeader = styled("div")(({theme}) => ({
 }));
 
 export default function PersistentDrawerLeft() {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const {isLoggedIn} = useSelector(state=>state.auth)
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -126,6 +135,10 @@ export default function PersistentDrawerLeft() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+ useEffect(()=>{
+navigate(isLoggedIn?'./home':'./landing')
+ },[isLoggedIn])
 
   return (
     <Box sx={{display: "flex"}}>
@@ -196,17 +209,29 @@ export default function PersistentDrawerLeft() {
           ))}
         </List>
         <Divider />
+
         <List>
-          {["Soporte", "Cerrar sesión"].map((text, index) => (
-            <ListItem key={text} disablePadding>
+        <Stack direction='column' justifyContent={'center'} width='100%'>
+            <ListItem key={'Soporte'} disablePadding>
               <ListItemButton>
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                 <SupportAgent/>
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary={'Soporte'} />
               </ListItemButton>
             </ListItem>
-          ))}
+            <ListItem key={'Cerrar sesión'} disablePadding>
+              <ListItemButton onClick={()=>{
+                dispatch(loggingOut())
+                handleDrawerClose()
+                }}>
+                <ListItemIcon>
+                 <Logout/>
+                </ListItemIcon>
+                <ListItemText primary={'Cerrar sesión'} />
+              </ListItemButton>
+            </ListItem>
+        </Stack>
         </List>
       </Drawer>
       <Main open={open}>

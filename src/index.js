@@ -9,6 +9,8 @@ import {configureStore} from "@reduxjs/toolkit";
 //States
 import authState from "./states/authState";
 import etiquetasReducer from "./states/etiquetasState";
+import AlertDialogSlice from "./states/reusable/AlertDialogSlice";
+import SnackbarSlice from "./states/reusable/SnackbarSlice";
 //Sagas
 import etiquetaSaga from "./sagas/etiquetaSaga";
 import authSaga from "./sagas/authSaga"
@@ -18,6 +20,8 @@ const store = configureStore({
   reducer: {
     auth: authState,
     etiquetas: etiquetasReducer,
+    alertDialog: AlertDialogSlice,
+    snackbar: SnackbarSlice, 
   },
   middleware: [saga],
 });

@@ -1,29 +1,55 @@
 // client/src/components/Landing.js
 
-import React from 'react';
-import { Button, ButtonGroup } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import React, {useState} from "react";
+import TitleCard from "../../reusable/card/TitleCard";
+import {Box, Button} from "@mui/material";
+import Tabs from "../../reusable/Tabs";
+import Login from "./LogIn";
+import SignUp from "./SignUp";
+// import { Button, ButtonGroup } from 'react-bootstrap';
+// import { LinkContainer } from 'react-router-bootstrap';
 
-function Landing (props) {
+function Landing(props) {
+  const [activeTab, setActiveTab] = useState(0);
   return (
-    <div className='middle-center'>
-      <h1 className='landing logo'>Documentos</h1>
-      {
-        props.isLoggedIn ? (
-          <></>
-        ) : (
+    <TitleCard
+      title="Bienvenido a Nebula Software!"
+      subtitle="Realize el loguin para ingresar o cree un usuario si no lo tiene."
+      width="60vw"
+    >
+      <Box width="60%" sx={{margin: "auto"}}>
+        <Tabs
+          indexes={[0, 1]}
+          labels={["Ingreso", "Registro"]}
+          activeTab={activeTab}
+        >
+          <Login />
+          <SignUp />
+        </Tabs>
+        <Button
+          onClick={() => {
+            setActiveTab(activeTab === 0 ? 1 : 0);
+          }}
+          fullWidth
+        >
+          {activeTab === 0
+            ? "No tenes usuario aun?"
+            : "Tenes usuario? Inicia sesión"}
+        </Button>
+        {/* {props.isLoggedIn ? ( */}
+        {/* <></> */}
+        {/* ) : ( */}
+        {/* 
           <ButtonGroup>
-            <LinkContainer to='/sign-up'>
-              <Button data-cy="signUp">Sign up</Button>  
-            </LinkContainer>
-            <LinkContainer to='/log-in'>
-              <Button data-cy="logIn">Log in</Button>
-            </LinkContainer>
-          </ButtonGroup>
-        )
-      }
-      
-    </div>
+          <LinkContainer to='/sign-up'>
+          <Button data-cy="signUp">Sign up</Button>  
+          </LinkContainer>
+          <LinkContainer to='/log-in'>
+          <Button data-cy="logIn">Log in</Button>
+          </LinkContainer>
+        </ButtonGroup> */}
+      </Box>
+    </TitleCard>
   );
 }
 

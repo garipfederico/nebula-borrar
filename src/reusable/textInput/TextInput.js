@@ -1,6 +1,7 @@
 import React from "react";
 import {Box, Skeleton, TextField} from "@mui/material";
 import {startCase} from "lodash";
+import { Password } from "@mui/icons-material";
 
 /**
  *
@@ -13,9 +14,11 @@ import {startCase} from "lodash";
  *            editing={editing}
  *            isLoading={isLoading}
  *            formik={formik}
+ *            label="NombreEnPantalla" // default nombreVariable
  *            multiline
  *            rows="3"
- * sxTextFieldProp={}
+ *            sxTextFieldProp={}
+ *            type='password' //default string
  *          />
  */
 function TextInput({
@@ -26,13 +29,15 @@ function TextInput({
   isLoading,
   formik,
   multiline,
+  label,
   rows,
   sxTextFieldProp,
   type,
+
 }) {
   const textFieldValidationProps = (nombreVariable) => {
     return {
-      label: startCase(nombreVariable),
+      label: label? label: startCase(nombreVariable),
       id: nombreVariable,
       name: nombreVariable,
       value: formik.values?.[nombreVariable],
@@ -68,6 +73,7 @@ function TextInput({
           {...sxProp}
           {...textFieldValidationProps(nombreVariable)}
           value={text}
+          type={type && 'password'}
           // type={type ? 'numeric' : "numeric"}
           // inputProps={{
             // inputMode: "numeric", // Permite la entrada numérica en dispositivos móviles
