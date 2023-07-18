@@ -7,9 +7,26 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import {Stack, Typography} from "@mui/material";
-//Implementacion para useAlertContext (IGC)
-// import useAlert from '../../hooks/useAlert'
 import {closeAlertDialog} from "../states/reusable/AlertDialogSlice";
+import { Error } from "@mui/icons-material";
+/**
+ * 
+ * @param {*} props
+ * @example 
+ * <AlertDialog
+ *     open={openAlertDialog}
+ *     setOpen={setOpenAlertDialog}
+ *     title={ 'Está por eliminar al cliente' + formik.values.nombre}
+ *     content='¿Seguro desea eliminarlo?'
+ *     buttonTextAccept='Borrar'
+ *     buttonTextDeny='Cancelar'
+ *     buttonActionAccept={deleteCliente}
+ * >
+ *     <DeleteForeverIcon color="warning" fontSize="medium" />
+ * </AlertDialog>
+ * 
+ * @returns 
+ */
 
 function AlertDialogRedux(props) {
   const dispatch = useDispatch();
@@ -17,7 +34,9 @@ function AlertDialogRedux(props) {
     open,
     title,
     content,
+    icon,
     actionAcceptButton,
+    actionCancelButton,
     textAcceptButton,
     textCancelButton,
     otherMessages,
@@ -25,8 +44,10 @@ function AlertDialogRedux(props) {
 
   console.log("open ", open);
 
+  // Remember that any clic outside de box it's the same that cancel action
   const handleClose = () => {
     dispatch(closeAlertDialog());
+    actionCancelButton()
   };
 
   const handleAcceptButton = () => {
@@ -48,6 +69,15 @@ function AlertDialogRedux(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
+     {
+      // Here goes the icons. To agregate another one you must to create en new line, assign an string
+      // and import an icon component to render it
+      //(icon && icon==='StringExample') && (<ExampleComponent  color='error' sx={{margin:'auto', fontSize:"70px"}}/>)
+      (icon && icon==='error') && (<Error  color='error' sx={{margin:'auto', fontSize:"70px"}}/>)
+      
+      }
+      
+      
         <DialogTitle
           id="alert-dialog-title"
           alignItems="center"
@@ -64,7 +94,6 @@ function AlertDialogRedux(props) {
               </Stack>
 
             </DialogContentText>
-            {props.children}
           </Stack>
         </DialogContent>
         <DialogActions
@@ -83,6 +112,7 @@ function AlertDialogRedux(props) {
               {textCancelButton}
             </Button>
           ) : null}
+          {textAcceptButton?
           <Button
             color="primary"
             variant="contained"
@@ -91,6 +121,7 @@ function AlertDialogRedux(props) {
           >
             {textAcceptButton ? textAcceptButton : "Aceptar"}
           </Button>
+          : null}
         </DialogActions>
       </Dialog>
     </div>
@@ -99,27 +130,4 @@ function AlertDialogRedux(props) {
 
 export default AlertDialogRedux;
 
-/*
-// Copiar para implementar
 
-//Estados del AlertDialog a usar en el padre
-    const [openAlertDialog, setOpenAlertDialog] = useState(false);
-// Evento que abre el dialogo
-    const handleClickOpenAlertDialog = () => {
-        setOpenAlertDialog(true);
-    };
-
-// Componente a usar en el padre
-<AlertDialog
-                open={openAlertDialog}
-                setOpen={setOpenAlertDialog}
-                title={ 'Está por eliminar al cliente' + formik.values.nombre}
-                content='¿Seguro desea eliminarlo?'
-                buttonTextAccept='Borrar'
-                buttonTextDeny='Cancelar'
-                buttonActionAccept={deleteCliente}
-            >
-                <DeleteForeverIcon color="warning" fontSize="medium" />
-</AlertDialog>
-
-*/
