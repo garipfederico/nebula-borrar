@@ -11,10 +11,18 @@ import Lotes from "./components/lotes/Lotes";
 import Documentos from "./components/documentos/Documentos";
 import GestionDeUsuarios from "./components/gestionDeUsuarios/GestionDeUsuarios";
 import Landing from "./components/landing/Landing";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AppLayout from "./AppLayout";
+import { useEffect } from "react";
+//States 
+import {getUser} from './states/authState'
+
 
 function App() {
+  const dispatch = useDispatch()
+  dispatch(getUser())
+  useEffect(()=>{
+  },[])
   const {isLoggedIn} = useSelector(state=>state.auth)
   return (
     <div className="translucid">

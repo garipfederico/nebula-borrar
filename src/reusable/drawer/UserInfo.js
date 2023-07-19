@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from "react";
 // import userService from "../../services/users.service";
 import Typography from "@mui/material/Typography";
+import { useSelector } from "react-redux";
+import AvatarProfilePic from "../AvatarProfilePic";
+
 
 function UserInfo() {
-    const [userInfo, setUserInfo] = useState({});
+    const {email} = useSelector(state=>state.auth.activeUser)
     useEffect(() => {
-        const getUserInfo = async () => {
-            // const user = await userService.getActiveUser();
-
-            // setUserInfo(user);
-        };
-        getUserInfo();
+       
     }, []);
 
     return (
-        <div>
-            <Typography variant="h6" color="initial" textAlign="center">
-                {userInfo.nombre + " " + userInfo.apellido}
+        <>
+        <AvatarProfilePic/>
+            <Typography variant="b2" color="initial" textAlign="center" multiline rows={2}>
+                {/* {userInfo.nombre + " " + userInfo.apellido} */}
+                ver que pasa con el username
             </Typography>
-            <Typography variant="body1" color="initial" gutterBottom>
-                {/* {userInfo.mail} */} userInfo.mail esto es para traer del back
+            <Typography variant="caption" color="initial" gutterBottom>
+            {email}
             </Typography>
-        </div>
+        </>
     );
 }
 

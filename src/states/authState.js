@@ -5,6 +5,7 @@ const initialState = {
   isLoggedIn: null,
   isError: null,
   response: null,
+  activeUser: null,
 };
 
 export const authSlice = createSlice({
@@ -26,6 +27,7 @@ export const authSlice = createSlice({
       state.isLoggedIn = true;
       state.isError = false;
       state.response = action.payload.response;
+      state.activeUser = action.payload.user;
     },
     loggingOut: (state) => {
       state.isLoading = true;
@@ -40,6 +42,14 @@ export const authSlice = createSlice({
       state.isError = initialState.isError;
       state.response = initialState.response;
     },
+    getUser: (state) => {},
+    getUserFail: (state) => {
+      state.isLoggedIn = false;
+    },
+    getUserSuccess: (state, action) => {
+      state.isLoggedIn = true;
+      state.activeUser = action.payload.user;
+    },
   },
 });
 
@@ -50,6 +60,9 @@ export const {
   loggingOut,
   loggingOutSuccess,
   loggingReset,
+  getUser,
+  getUserFail,
+  getUserSuccess,
 } = authSlice.actions;
 
 export default authSlice.reducer;

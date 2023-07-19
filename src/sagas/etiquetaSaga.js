@@ -1,7 +1,18 @@
 import { call, put, takeEvery } from 'redux-saga/effects'  
 import { postCrearLote } from '../states/etiquetasState'
 
-function* workGetEtiquetasFetch(){
+
+
+
+
+
+function* workPostLabelsFetch(){
+// const newLabels = yield call(()=> axios.post)
+
+
+
+
+
     // yield aca lo usamos como un await
     const cats = yield call(() => fetch('https://api.thecatapi.com/v1/breeds'));
     const formattedCats = yield cats.json();
@@ -17,7 +28,7 @@ function* workGetEtiquetasFetch(){
 function* etiquetaSaga(){
     // cats es el nombre del createSlice.name
     // getCatsFetch es el nombre del reducer
-    yield takeEvery('etiquetas/postCrearLote', workGetEtiquetasFetch);
+    yield takeEvery('etiquetas/postCrearLote', workPostLabelsFetch);
 
 }
 

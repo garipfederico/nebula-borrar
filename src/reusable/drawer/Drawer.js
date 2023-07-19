@@ -37,7 +37,7 @@ import edificio from "../../images/edificio.jpg";
 import AvatarProfilePic from "../AvatarProfilePic";
 import DrawerItem from "./DrawerItem";
 import {Stack} from "@mui/material";
-import UserInfo from "./UserInfo";
+// import UserInfo from "./UserInfo";
 import { useDispatch, useSelector } from "react-redux";
 
 import { loggingOut } from "../../states/authState";
@@ -175,8 +175,7 @@ navigate(isLoggedIn?'./home':'./landing')
         <DrawerHeader>
           <Stack width="100%" direction="column" alignItems="start" sx={{m:2}}>
           
-            <AvatarProfilePic/>
-             {/* <UserInfo/> Conectar con el back */}
+            {/* <UserInfo/> */}
             <Typography variant="b2">UserNameHardcoded</Typography>
             <Typography variant="caption">Email hardcoded</Typography>
           </Stack>

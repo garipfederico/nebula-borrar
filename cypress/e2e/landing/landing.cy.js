@@ -13,7 +13,7 @@
 
 describe("Landing page - Componentes estructurales", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3001/landing");
+    cy.visit("http://localhost:3000/landing");
   });
 
   it("Displays two tabs items by default one with the text ingreso and the other registro", () => {
@@ -36,7 +36,7 @@ describe("Landing page - Componentes estructurales", () => {
     cy.get("#username").type("garip.federico@gmail.com");
     cy.get("#password").type("123");
     cy.get(".MuiStack-root > .MuiButtonBase-root").click();
-    cy.url().should('include', "http://localhost:3001/home")
+    cy.url().should('include', "http://localhost:3000/home")
   });
   it("Login failed and a dialog message will be showed and closed", () => {
     cy.get("#username").type("garip.federico@gmail.com");
