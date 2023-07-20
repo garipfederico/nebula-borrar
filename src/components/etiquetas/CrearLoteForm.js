@@ -42,7 +42,7 @@ function CrearLoteForm() {
         editing={true}
         isLoading={isLoading}
         formik={formik}
-        type="number"
+        // type="number" ver esto, le paso type number y lo visualiza como password 
       />
       <TextInput
         nombreVariable="cantidad"

@@ -17,11 +17,7 @@ function CustomTabPanel(props) {
       data-cy={`simple-tab`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{p: 3}}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box sx={{p: 3}}>{children}</Box>}
     </div>
   );
 }
@@ -41,7 +37,9 @@ function a11yProps(index) {
 
 export default function BasicTabs(props) {
   const [value, setValue] = React.useState(0);
-  React.useEffect(()=>{setValue(props.activeTab)},[props.activeTab])
+  React.useEffect(() => {
+    setValue(props.activeTab);
+  }, [props.activeTab]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -57,27 +55,30 @@ export default function BasicTabs(props) {
 
   return (
     <Box sx={{width: "100%"}}>
-      <Box sx={{borderBottom: 1, borderColor: "divider", justifyContent:'center'}}>
+      <Box
+        sx={{borderBottom: 1, borderColor: "divider", justifyContent: "center"}}
+      >
         <Tabs
+        
           value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
           variant="fullWidth"
         >
-        
-      {props.labels.map((aLabel, index) => (
-         <Tab 
-         label={aLabel}
-          {...a11yProps(index)}
-          data-cy="tab-text"
-           />
-      ))}
+          {props.labels.map((aLabel, index) => (
+            <Tab
+              key={index}
+              label={aLabel}
+              {...a11yProps(index)}
+              data-cy="tab-text"
+            />
+          ))}
         </Tabs>
       </Box>
       {props.labels.map((aLabel, index) => (
-      <CustomTabPanel value={value} index={index}>
-        {props.children[index]}
-      </CustomTabPanel>
+        <CustomTabPanel value={value} index={index} key={index}>
+          {props.children[index]}
+        </CustomTabPanel>
       ))}
     </Box>
   );

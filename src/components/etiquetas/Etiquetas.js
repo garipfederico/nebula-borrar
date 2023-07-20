@@ -1,10 +1,12 @@
 import React from "react";
 import {Paper, Stack, Typography} from "@mui/material";
 import TitleCard from "../../reusable/card/TitleCard";
-import Tabs from "./Tabs";
+import Tabs from "../../reusable/Tabs";
+import CrearLoteForm from "./CrearLoteForm";
+import ReimprimirLoteForm from "./ReimprimirLoteForm";
 
 function Etiquetas() {
-return (
+  return (
     <Stack
       width="100vw"
       flexDirection="column"
@@ -19,7 +21,14 @@ return (
         sx={{marginY: "auto"}}
       >
         <Paper elevation={3} sx={{width: "80%", mb: 5}}>
-          <Tabs/>
+          <Tabs
+            indexes={[0, 1]}
+            labels={["Crear lote nuevo", "Reimprimir etiquetas"]}
+            activeTab={0}
+          >
+            <CrearLoteForm />
+            <ReimprimirLoteForm />
+          </Tabs>
         </Paper>
       </TitleCard>
     </Stack>

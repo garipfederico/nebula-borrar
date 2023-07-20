@@ -26,7 +26,8 @@ const store = configureStore({
   middleware: [saga],
 });
 
-saga.run(authSaga, etiquetaSaga);
+saga.run(authSaga);
+saga.run(etiquetaSaga);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>

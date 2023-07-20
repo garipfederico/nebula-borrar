@@ -9,7 +9,8 @@ export const dataInicioCard =
         subtitle:'Creación e Impresion de Etiquetas',
         description:'Creación de etiquetas y pasos, reimpresión de etiquetas',
         url:'/digitalizacion',
-        icon:<Scanner {...dataHomeIconStyle}/>
+        icon:<Scanner {...dataHomeIconStyle}/>,
+        dataCy:'digitalizacion'
     },
     {
         title:'Documentos', 
@@ -36,7 +37,8 @@ export const dataDigitalizacionCard =
         subtitle:'Creación e impresion de etiquetas',
         description:'Crear etiquetas y pasos, reimprimir etiquetas',
         url:'etiquetas',
-        icon:<QrCode2 {...dataHomeIconStyle}/>
+        icon:<QrCode2 {...dataHomeIconStyle}/>,
+        dataCy:'etiquetas'
     },
     {
         title:'Lotes', 

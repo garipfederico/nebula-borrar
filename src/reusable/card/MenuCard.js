@@ -3,29 +3,31 @@ import React from "react";
 import HomeIcon from "@mui/icons-material/Home";
 import {Link, useNavigate} from "react-router-dom";
 
-function MenuCard({title, subtitle, description, url, icon}) {
+function MenuCard({dataCy, title, subtitle, description, url, icon}) {
   const navigate = useNavigate();
   const handleClick = (url) => {
     navigate(url);
   };
 
-  const Icon = () => {return icon}
+  const Icon = () => {
+    return icon;
+  };
 
   return (
     <Paper
+      data-cy={dataCy}
       elevation={12}
       sx={{
         width: "400px",
         height: "180px",
         // marginTop: "12px", // borrar esta prop
-       cursor: "pointer" 
-        
+        cursor: "pointer",
       }}
       onClick={() => {
         handleClick(url);
       }}
     >
-      <Stack directrion="column" justifyContent={"space-between"} height='100%'>
+      <Stack directrion="column" justifyContent={"space-between"} height="100%">
         <Stack direction="row" justifyContent={"space-between"} height="100px">
           <Paper
             elevation={6}
@@ -44,11 +46,15 @@ function MenuCard({title, subtitle, description, url, icon}) {
               justifyContent="center"
               alignItems="center"
             >
-              <Icon/>
+              <Icon />
             </Stack>
           </Paper>
           <Box sx={{p: 2}}>
-            <Typography variant={"h5"} textAlign={"end"} sx={{textDecoration: 'none'}}>
+            <Typography
+              variant={"h5"}
+              textAlign={"end"}
+              sx={{textDecoration: "none"}}
+            >
               {title}
             </Typography>
             <Typography paragraph variant={"b2"} textAlign={"end"}>
@@ -57,13 +63,18 @@ function MenuCard({title, subtitle, description, url, icon}) {
           </Box>
         </Stack>
         <Stack direction="row" justifyItems="center">
-          <Typography paragraph color='grey' variant={"body2"} textAlign={"start"} margin>
+          <Typography
+            paragraph
+            color="grey"
+            variant={"body2"}
+            textAlign={"start"}
+            margin
+          >
             {description}
           </Typography>
         </Stack>
       </Stack>
     </Paper>
-    
   );
 }
 

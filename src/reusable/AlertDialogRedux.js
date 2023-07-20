@@ -43,7 +43,7 @@ function AlertDialogRedux(props) {
     otherMessages,
   } = useSelector((state) => state.alertDialog);
 
-  console.log("open ", open);
+  // console.log("open ", open);
 
   // Remember that any clic outside de box it's the same that cancel action
   const handleClose = () => {
