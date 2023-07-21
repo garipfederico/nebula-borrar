@@ -2,19 +2,25 @@ import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
   isLoading: false,
+  isError: null,
+  response: null,
 };
 export const etiquetasSlice = createSlice({
   name: "etiquetas",
   initialState: initialState,
+  imagenes: {},
   reducers: {
     postCrearLote: (state) => {
       state.isLoading = true;
     },
-    postCrearLoteFail: (state) => {
+    postCrearLoteFail: (state, action) => {
       state.isLoading = false;
+      state.isError = true;
+      state.response = action.payload.error;
     },
-    postCrearLoteSuccess: (state) => {
+    postCrearLoteSuccess: (state, action) => {
       state.isLoading = false;
+state.imagenes = action.payload
     },
     incrementBy: (state, action) => {
       state.counter += action.payload;

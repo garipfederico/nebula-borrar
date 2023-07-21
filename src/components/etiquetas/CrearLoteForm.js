@@ -12,18 +12,17 @@ function CrearLoteForm() {
     const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
-      cajaId: "",
+      numeroDeExpediente: "",
       cantidad: "",
     },
     validationSchema: etiquetasSchema.validationSchema,
-    onSubmit: () => {
-      handleSubmit();
+    onSubmit: (numeroDeExpediente, cantidad) => {
+      console.log('hola')
+      dispatch(postCrearLote(numeroDeExpediente, cantidad));
     },
   });
 
-  const handleSubmit = () => {
-    dispatch(postCrearLote());
-  };
+
   const {isLoading} = useSelector((state) => state.etiquetas);
   const nth1StackStyle = {
     direction: "column",
@@ -36,8 +35,8 @@ function CrearLoteForm() {
   return (
     <Stack {...nth1StackStyle}>
       <TextInput
-        nombreVariable="cajaId"
-        text={formik.values.cajaId}
+        nombreVariable="numeroDeExpediente"
+        text={formik.values.numeroDeExpediente}
         variant="h6"
         editing={true}
         isLoading={isLoading}

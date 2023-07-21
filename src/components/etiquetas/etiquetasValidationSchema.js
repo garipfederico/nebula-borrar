@@ -5,7 +5,7 @@ const obligatorioTXT = "Este campo es obligatorio";
 const debeSerStringTXT = "Este campo debe ser de texto";
 
 const validationSchema = yup.object({
-  cajaId: yup
+  numeroDeExpediente: yup
     .number()
     .typeError('Los caracteres deben ser de tipo numéricos')
     .required(obligatorioTXT)
