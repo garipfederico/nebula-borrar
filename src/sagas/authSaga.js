@@ -27,7 +27,6 @@ const getUser = () => {
 
 function* workPostAuthFetch(action) {
   const {username, password, navigate} = action.payload;
-  console.log("hola saga");
   console.info("username saga ", username);
   const url = `${process.env.REACT_APP_BASE_URL}/api/log-in/`;
   try {
@@ -37,7 +36,7 @@ function* workPostAuthFetch(action) {
       password: password,
     });
     window.localStorage.setItem("docu.auth", JSON.stringify(response.data));
-
+// console.log(response)
     
 
     // const getUser = () => {

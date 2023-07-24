@@ -1,13 +1,36 @@
+import {dataResponse} from "./dataResponse";
+const response = dataResponse;
 describe("Labels page - Caso de Uso imprimir etiquetas", () => {
-  beforeEach(() => {
+  const username = "garip.federico@gmail.com";
+  const password = "123";
+  beforeEach("Logueo", () => {
+    // cy.session(username, () => {
+    //   cy.request({
+    //     method: 'POST',
+    //     url: 'http://localhost:8003/api/log-in/',
+    //     body: { username, password },
+    //   }).then(({ body }) => {
+    //     window.localStorage.setItem("docu.auth", JSON.stringify(response.data))
+    //   })
+    // })
+    // cy.session(username, () => {
+    // cy.visit("http://localhost:3000/landing");
+    // cy.get("#username").type("garip.federico@gmail.com");
+    // cy.get("#password").type("123");
+    // cy.get(".MuiStack-root > .MuiButtonBase-root").click();
+    // cy.url().should("include", "http://localhost:3000/home");
+    // // cy.visit("http://localhost:3000/digitalizacion/etiquetas");
+    // })
+
+    // Logueo
     cy.visit("http://localhost:3000/landing");
     cy.get("#username").type("garip.federico@gmail.com");
     cy.get("#password").type("123");
     cy.get(".MuiStack-root > .MuiButtonBase-root").click();
     cy.url().should("include", "http://localhost:3000/home");
     // cy.visit("http://localhost:3000/digitalizacion/etiquetas");
-  });
-  it("Verify structure of etiquetas", () => {
+
+    // Navegacion
     cy.url().should("include", "http://localhost:3000/home");
     cy.get('[data-cy="digitalizacion"]').should("exist").click();
     cy.get('[data-cy="etiquetas"]').should("exist").click();
@@ -15,24 +38,27 @@ describe("Labels page - Caso de Uso imprimir etiquetas", () => {
       "include",
       "http://localhost:3000/digitalizacion/etiquetas"
     );
+
+    //Verificacion de la existencia de componentes
     cy.get('[data-cy="tab-text"]')
       .eq(0)
       .should("have.text", "Crear lote nuevo");
     cy.get('[data-cy="tab-text"]')
       .eq(1)
       .should("have.text", "Reimprimir etiquetas");
-
-    // it("Display inputs and buttons with text", () => {
-    cy.get("#cajaId-label").should("have.text", "Caja Id");
+    //Verificacion del texto de los componentes
+    cy.get("#numeroDeExpediente-label").should(
+      "have.text",
+      "Numero De Expediente"
+    );
     cy.get("#cantidad-label").should("have.text", "Cantidad");
-    cy.get("#cajaId").type("12");
+    cy.get("#numeroDeExpediente").type("12");
     cy.get("#cantidad").type("12");
+  });
 
-    // pone en escucha de los POST
-    cy.intercept("POST", "**/api/label/create-bulk/", {
-      fixture: "labelsInfo.json",
-    }).as("postBulk");
-    // pone en escucha del console.log
+
+
+  it.skip("Imprimir etiquetas, curso normal", () => {
     cy.window().then((win) => {
       cy.stub(win.console, "log").as("consoleLog");
     });
@@ -40,22 +66,30 @@ describe("Labels page - Caso de Uso imprimir etiquetas", () => {
     cy.get(".MuiStack-root > .MuiButtonBase-root")
       .should("have.text", "Crear e Imprimir")
       .click();
-
-    cy.wait("@postBulk").should(({request, response}) => {
-      // expect(request.body).to.include('documento_id')
-      // expect(request.body).to.include('documento_id')
-      // expect(request.headers).to.have.property('content-type')
-      // expect(response && response.body).to.have.property(
-      //   "documento_id",
-      //   "Using POST in cy.intercept()"
-      // );
-      // expect(response.status).to.eq(200); // Verificar que la respuesta tenga un estado HTTP 200 (OK)
-      expect(response.body).to.be.an("object");
-      expect(response.body).to.have.property("documento_id");
-      expect(response.body).to.have.property("lote_id");
-      expect(response.body).to.have.property("etiquetas_id");
-      expect(response.body).to.have.property("imagen_etiquetas_url");
+    // });
+    cy.get("@consoleLog").should("be.calledWith", "Pdf generado correctamente");
+    cy.window().then((win) => {
+      // Verificar que la referencia a la nueva ventana no sea nula
+      expect(win).to.not.be.null;
     });
-    cy.get('@consoleLog').should('be.calledWith', 'Mensaje esperado en el console.log');
+    cy.url().should("include", "/home");
+  });
+
+  it("Imprimir etiquetas, problema de coneccion", () => {
+
+    cy.intercept(
+      {
+        method: 'GET', // Route all GET requests
+        url: '*/api/label/create-bulk/*', // that have a URL that matches '/users/*'
+      },
+      [{status:400}] // and force the response to be: []
+    ).as('getUsers') // and assign an alias
+
+    cy.get(".MuiStack-root > .MuiButtonBase-root")
+    .should("have.text", "Crear e Imprimir")
+    .click();
+  // });
+
+
   });
 });

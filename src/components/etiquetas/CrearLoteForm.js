@@ -7,11 +7,17 @@ import {useFormik} from "formik";
 import {useDispatch} from "react-redux";
 import etiquetasSchema from "./etiquetasValidationSchema";
 import {postCrearLote} from "../../states/etiquetasState";
-import { mockImagesLabelData } from "../../sagas/mockLabelData";
+import {mockImagesLabelData} from "../../sagas/mockLabelData";
+import {useNavigate} from "react-router-dom";
+import {openAlertDialog} from "../../states/reusable/AlertDialogSlice";
+import {postCrearLoteReset} from "../../states/etiquetasState";
+import {responseStrings} from '../../utils/responseStrings' 
+
 function CrearLoteForm() {
-    const dispatch = useDispatch();
-    const { isError, response } = useSelector(state => state.etiquetas)
-    const images = response
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const {isError, response} = useSelector((state) => state.etiquetas);
+  const images = response;
   const formik = useFormik({
     initialValues: {
       numeroDeExpediente: "",
@@ -19,14 +25,12 @@ function CrearLoteForm() {
     },
     validationSchema: etiquetasSchema.validationSchema,
     onSubmit: (numeroDeExpediente, cantidad) => {
-      console.log('hola')
       dispatch(postCrearLote(numeroDeExpediente, cantidad));
-      window.print()
     },
   });
 
-
   const {isLoading} = useSelector((state) => state.etiquetas);
+
   const nth1StackStyle = {
     direction: "column",
     width: "30%",
@@ -34,6 +38,22 @@ function CrearLoteForm() {
     sx: {marginX: "auto", my: 4},
     spacing: 5,
   };
+
+  if (isLoading === false && isError === false && response !== null) {
+    // navigate("/home");
+  }
+
+  if (isLoading === false && isError === true && response !== null) {
+    dispatch(
+      openAlertDialog({
+        title: "Lo sentimos ha ocurrido un error",
+        content: responseStrings(response.status),
+
+        icon: "cancel",
+        actionCancelButton: () => dispatch(postCrearLoteReset()),
+      })
+    );
+  }
 
   return (
     <Stack {...nth1StackStyle}>
@@ -44,7 +64,7 @@ function CrearLoteForm() {
         editing={true}
         isLoading={isLoading}
         formik={formik}
-        // type="number" ver esto, le paso type number y lo visualiza como password 
+        // type="number" ver esto, le paso type number y lo visualiza como password
       />
       <TextInput
         nombreVariable="cantidad"
@@ -60,16 +80,7 @@ function CrearLoteForm() {
         postOrPutTexts={["Crear e Imprimir", ""]}
         handleSubmit={formik.handleSubmit}
       />
-    {console.log((!isError && response !== null))}
-    {console.log(response?.imagenes?.[2])}
-      {/* <Typography> Hola mundo </Typography> */}
-    {
-      (!isError && response !== null) ? 
-      <img src={response.imagenes?.[1]} alt="Imagen 1" width="300px" height="100px" sx={{display:'hidden'}} onClick={()=>{window.print()}} />
-      : null}
-      <Box>
-      
-      </Box>
+      <Box></Box>
     </Stack>
   );
 }

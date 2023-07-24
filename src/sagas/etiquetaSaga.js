@@ -7,14 +7,48 @@ import axios from "axios";
 import axiosBase from "../utils/axiosBase";
 import MockAdapter from "axios-mock-adapter";
 
+import {jsPDF} from "jspdf";
+
 import {mockLabelData} from "./mockLabelData";
 import {mockImagesLabelData} from "./mockLabelData";
 
+const ImagesToPdf = (imagenes) => {
+  const handleGeneratePDF = () => {
+    try {
+      const width = 4;
+      const height = 2;
+      const margin = 0.1;
+      var pdf = new jsPDF({
+        orientation: "landscape",
+        unit: "in",
+        format: [width, height],
+      });
+
+      Object.values(imagenes).forEach((image, index) => {
+        if (index !== 0) {
+          pdf.addPage(); // Agrega una nueva página para cada imagen excepto la primera
+        }
+        pdf.addImage(
+          image,
+          "PNG",
+          margin,
+          margin,
+          width - 2 * margin,
+          height - 2 * margin
+        );
+      });
+    } catch (e) {
+      console.log(e);
+    }
+
+    return pdf;
+  };
+  return handleGeneratePDF();
+};
 function* workPostLabelsFetch(action) {
   var mock = new MockAdapter(axios);
   const {numeroDeExpediente, cantidad} = action.payload;
   try {
-    console.log("a");
     const body = {
       code: numeroDeExpediente,
       number: cantidad,
@@ -36,17 +70,26 @@ function* workPostLabelsFetch(action) {
     );
     const newLabels = firstResponse.data;
     console.log("Bulk information successfully generated");
-    console.log("newLabels ", newLabels);
     const labelsURL = newLabels.imagen_etiquetas_url;
 
     // Second call
     const secondResponse = yield call(axios.get, labelsURL);
     const imagenes = secondResponse.data;
     console.log("Labels Images successfully downloaded");
-    // console.log("imagenes ", imagenes);
-    yield put(postCrearLoteSuccess({imagenes}));
+    yield put(postCrearLoteSuccess(imagenes));
+
+    // PDF generation
+    const pdf = yield call(ImagesToPdf, imagenes);
+    try {
+      pdf.autoPrint({variant: "non-conform"});
+      pdf.save("etiquetas_0to" + cantidad + ".pdf");
+      const pdfURL = yield pdf.output("datauristring");
+      console.log("Pdf generado correctamente");
+    } catch (error2) {
+      console.log("Problemas en la generacion de archivo pdf", error2);
+    }
   } catch (error) {
-    return put(postCrearLoteFail(error));
+    yield put(postCrearLoteFail(error));
   }
 }
 

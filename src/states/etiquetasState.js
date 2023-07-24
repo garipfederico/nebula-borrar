@@ -16,15 +16,14 @@ export const etiquetasSlice = createSlice({
     postCrearLoteFail: (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.response = action.payload.error;
+      state.response = action.payload.response;
     },
     postCrearLoteSuccess: (state, action) => {
+      state.isError = false;
       state.isLoading = false;
       state.response = action.payload;
     },
-    incrementBy: (state, action) => {
-      state.counter += action.payload;
-    },
+    postCrearLoteReset: () => initialState,
   },
 });
 
@@ -32,8 +31,7 @@ export const {
   postCrearLote,
   postCrearLoteFail,
   postCrearLoteSuccess,
-  decrement,
-  incrementBy,
+  postCrearLoteReset,
 } = etiquetasSlice.actions;
 
 export default etiquetasSlice.reducer;
