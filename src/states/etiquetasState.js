@@ -20,7 +20,7 @@ export const etiquetasSlice = createSlice({
     },
     postCrearLoteSuccess: (state, action) => {
       state.isLoading = false;
-state.imagenes = action.payload
+      state.response = action.payload;
     },
     incrementBy: (state, action) => {
       state.counter += action.payload;
