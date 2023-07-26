@@ -10,7 +10,8 @@ import {Stack, Typography} from "@mui/material";
 import {closeAlertDialog} from "../states/reusable/AlertDialogSlice";
 import {Error, Cancel} from "@mui/icons-material";
 /**
- *
+ * No usar desde aca, esto solo se usa en el layout por unica vez
+ * Para utilizar este componente hacerlo con dispatch(openAlertDialog({......}))
  * @param {*} props
  * @example
  * <AlertDialog

@@ -9,42 +9,62 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
-import RowProducto from "./RowProducto";
+import RowLote from "./RowLote";
 import {useSelector, useDispatch} from "react-redux";
+import {getOptionsState, getDocuments} from "../../states/lotesState";
 
 const columns = [
-  {id: "id", label: "ID", minWidth: 50},
-  {id: "cantidad", label: "Cantidad", minWidth: 100},
-  {id: "estado", label: "Estado", minWidth: 100},
-  {id: "otraFuncionalidad", label: "otraFuncionalidad", minWidth: 20},
+  {id: "accion", label: "Acciones", minWidth: 50},
+  {id: "nroLote", label: "N° Lote", minWidth: 100},
+  {id: "operador", label: "Operador", minWidth: 100},
+  {id: "fecha", label: "Fecha", minWidth: 20},
+  {id: "cantidadDocs", label: "Cantidad de documentos", minWidth: 20},
+  {id: "estado", label: "Estado", minWidth: 50},
 ];
 
-export default function StickyHeadTable() {
+/*
+Pk interna
+N° lote (autosumado)
+ID_operador
+Fecha
+Cantidad de documentos (cada vez que se procesa un nuevo documento se agrega uno). 
+Estado (abierto, cerrado) >>> Lote se cierra solamente cuando el Escaneo de cada documento está terminado. 
+*/
 
-  // const productos = useSelector((state) => state.misProductos.productos);
-  const productos = [
-    // {marca:'honda',modelo: 'fit', id:'876'},
-    // {marca:'renault',modelo: '12', id:'280'},
-    {id:32423, cantidad:120, estado:'Subido', otraFuncionalidad:'holamundo'},
-    {id:32422, cantidad:12, estado:'scaneado', otraFuncionalidad:'holamundo'},
-    {id:32422, cantidad:12, estado:'scaneado', otraFuncionalidad:'holamundo'},
-    {id:32422, cantidad:12, estado:'scaneado', otraFuncionalidad:'holamundo'},
-    {id:32422, cantidad:12, estado:'scaneado', otraFuncionalidad:'holamundo'},
-    {id:32422, cantidad:12, estado:'scaneado', otraFuncionalidad:'holamundo'},
-  ]
-  const rows = productos.map((unProducto) => {
-    const {id, cantidad, estado, otraFuncionalidad} = unProducto;
+export default function StickyHeadTable() {
+  const dispatch = useDispatch();
+  const {results, isError} = useSelector((state) => state.lotes.documents);
+
+  const documents = results || [];
+  console.log("results", documents);
+  // Adapt the  structure's data of the response from API to the frontend structure
+  const transformData = documents.map((unDoc) => {
     return {
-      // marca,
-      // modelo,
-      // _id,
-      id, cantidad, estado, otraFuncionalidad
+      nroLote: unDoc.id,
+      operador: unDoc.internal_id,
+      cantidadDocs: unDoc.file_id,
+      fecha: "12/04/2021",
+      estado: unDoc.status,
+    };
+  });
+  console.log(transformData);
+
+  const documentos = transformData;
+
+  const rows = documentos.map((unProducto) => {
+    const {accion, nroLote, operador, cantidadDocs, fecha, estado} = unProducto;
+    return {
+      accion,
+      nroLote,
+      operador,
+      cantidadDocs,
+      fecha,
+      estado,
     };
   });
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const dispatch = useDispatch();
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -55,12 +75,13 @@ export default function StickyHeadTable() {
   };
 
   useEffect(() => {
-    // dispatch(getMyProductos());
-  }, [dispatch]);
+    dispatch(getOptionsState());
+    dispatch(getDocuments());
+  }, []);
 
   return (
     <Paper sx={{width: "100%", overflow: "hidden"}}>
-      <TableContainer sx={{maxHeight: "75vh"}}>
+      <TableContainer sx={{maxHeight: "65vh", overflowX: "auto"}}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -80,7 +101,12 @@ export default function StickyHeadTable() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <RowProducto row={row} columns={columns} _id={row._id} />
+                  <RowLote
+                    key={row.nroLote}
+                    row={row}
+                    columns={columns}
+                    _id={row._id}
+                  />
                 );
               })}
           </TableBody>

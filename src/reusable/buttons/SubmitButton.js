@@ -24,11 +24,11 @@ function SubmitButton(props) {
 const requestType = props.requestType
 const isLoading = props.isLoading
 const handleSubmit = props.handleSubmit
-const postOrPutTexts = props.postOrPutTexts
+const textForTypeRequest = props.textForTypeRequest
 
   return (
     <>
-        {requestType === "POST" || requestType === "PUT" ? (
+        {requestType === "POST" || requestType === "PUT" ||requestType === "GET" ? (
           isLoading ? (
             <LoadingButton
               loading
@@ -44,7 +44,11 @@ const postOrPutTexts = props.postOrPutTexts
               variant="contained"
               onClick={handleSubmit}
             >
-              {requestType === "POST" ? postOrPutTexts[0] : postOrPutTexts[1]}
+              { requestType === "GET" && textForTypeRequest[0]}
+              {requestType === "POST" && textForTypeRequest[1]}
+              {requestType === "PUT" && textForTypeRequest[2]}
+              
+
             </Button>
           )
         ) : null}

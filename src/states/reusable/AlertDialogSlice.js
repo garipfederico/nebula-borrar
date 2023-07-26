@@ -12,6 +12,22 @@ const initialState = {
   otherMessages: [""],
 };
 
+/*
+
+dispatch(
+        openAlertDialog({
+          icon: "error", // o "cancel"
+          title: loSentimos,
+          content: responseStrings(response.status),
+          otherMessages: ["Status: " + response.status],
+          open: false,
+          actionCancelButton: () => {
+            dispatch(resetState());
+          },
+        })
+      );
+
+*/
 export const alertDialogSlice = createSlice({
   name: "alertDialog",
   initialState,
