@@ -12,6 +12,20 @@ import {jsPDF} from "jspdf";
 import {mockLabelData} from "./mockLabelData";
 import {mockImagesLabelData} from "./mockLabelData";
 
+
+const URL_optionsState = "api/utilities/dropdowns/states";
+const URL_document = "http://localhost:8003/api/batch/";
+
+// REACT_APP_ENVIROMENT_TYPE = dev | mocked | test
+if (process.env.REACT_APP_ENVIROMENT_TYPE === "mocked") {
+  console.log("Executing in devMode");
+  var mock = new MockAdapter(axios);
+  mock.onGet(URL_optionsState).reply(200, {...OptionsState});
+  mock.onGet(URL_document).reply(200, {...documents});
+  mock.onPatch(URL_document).reply(200);
+}
+
+
 const ImagesToPdf = (imagenes) => {
   const handleGeneratePDF = () => {
     try {
@@ -65,7 +79,7 @@ function* workPostLabelsFetch(action) {
     //First call
     const firstResponse = yield call(
       axios.post,
-      process.env.REACT_APP_BASE_URL + "/api/label/create-bulk/",
+      first,
       body
     );
     const newLabels = firstResponse.data;

@@ -13,8 +13,10 @@ import MockAdapter from "axios-mock-adapter";
 
 import {OptionsState, documents} from "./mockData";
 const URL_optionsState = "api/utilities/dropdowns/states";
-const URL_document = "/api/document/";
-if (process.env.REACT_APP_ENABLE_CYPRESS_TESTS === "false") {
+const URL_document = "http://localhost:8003/api/batch/";
+
+// REACT_APP_ENVIROMENT_TYPE = dev | mocked | test
+if (process.env.REACT_APP_ENVIROMENT_TYPE === "mocked") {
   console.log("Executing in devMode");
   var mock = new MockAdapter(axios);
   mock.onGet(URL_optionsState).reply(200, {...OptionsState});
@@ -55,7 +57,7 @@ function* workGetDocuments() {
 function* workPatchDocuments(action) {
   console.log(action)
   try {
-    const documentsRequest = yield call(axios.patch, URL_document, {estado:action.payload});
+    const documentsRequest = yield call(axiosBase.patch, URL_document, {estado:action.payload});
     console.log("documentsRequest ", documentsRequest);
     yield put(patchStateSuccess());
   } catch (e) {
