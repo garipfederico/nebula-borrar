@@ -6,101 +6,101 @@ import {
 import axios from "axios";
 import axiosBase from "../utils/axiosBase";
 import MockAdapter from "axios-mock-adapter";
-
 import {jsPDF} from "jspdf";
+import {mockLabelData, mockImagesLabelData} from "./mockLabelData";
 
-import {mockLabelData} from "./mockLabelData";
-import {mockImagesLabelData} from "./mockLabelData";
+const firstURL = process.env.REACT_APP_BASE_URL + "/api/label/create-bulk/";
+let secondURL = ""; // Will be obtained from the first response.
 
-
-const URL_optionsState = "api/utilities/dropdowns/states";
-const URL_document = "http://localhost:8003/api/batch/";
-
-// REACT_APP_ENVIROMENT_TYPE = dev | mocked | test
-if (process.env.REACT_APP_ENVIROMENT_TYPE === "mocked") {
-  console.log("Executing in devMode");
-  var mock = new MockAdapter(axios);
-  mock.onGet(URL_optionsState).reply(200, {...OptionsState});
-  mock.onGet(URL_document).reply(200, {...documents});
-  mock.onPatch(URL_document).reply(200);
-}
-
-
-const ImagesToPdf = (imagenes) => {
+// If in mock mode this function will execute the API interceptor calls and
+// return a response with objects from the mockLabelData file.
+const catchRequestIfMockedModeOn = (secondUrl, body) => {
+  if (process.env.REACT_APP_ENVIRONMENT_TYPE === "mocked") {
+    console.log("Executing in mocked mode");
+    var mock = new MockAdapter(axios);
+    if (!secondURL) {
+      mock.onPost(firstURL, body).reply(200, {...mockLabelData});
+    } else {
+      mock.onGet(secondURL).reply(200, {...mockImagesLabelData});
+    }
+  } else {
+    console.log("Executing in dev mode");
+  }
+  return;
+};
+// Generate a pdf with the labels from an array of images
+const ImagesToPdf = (images) => {
   const handleGeneratePDF = () => {
     try {
-      const width = 4;
-      const height = 2;
-      const margin = 0.1;
+      const width = 4; // Width of the page (see unit below)
+      const height = 2; // Height of the page
+      const margin = 0.1; // Margin from border page to the image
       var pdf = new jsPDF({
         orientation: "landscape",
         unit: "in",
         format: [width, height],
       });
 
-      Object.values(imagenes).forEach((image, index) => {
+      Object.values(images).forEach((image, index) => {
         if (index !== 0) {
-          pdf.addPage(); // Agrega una nueva página para cada imagen excepto la primera
+          // Add a new page for each image, except the first
+          // that is already created
+          pdf.addPage(); 
         }
+        // Add an image in the created page with format
         pdf.addImage(
           image,
           "PNG",
-          margin,
-          margin,
-          width - 2 * margin,
-          height - 2 * margin
+          margin, // This is a coordinate x
+          margin, // This is a coordinate y
+          width - 2 * margin, // This will reduce the image width size to fit in 
+          height - 2 * margin  // This will reduce the image height size to fit in
         );
       });
     } catch (e) {
-      console.log(e);
+      console.log('An error occurs when ',e);
     }
-
     return pdf;
   };
   return handleGeneratePDF();
 };
+
 function* workPostLabelsFetch(action) {
-  var mock = new MockAdapter(axios);
-  const {numeroDeExpediente, cantidad} = action.payload;
+  const { ExpedientNumber, quantity} = action.payload;
   try {
     const body = {
-      code: numeroDeExpediente,
-      number: cantidad,
+      code: ExpedientNumber,
+      number: quantity,
       bar_code_image: "string", // esto va aca? a que imagen corresponderia
       area: 0, // Traer de usuario, corregir para que al usuario lo levante del storage
       user: 0, // idem
     };
-    const firstUrl = process.env.REACT_APP_BASE_URL + "/api/label/create-bulk/";
-    mock.onPost(firstUrl, body).reply(200, {...mockLabelData});
-    mock
-      .onGet("BASEURL?etiquetas_id=1,2,3,4,5")
-      .reply(200, {...mockImagesLabelData});
 
-    //First call
-    const firstResponse = yield call(
-      axios.post,
-      first,
-      body
-    );
-    const newLabels = firstResponse.data;
+    //First call to the API
+    catchRequestIfMockedModeOn(null, body);
+    const firstResponse = yield call(axios.post, firstURL, body);
+    console.log("firstResponse ", firstResponse);
+    const newLabels = yield firstResponse.data;
     console.log("Bulk information successfully generated");
-    const labelsURL = newLabels.imagen_etiquetas_url;
+    secondURL = yield newLabels.imagen_etiquetas_url;
+    console.log("secondURL of first call", secondURL);
+    catchRequestIfMockedModeOn(secondURL);
 
-    // Second call
-    const secondResponse = yield call(axios.get, labelsURL);
-    const imagenes = secondResponse.data;
+    // Second call to the API
+    const secondResponse = yield call(axios.get, secondURL);
+    const images = secondResponse.data;
     console.log("Labels Images successfully downloaded");
-    yield put(postCrearLoteSuccess(imagenes));
+    yield put(postCrearLoteSuccess(images));
 
     // PDF generation
-    const pdf = yield call(ImagesToPdf, imagenes);
+    const pdf = yield call(ImagesToPdf, images);
     try {
       pdf.autoPrint({variant: "non-conform"});
       pdf.save("etiquetas_0to" + cantidad + ".pdf");
       const pdfURL = yield pdf.output("datauristring");
-      console.log("Pdf generado correctamente");
+      console.log("Pdf generated correctly");
     } catch (error2) {
-      console.log("Problemas en la generacion de archivo pdf", error2);
+      console.log("An issue occurs when generating the pdf file", error2);
     }
   } catch (error) {
     yield put(postCrearLoteFail(error));

@@ -17,7 +17,7 @@ const URL_document = "http://localhost:8003/api/batch/";
 
 // REACT_APP_ENVIROMENT_TYPE = dev | mocked | test
 if (process.env.REACT_APP_ENVIROMENT_TYPE === "mocked") {
-  console.log("Executing in devMode");
+  console.log("Executing in mocked");
   var mock = new MockAdapter(axios);
   mock.onGet(URL_optionsState).reply(200, {...OptionsState});
   mock.onGet(URL_document).reply(200, {...documents});
