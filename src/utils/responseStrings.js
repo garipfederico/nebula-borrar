@@ -8,4 +8,4 @@ export const responseStrings = (status) => {
     : "Estado de respuesta no reconocido";
 };
 
-export const loSentimos = "Lo sentimos ha ocurrido un error";
+export const weSorryMessage = "Lo sentimos ha ocurrido un error";

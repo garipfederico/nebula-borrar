@@ -1,21 +1,21 @@
 import * as yup from "yup";
-const tieneComoMaxTXT = (number) =>
+const haveMaxTXT = (number) =>
   "Este campo tiene como maximo " + number + "caracteres";
-const obligatorioTXT = "Este campo es obligatorio";
-const debeSerStringTXT = "Este campo debe ser de texto";
+const requiredTXT = "Este campo es obligatorio";
+const mustBeStringTXT = "Este campo debe ser de texto";
 
 const validationSchema = yup.object({
-  numeroDeExpediente: yup
+  expedientNumber: yup
     .number()
     .typeError('Los caracteres deben ser de tipo numéricos')
-    .required(obligatorioTXT)
-    .max(999999999999, tieneComoMaxTXT(12))
+    .required(requiredTXT)
+    .max(999999999999, haveMaxTXT(12))
     .positive("Debe ser un valor positivo"),
-    cantidad: yup
+    quantity: yup
     .number()
     .typeError('Los caracteres deben ser de tipo numéricos')
-    .required(obligatorioTXT)
-    .max(99999, tieneComoMaxTXT(5))
+    .required(requiredTXT)
+    .max(99999, haveMaxTXT(5))
     .positive("Debe ser un valor positivo"),
 });
 const etiquetasSchema = {

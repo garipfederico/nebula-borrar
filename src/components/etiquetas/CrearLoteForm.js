@@ -11,21 +11,20 @@ import {mockImagesLabelData} from "../../sagas/mockLabelData";
 import {useNavigate} from "react-router-dom";
 import {openAlertDialog} from "../../states/reusable/AlertDialogSlice";
 import {postCrearLoteReset} from "../../states/etiquetasState";
-import {responseStrings} from '../../utils/responseStrings' 
+import {responseStrings, weSorryMessage} from '../../utils/responseStrings' 
 
+// function CrearLoteForm() {
 function CrearLoteForm() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const {isError, response} = useSelector((state) => state.etiquetas);
-  const images = response;
   const formik = useFormik({
     initialValues: {
-      numeroDeExpediente: "",
-      cantidad: "",
+      expedientNumber: "",
+      quantity: "",
     },
     validationSchema: etiquetasSchema.validationSchema,
-    onSubmit: (numeroDeExpediente, cantidad) => {
-      dispatch(postCrearLote(numeroDeExpediente, cantidad));
+    onSubmit: (expedientNumber, quantity) => {
+      dispatch(postCrearLote(expedientNumber, quantity));
     },
   });
 
@@ -40,15 +39,15 @@ function CrearLoteForm() {
   };
 
   if (isLoading === false && isError === false && response !== null) {
-    // navigate("/home");
+    // Uncomment next line to navigate to home page after print labels
+    // navigate("/home");  
   }
 
   if (isLoading === false && isError === true && response !== null) {
     dispatch(
       openAlertDialog({
-        title: "Lo sentimos ha ocurrido un error",
+        title: weSorryMessage, 
         content: responseStrings(response.status),
-
         icon: "cancel",
         actionCancelButton: () => dispatch(postCrearLoteReset()),
       })
@@ -58,8 +57,9 @@ function CrearLoteForm() {
   return (
     <Stack {...nth1StackStyle}>
       <TextInput
-        nombreVariable="numeroDeExpediente"
-        text={formik.values.numeroDeExpediente}
+        nombreVariable="expedientNumber"
+        text={formik.values.expedientNumber}
+        label={'Numero de expediente'}
         variant="h6"
         editing={true}
         isLoading={isLoading}
@@ -67,8 +67,9 @@ function CrearLoteForm() {
         // type="number" ver esto, le paso type number y lo visualiza como password
       />
       <TextInput
-        nombreVariable="cantidad"
-        text={formik.values.cantidad}
+        nombreVariable="quantity"
+        text={formik.values.quantity}
+        label='Cantidad'
         variant="h6"
         editing={true}
         isLoading={isLoading}

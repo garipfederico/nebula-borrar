@@ -58,7 +58,7 @@ const ImagesToPdf = (images) => {
         );
       });
     } catch (e) {
-      console.log('An error occurs when ',e);
+      console.log('An issue occurs generating the pdf file ',e);
     }
     return pdf;
   };
@@ -66,10 +66,10 @@ const ImagesToPdf = (images) => {
 };
 
 function* workPostLabelsFetch(action) {
-  const { ExpedientNumber, quantity} = action.payload;
+  const { expedientNumber, quantity} = action.payload;
   try {
     const body = {
-      code: ExpedientNumber,
+      code: expedientNumber,
       number: quantity,
       bar_code_image: "string", // esto va aca? a que imagen corresponderia
       area: 0, // Traer de usuario, corregir para que al usuario lo levante del storage
@@ -96,11 +96,11 @@ function* workPostLabelsFetch(action) {
     const pdf = yield call(ImagesToPdf, images);
     try {
       pdf.autoPrint({variant: "non-conform"});
-      pdf.save("etiquetas_0to" + cantidad + ".pdf");
+      pdf.save("etiquetas_0to" + quantity + ".pdf");
       const pdfURL = yield pdf.output("datauristring");
       console.log("Pdf generated correctly");
-    } catch (error2) {
-      console.log("An issue occurs when generating the pdf file", error2);
+    } catch (error) {
+      console.log("An issue occurs creating the tab navigator with the pdf file", error);
     }
   } catch (error) {
     yield put(postCrearLoteFail(error));

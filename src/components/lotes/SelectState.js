@@ -7,7 +7,7 @@ import Select from "@mui/material/Select";
 import {useDispatch, useSelector} from "react-redux";
 import {patchState, resetState} from "../../states/lotesState";
 import {openAlertDialog} from "../../states/reusable/AlertDialogSlice";
-import {responseStrings, loSentimos} from "../../utils/responseStrings";
+import {responseStrings, weSorryMessage} from "../../utils/responseStrings";
 export default function SelectState({selectedValue}) {
   const dispatch = useDispatch();
   const [estado, setEstado] = React.useState(selectedValue);
@@ -28,7 +28,7 @@ export default function SelectState({selectedValue}) {
       dispatch(
         openAlertDialog({
           icon: "error",
-          title: loSentimos,
+          title: weSorryMessage,
           content: responseStrings(response.status),
           otherMessages: ["Status: " + response.status],
           open: false,

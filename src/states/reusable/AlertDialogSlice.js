@@ -17,7 +17,7 @@ const initialState = {
 dispatch(
         openAlertDialog({
           icon: "error", // o "cancel"
-          title: loSentimos,
+          title: weSorryMessage,
           content: responseStrings(response.status),
           otherMessages: ["Status: " + response.status],
           open: false,
