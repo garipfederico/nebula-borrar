@@ -7,7 +7,6 @@ import SearchForm from "./SearchForm";
 import {Box, Stack} from "@mui/material";
 
 function Lotes() {
- 
   const formik = useFormik({
     initialValues: {
       dateToSearch: "",
@@ -20,7 +19,12 @@ function Lotes() {
   });
 
   return (
-    <TitleCard title="Lotes" subtitle="Un subtitulo" width="80%">
+    <TitleCard
+      title="Lotes"
+      subtitle="Un subtitulo"
+      width="80%"
+      sx={{index: 3}}
+    >
       <Stack
         direction={{xs: "column", lg: "row"}}
         wrap="wrap"

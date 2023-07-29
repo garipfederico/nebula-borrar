@@ -35,6 +35,6 @@ saga.run(lotesSaga);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
-    <App className="fondo" />
+    <App />
   </Provider>
 );

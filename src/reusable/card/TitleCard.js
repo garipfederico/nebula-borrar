@@ -17,6 +17,7 @@ function TitleCard({title, subtitle, width, children}) {
           width: width,
           marginX:'auto',
           // marginY:'0px'
+          zIndex:'3'
         }}
       >
         <Stack directrion="column" justifyContent={"space-between"}>

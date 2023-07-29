@@ -22,6 +22,7 @@ function MenuCard({dataCy, title, subtitle, description, url, icon}) {
         height: "180px",
         // marginTop: "12px", // borrar esta prop
         cursor: "pointer",
+        zIndex:"3",
       }}
       onClick={() => {
         handleClick(url);

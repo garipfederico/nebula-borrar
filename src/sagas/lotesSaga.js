@@ -21,7 +21,7 @@ if (process.env.REACT_APP_ENVIRONMENT_TYPE === "mocked") {
   var mock = new MockAdapter(axios);
   mock.onGet(URL_optionsState).reply(200, {...OptionsState});
   mock.onGet(URL_document).reply(200, {...documents});
-  mock.onPatch(URL_document).reply(200);
+  mock.onPatch(URL_document).reply(400);
 }
 
 function* workGetOptionsStates() {
@@ -55,10 +55,12 @@ function* workGetDocuments() {
 }
 
 function* workPatchDocuments(action) {
-  console.log(action)
+  console.log(action);
   try {
-    const documentsRequest = yield call(axiosBase.patch, URL_document, {estado:action.payload});
-    console.log("documentsRequest ", documentsRequest);
+    const documentsResponse = yield call(axios.patch, URL_document, {
+      estado: action.payload,
+    });
+    console.log("documentsResponse ", documentsResponse);
     yield put(patchStateSuccess());
   } catch (e) {
     console.log("Error trying to get from API the documents");

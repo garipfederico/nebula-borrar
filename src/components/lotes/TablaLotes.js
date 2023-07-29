@@ -22,15 +22,6 @@ const columns = [
   {id: "estado", label: "Estado", minWidth: 50},
 ];
 
-/*
-Pk interna
-N° lote (autosumado)
-ID_operador
-Fecha
-Cantidad de documentos (cada vez que se procesa un nuevo documento se agrega uno). 
-Estado (abierto, cerrado) >>> Lote se cierra solamente cuando el Escaneo de cada documento está terminado. 
-*/
-
 export default function StickyHeadTable() {
   const dispatch = useDispatch();
   const {results, isError} = useSelector((state) => state.lotes.documents);
@@ -81,8 +72,8 @@ export default function StickyHeadTable() {
 
   return (
     <Paper sx={{width: "100%", overflow: "hidden"}}>
-      <TableContainer sx={{maxHeight: "65vh", overflowX: "auto"}}>
-        <Table stickyHeader aria-label="sticky table">
+      <TableContainer sx={{ overflowX: "auto"}} >
+        <Table stickyHeader aria-label="sticky table" size="small">
           <TableHead>
             <TableRow>
               {columns.map((column) => (

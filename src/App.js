@@ -25,8 +25,12 @@ function App() {
   },[])
   const {isLoggedIn} = useSelector(state=>state.auth)
   return (
-    <div className="translucid">
-      <div className="fondo">
+    <div 
+    className="fondo"
+    >
+      <div 
+      className="translucid"
+      >
         <BrowserRouter>
           <Drawer open={true} showMenu={true} />
           <Routes>

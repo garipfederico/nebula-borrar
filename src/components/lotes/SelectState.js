@@ -45,7 +45,7 @@ export default function SelectState({selectedValue}) {
 
   return (
     <Box sx={{minWidth: 120}}>
-      <FormControl fullWidth>
+      <FormControl fullWidth size="small" variant="standard">
         <InputLabel id="demo-simple-select-label">Cambiar estado</InputLabel>
         <Select
           labelId="demo-simple-select-label"

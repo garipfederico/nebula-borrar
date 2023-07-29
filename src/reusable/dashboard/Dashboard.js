@@ -13,9 +13,10 @@ function Dashboard({cardsDataArray}) {
           flexWrap: "wrap",
           flexDirection: "row",
           justifyContent: "space-around",
+          alignItems: "center",
           width: "70vw",
           height: "80vh",
-          alignItems: "center",
+          gap: "60px"
         }}
       >
         {cardsDataArray.map((cardData, index) => {
