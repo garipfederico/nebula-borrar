@@ -5,24 +5,25 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import {useDispatch, useSelector} from "react-redux";
-import {patchState, resetState} from "../../states/lotesState";
+import {putState, resetState} from "../../states/lotesState";
 import {openAlertDialog} from "../../states/reusable/AlertDialogSlice";
 import {responseStrings, weSorryMessage} from "../../utils/responseStrings";
-export default function SelectState({selectedValue}) {
+
+export default function SelectState({selectedValue, nroLote}) {
   const dispatch = useDispatch();
   const [estado, setEstado] = React.useState(selectedValue);
   const {optionsState, isError, response} = useSelector((state) => state.lotes);
   const estadoAnteriorRef = React.useRef(selectedValue);
 
   const handleChange = (event) => {
-    console.log(event.target.value);
-    console.log("estado ", estado);
-    console.log("estadoAnteriorRef.current ",estadoAnteriorRef.current )
+    const status_name = event.target.value;
+    // console.log('nroLote', nroLote)
+    // console.log("estado ", estado);
+    // console.log("estadoAnteriorRef.current ", estadoAnteriorRef.current);
     setEstado(event.target.value);
-    dispatch(patchState(event.target.value));
-   
+    dispatch(putState({status_name, nroLote}));
   };
-  
+
   React.useEffect(() => {
     if (isError) {
       dispatch(
@@ -41,7 +42,8 @@ export default function SelectState({selectedValue}) {
     }
   }, [isError, response.status]);
 
-  const arrayIterator = Object.keys(optionsState);
+  // Array that have indexes numbers for each elements
+  const arrayIndexes = Object.keys(optionsState);
 
   return (
     <Box sx={{minWidth: 120}}>
@@ -54,10 +56,11 @@ export default function SelectState({selectedValue}) {
           label="Estado"
           onChange={handleChange}
         >
-          {arrayIterator.map((unaKey, index) => {
+          {arrayIndexes.map((index) => {
+            const {id, status_name} = optionsState[index];
             return (
-              <MenuItem value={unaKey} key={index}>
-                {optionsState[unaKey]}
+              <MenuItem value={status_name} key={id}>
+                {status_name}
               </MenuItem>
             );
           })}

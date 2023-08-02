@@ -21,9 +21,10 @@ export const lotesSlice = createSlice({
       state.optionsState = action.payload.stateOptions;
     },
     getOptionsStateFail: (state, action) => {
+      console.log('action.payload', action.payload)
       state.isLoading = false;
       state.isError = true;
-      state.response = action.payload
+      state.response = action.payload.e.response
     },
     getDocuments: (state) => {
       state.isLoading = true;
@@ -37,13 +38,13 @@ export const lotesSlice = createSlice({
       state.isError = true;
       state.response = action.payload
     },
-    patchState: (state, action) => {
+    putState: (state, action) => {
       state.isLoading = true
     },
-    patchStateSuccess: (state, action) => {
+    putStateSuccess: (state, action) => {
       state.isLoading = false
     },
-    patchStateFail: (state, action) => {
+    putStateFail: (state, action) => {
       state.isLoading = false
       state.isError = true
       state.response = action.payload.response 
@@ -64,9 +65,9 @@ getOptionsStateFail,
 getDocuments,
 getDocumentsSuccess,
 getDocumentsFail,
-patchState,
-patchStateSuccess,
-patchStateFail,
+putState,
+putStateSuccess,
+putStateFail,
 resetState,
 } = lotesSlice.actions;
 

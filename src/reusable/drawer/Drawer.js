@@ -155,7 +155,7 @@ navigate(isLoggedIn?'./home':'./landing')
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Nebula Software
+            Nebula Software ({process.env.REACT_APP_ENVIRONMENT_TYPE})
           </Typography>
         </Toolbar>
       </AppBar>

@@ -1,8 +1,16 @@
-export const OptionsState = {
-  1: "No subido",
-  2: "En progreso",
-  3: "Subido",
-  4: "Con errores"
+export const OptionsState = { 
+  // data: { 
+    results: {
+      "0": { id: "17",
+      status_name: "inicializado"
+    },
+      "1": { id: "18",
+      status_name: "en progreso"
+    },
+      "2": { id: "19",
+      status_name: "escaneado"
+    },
+    }
 };
 
 export const documents = {
@@ -20,7 +28,7 @@ export const documents = {
         "file_description": "Description for File 1",
         "document_type": "Type_1",
         "confidentiality": "Confidential_1",
-        "status": "1",
+        "status": "inicializado",
         "is_active": true
       },
       {
@@ -33,7 +41,7 @@ export const documents = {
         "file_description": "Description for File 2",
         "document_type": "Type_2",
         "confidentiality": "Confidential_2",
-        "status": "4",
+        "status": "en progreso",
         "is_active": true
       },
       {
@@ -46,7 +54,7 @@ export const documents = {
         "file_description": "Description for File 3",
         "document_type": "Type_3",
         "confidentiality": "Confidential_3",
-        "status": "2",
+        "status": "en progreso",
         "is_active": true
       },
       {
@@ -59,7 +67,7 @@ export const documents = {
         "file_description": "Description for File 4",
         "document_type": "Type_4",
         "confidentiality": "Confidential_4",
-        "status": "4",
+        "status": "escaneado",
         "is_active": true
       },
       {
@@ -72,7 +80,7 @@ export const documents = {
         "file_description": "Description for File 5",
         "document_type": "Type_5",
         "confidentiality": "Confidential_5",
-        "status": "3",
+        "status": "inicializado",
         "is_active": true
       },
       {
@@ -85,7 +93,7 @@ export const documents = {
         "file_description": "Description for File 6",
         "document_type": "Type_6",
         "confidentiality": "Confidential_6",
-        "status": "1",
+        "status": "inicializado",
         "is_active": true
       },
       {
@@ -98,7 +106,7 @@ export const documents = {
         "file_description": "Description for File 7",
         "document_type": "Type_7",
         "confidentiality": "Confidential_7",
-        "status": "1",
+        "status": "en progreso",
         "is_active": true
       },
       {
@@ -111,7 +119,7 @@ export const documents = {
         "file_description": "Description for File 8",
         "document_type": "Type_8",
         "confidentiality": "Confidential_8",
-        "status": "2",
+        "status": "escaneado",
         "is_active": true
       },
       {
@@ -124,7 +132,7 @@ export const documents = {
         "file_description": "Description for File 9",
         "document_type": "Type_9",
         "confidentiality": "Confidential_9",
-        "status": "4",
+        "status": "inicializado",
         "is_active": true
       },
       {
@@ -137,7 +145,7 @@ export const documents = {
         "file_description": "Description for File 10",
         "document_type": "Type_10",
         "confidentiality": "Confidential_10",
-        "status": "3",
+        "status": "en progreso",
         "is_active": true
       }
     ]

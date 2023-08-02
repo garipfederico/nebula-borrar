@@ -30,7 +30,8 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "startDev": "cross-env REACT_APP_ENVIRONMENT_TYPE=dev port=3000 react-scripts start",
+    "startMocked": "cross-env REACT_APP_ENVIRONMENT_TYPE=mocked PORT=3001 react-scripts start",
     "Cypress": "cypress open",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -56,6 +57,7 @@
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.21.5",
+    "cross-env": "^7.0.3",
     "cypress": "^12.17.1"
   }
 }

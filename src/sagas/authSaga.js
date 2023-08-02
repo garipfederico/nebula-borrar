@@ -11,6 +11,7 @@ import axios from "axios";
 const getUser = () => {
   const getAccessToken = () => {
     const auth = JSON.parse(window.localStorage.getItem("docu.auth"));
+    console.log("auth ",auth )
     if (auth) {
       return auth.access;
     }
@@ -29,31 +30,28 @@ function* workPostAuthFetch(action) {
   const {username, password, navigate} = action.payload;
   console.info("username saga ", username);
   const url = `${process.env.REACT_APP_BASE_URL}/api/log-in/`;
+  let response = {}
   try {
+    console.log("AAAAAA");
     console.info("url ", url);
-    const response = yield call(axios.post, url, {
+    console.info("url ",'/api/log-in/')
+    response = yield call(axios.post, url, {
       email: username,
       password: password,
-    });
-    window.localStorage.setItem("docu.auth", JSON.stringify(response.data));
-// console.log(response)
-    
-
-    // const getUser = () => {
-    //   const access_token = getAccessToken();
-    //   if (access_token) {
-    //     const [, payload] = access_token.split(".");
-    //     const decoded = window.atob(payload);
-    //     return JSON.parse(decoded);
-    //   }
-    //   return undefined;
-    // };
-
-    const user = getUser();
-
+    });} catch(e){
+      console.log('Error realizando la peticion del login: ', e)
+    }
+    try{
+    console.log('responseDDDDDDDDDDDDDDD', response?.data)
+    window.localStorage.setItem("docu.auth", JSON.stringify(response?.data));
+    console.log('BBBBBB')
+    const user = getUser(); // en modo mocked en el puerto 3001 no logra obtener el usuario
+    console.log('CCCCCC')
+    console.log("BBBBBB", user);
     yield put(loggingInSuccess({response, user}));
     yield call(navigate, "./home");
   } catch (error) {
+    console.log('Error getting user info from local storage')
     console.error(error);
     yield put(loggingInFail({error}));
   }

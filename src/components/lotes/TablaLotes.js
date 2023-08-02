@@ -67,7 +67,7 @@ export default function StickyHeadTable() {
 
   useEffect(() => {
     dispatch(getOptionsState());
-    dispatch(getDocuments());
+    // dispatch(getDocuments());
   }, []);
 
   return (
