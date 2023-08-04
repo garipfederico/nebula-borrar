@@ -6,7 +6,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import {Stack, Typography} from "@mui/material";
+import {Box, Stack, Typography} from "@mui/material";
 import {closeAlertDialog} from "../states/reusable/AlertDialogSlice";
 import {Error, Cancel} from "@mui/icons-material";
 /**
@@ -60,13 +60,13 @@ function AlertDialogRedux(props) {
   };
 
   const messages = otherMessages.map((aMessage, index) => (
-    <Typography variant="b1" key={index}>
-      {aMessage}
-    </Typography>
+    <DialogContentText id="alert-dialog-description" key={index}>
+      <span>{aMessage}</span>
+    </DialogContentText>
   ));
 
   return (
-    <div>
+    <>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -80,8 +80,8 @@ function AlertDialogRedux(props) {
           // {icon==='StringExample') && (
           //  <ExampleComponent  color='error' sx={{margin:'auto', fontSize:"70px"}}/>
           //  )}
-          // You can uncommit below.  
-          
+          // You can uncommit below.
+
           icon && (
             <>
               {icon === "error" && (
@@ -90,9 +90,9 @@ function AlertDialogRedux(props) {
               {icon === "cancel" && (
                 <Cancel color="error" sx={{margin: "auto", fontSize: "70px"}} />
               )}
-              { /*  icon==='StringExample') && (
+              {/*  icon==='StringExample') && (
                 //   <ExampleComponent  color='error' sx={{margin:'auto', fontSize:"70px"}}/>
-                //  )*/ }
+                //  )*/}
             </>
           )
         }
@@ -100,16 +100,16 @@ function AlertDialogRedux(props) {
         <DialogTitle
           id="alert-dialog-title"
           alignItems="center"
-          aligntContent="center"
+          // aligntContent="center"
         >
           {title}
         </DialogTitle>
         <DialogContent>
-          <Stack direction="row" justifyContent="center" alignItems="center">
-            <DialogContentText id="alert-dialog-description">
+          <Stack direction="column" justifyContent="center" alignItems="center">
+            <DialogContentText id="alert-dialog-description" key="01">
               {content}
-              <Stack direction="column">{messages}</Stack>
             </DialogContentText>
+            {messages}
           </Stack>
         </DialogContent>
         <DialogActions
@@ -140,7 +140,7 @@ function AlertDialogRedux(props) {
           ) : null}
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 }
 

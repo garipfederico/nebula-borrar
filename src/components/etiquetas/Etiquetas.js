@@ -11,8 +11,8 @@ function Etiquetas() {
       width="100vw"
       flexDirection="column"
       justifyContent="center"
-      alignItems="center"
-      sx={{mt: "30px"}}
+      // alignItems="center"
+      sx={{mt: "30px", alignItems: 'center'}}
     >
       <TitleCard
         title="Etiquetas"
@@ -33,6 +33,6 @@ function Etiquetas() {
       </TitleCard>
     </Stack>
   );
-}
+} 
 
 export default Etiquetas;

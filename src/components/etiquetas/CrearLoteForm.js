@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TextInput from "../../reusable/textInput/TextInput";
 import {Box, Stack, Typography} from "@mui/material";
 import {useSelector} from "react-redux";
@@ -43,16 +43,18 @@ function CrearLoteForm() {
     // navigate("/home");  
   }
 
-  if (isLoading === false && isError === true && response !== null) {
-    dispatch(
-      openAlertDialog({
-        title: weSorryMessage, 
-        content: responseStrings(response.status),
+  useEffect(()=>{
+    if (isLoading === false && isError === true && response !== null) {
+      dispatch(
+        openAlertDialog({
+          title: weSorryMessage, 
+          content: responseStrings(response.status),
         icon: "cancel",
         actionCancelButton: () => dispatch(postCrearLoteReset()),
       })
-    );
-  }
+      );
+    }
+  },[isLoading, isError, response])
 
   return (
     <Stack {...nth1StackStyle}>
