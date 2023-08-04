@@ -23,7 +23,7 @@ const axiosBase = axios.create({
 
 try {
   const auth = JSON.parse(localStorage.getItem("docu.auth"));
-  console.info("auth.access ", auth.access);
+  // console.info("auth.access ", auth.access);
   if (auth) {
     axiosBase.defaults.headers.common["Authorization"] =
       "Bearer " + auth.access;

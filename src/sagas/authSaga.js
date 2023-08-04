@@ -11,7 +11,7 @@ import axios from "axios";
 const getUser = () => {
   const getAccessToken = () => {
     const auth = JSON.parse(window.localStorage.getItem("docu.auth"));
-    console.log("auth ",auth )
+    // console.log("auth ",auth )
     if (auth) {
       return auth.access;
     }

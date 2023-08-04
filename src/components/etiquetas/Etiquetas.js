@@ -4,6 +4,7 @@ import TitleCard from "../../reusable/card/TitleCard";
 import Tabs from "../../reusable/Tabs";
 import CrearLoteForm from "./CrearLoteForm";
 import ReimprimirLoteForm from "./ReimprimirLoteForm";
+import UnderConstruction from "../../reusable/UnderConstruction";
 
 function Etiquetas() {
   return (
@@ -27,7 +28,8 @@ function Etiquetas() {
             activeTab={0}
           >
             <CrearLoteForm />
-            <ReimprimirLoteForm />
+            {/* <ReimprimirLoteForm /> */}
+            <UnderConstruction/>
           </Tabs>
         </Paper>
       </TitleCard>
