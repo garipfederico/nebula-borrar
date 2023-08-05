@@ -34,6 +34,8 @@ function* requestManager(apiCallFunction, anUrl, anObject = null) {
   } else {
     console.log("Executing in dev mode");
     request = yield call(apiCallFunction, anUrl, anObject)
+    console.log("request ",request )
+
   }
   return request
 }

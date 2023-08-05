@@ -7,7 +7,7 @@ function UnderConstruction() {
     <Stack sx={{flexDirection:'row', justifyContent:'center'}}>
     <img
       src={UnderConstructionImage}
-      style={{width: "50%", height: "50%"}}
+      style={{width: "25vw", height: "25vw"}}
       alt="Page under construction"
     />
     </Stack>
