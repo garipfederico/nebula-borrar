@@ -18,21 +18,23 @@ let secondURL = ""; // Will be obtained from the first response.
 
 // If in mock mode this function will execute the API interceptor calls and
 // return a response with objects from the mockLabelData file.
-var mock = new MockAdapter(axiosBase);
-const interceptRequestIfMockedModeOn = (secondUrl, body) => {
+
+function* requestManager(apiCallFunction, anUrl, anObject = null) {
+  console.log("anUrl ",anUrl )
+  let request = {}
   if (process.env.REACT_APP_ENVIRONMENT_TYPE === "mocked") {
+    var mock = new MockAdapter(axiosBase);
     console.log("Executing in mocked mode");
-    if (!secondURL) {
-      console.log("First mocked request");
-      mock.onGet(firstURL, body).reply(200, {...mockLabelData});
-    } else {
-      mock.onGet(secondURL).reply(200, {...mockImagesLabelData});
-    }
+    mock.onGet(firstURL, anObject).reply(200, {...mockLabelData});
+    mock.onGet(secondURL).reply(200, {...mockImagesLabelData});
+    request = yield call(apiCallFunction, anUrl, anObject)
+    mock.restore()
   } else {
     console.log("Executing in dev mode");
+    request = yield call(apiCallFunction, anUrl, anObject)
   }
-  return;
-};
+return request;
+}
 
 function* workPostLabelsFetch(action) {
   const {expedientNumber, quantity} = action.payload;
@@ -47,8 +49,9 @@ function* workPostLabelsFetch(action) {
 
     //First call to the API
     console.log("First call to the API");
-    interceptRequestIfMockedModeOn(null, body);
-    const firstResponse = yield call(axiosBase.get, firstURL, body);
+    // interceptRequestIfMockedModeOn(null, body);
+    const firstResponse = yield requestManager(axiosBase.get, firstURL, body)
+    // const firstResponse = yield call(axiosBase.get, firstURL, body);
     console.log("firstResponse: ", firstResponse);
     // const newLabels = yield firstResponse;
     const newLabels = yield firstResponse.data;
@@ -59,9 +62,10 @@ function* workPostLabelsFetch(action) {
     console.log("SecondURL of first call", secondURL);
 
     // Second call to the API
-    interceptRequestIfMockedModeOn(secondURL);
+    // interceptRequestIfMockedModeOn(secondURL);
+    const secondResponse = yield requestManager(axiosBase.get, secondURL)
     console.log("Second call to the API");
-    const secondResponse = yield call(axiosBase.get, secondURL);
+    // const secondResponse = yield call(axiosBase.get, secondURL);
     console.log("SecondResponse ", secondResponse);
     const images = secondResponse.data;
     console.log("Labels Images successfully downloaded");
@@ -99,7 +103,7 @@ function* etiquetaSaga() {
   try {
     yield takeEvery("etiquetas/postCrearLote", workPostLabelsFetch);
   } finally {
-    mock.restore();
+    // mock.restore();
   }
 }
 
