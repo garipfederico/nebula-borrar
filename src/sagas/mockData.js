@@ -2,7 +2,7 @@ export const OptionsState = {
   // data: { 
     results: {
       "0": { id: "17",
-      status_name: "Inicializado"
+      status_name: "inicializado"
     },
       "1": { id: "18",
       status_name: "en progreso"
