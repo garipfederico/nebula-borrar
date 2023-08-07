@@ -25,6 +25,8 @@ export default function SelectState({selectedValue, nroLote}) {
   };
 
   React.useEffect(() => {
+    // Finalidad: en caso de un put fallido, lanza el alertdialog y
+    // vuelte el select al estado anterior
     if (isError) {
       dispatch(
         openAlertDialog({

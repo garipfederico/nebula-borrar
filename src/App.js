@@ -15,15 +15,33 @@ import { useDispatch, useSelector } from "react-redux";
 import AppLayout from "./AppLayout";
 import { useEffect } from "react";
 //States 
-import {getUser} from './states/authState'
+import {getUser, loggingOut} from './states/authState'
+import { isTokenExpired } from "./utils/tokenValidator";
+import { openAlertDialog } from "./states/reusable/AlertDialogSlice";
 
-
+//Data
+import {sessionExpiredString, weSorryMessage} from './utils/responseStrings'
 function App() {
   const dispatch = useDispatch()
-  dispatch(getUser())
-  useEffect(()=>{
-  },[])
+  dispatch(getUser({}))
   const {isLoggedIn} = useSelector(state=>state.auth)
+  const { exp } = useSelector(state=>state.auth.activeUser)
+  console.log('isTokenExpired(exp)', isTokenExpired(exp))
+  
+  useEffect(()=>{
+  if(isTokenExpired(exp)){
+    dispatch(loggingOut());
+    dispatch(
+      openAlertDialog({
+        content: sessionExpiredString,
+        icon: "timeLapsed",
+        actionCancelButton: () => {
+        },
+      }))
+
+  }
+  },[])
+
   return (
     <div 
     className="fondo"

@@ -9,6 +9,7 @@ import {
 import axios from "axios";
 
 const getUser = () => {
+  console.log('hola mundo')
   const getAccessToken = () => {
     const auth = JSON.parse(window.localStorage.getItem("docu.auth"));
     // console.log("auth ",auth )
@@ -21,6 +22,7 @@ const getUser = () => {
   if (access_token) {
     const [, payload] = access_token.split(".");
     const decoded = window.atob(payload);
+    console.log("decoded ",decoded )
     return JSON.parse(decoded);
   }
   return undefined;
@@ -51,7 +53,7 @@ function* workPostAuthFetch(action) {
     yield put(loggingInSuccess({response, user}));
     // TODO mejorar deberia ejecutar un evento que actualize 
     //  las credenciales en redux.
-    window.location.reload() // TODO GDD-57  Solicitudes iniciales fallidas
+    // window.location.reload() // TODO GDD-57  Solicitudes iniciales fallidas
     yield call(navigate, "./home");
   } catch (error) {
     console.log('Error getting user info from local storage')
@@ -68,11 +70,16 @@ function* workDeleteAuthFetch() {
 function* workGetUserFetch(action) {
   try {
     const user = getUser();
-    yield put(getUserSuccess(user));
+    if(user){
+      yield put(getUserSuccess(user));
+    } else {
+      yield put(getUserFail(user));
+    }
   } catch (error) {
-    yield put(getUserFail());
+    console.log('Unexpected error getting data from session storage')
   }
 }
+
 
 function* authSaga() {
   yield takeEvery("auth/loggingIn", workPostAuthFetch);

@@ -8,7 +8,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import {Box, Stack, Typography} from "@mui/material";
 import {closeAlertDialog} from "../states/reusable/AlertDialogSlice";
-import {Error, Cancel} from "@mui/icons-material";
+import {Error, Cancel, HourglassBottom} from "@mui/icons-material";
+import { useEffect, useState } from "react";
 /**
  * No usar desde aca, esto solo se usa en el layout por unica vez
  * Para utilizar este componente hacerlo con dispatch(openAlertDialog({......}))
@@ -31,6 +32,7 @@ import {Error, Cancel} from "@mui/icons-material";
  */
 
 function AlertDialogRedux(props) {
+  const [ count, setCount] = useState(3)
   const dispatch = useDispatch();
   const {
     open,
@@ -49,7 +51,7 @@ function AlertDialogRedux(props) {
   // Remember that any clic outside de box it's the same that cancel action
   const handleClose = () => {
     dispatch(closeAlertDialog());
-    actionCancelButton();
+    // actionCancelButton();
   };
 
   const handleAcceptButton = () => {
@@ -64,6 +66,20 @@ function AlertDialogRedux(props) {
       <span>{aMessage}</span>
     </DialogContentText>
   ));
+
+  const contarHastaCero = (valorInicial) => {
+    if (valorInicial >= 0) {
+      console.log(valorInicial);
+      setCount(valorInicial); // Actualiza el valor en el estado local
+      valorInicial--;
+      setTimeout(() => contarHastaCero(valorInicial), 1000); // Llama a la función de nuevo después de 1 segundo (1000 ms)
+    } else {
+      handleClose()
+    }
+  };
+  useEffect(()=>{
+    contarHastaCero(5)
+  },[])
 
   return (
     <>
@@ -90,6 +106,9 @@ function AlertDialogRedux(props) {
               {icon === "cancel" && (
                 <Cancel color="error" sx={{margin: "auto", fontSize: "70px"}} />
               )}
+              {icon === 'timeLapsed' && (
+                <HourglassBottom  color='grey' sx={{margin:'auto', fontSize:"70px"}}/>
+                  )}
               {/*  icon==='StringExample') && (
                 //   <ExampleComponent  color='error' sx={{margin:'auto', fontSize:"70px"}}/>
                 //  )*/}
@@ -107,7 +126,7 @@ function AlertDialogRedux(props) {
         <DialogContent>
           <Stack direction="column" justifyContent="center" alignItems="center">
             <DialogContentText id="alert-dialog-description" key="01">
-              {content}
+              {content} {count}
             </DialogContentText>
             {messages}
           </Stack>

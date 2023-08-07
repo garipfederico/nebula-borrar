@@ -5,7 +5,7 @@ const initialState = {
   isLoggedIn: null,
   isError: null,
   response: null,
-  activeUser: null,
+  activeUser: {exp:0},
 };
 
 export const authSlice = createSlice({
@@ -47,8 +47,9 @@ export const authSlice = createSlice({
       state.isLoggedIn = false;
     },
     getUserSuccess: (state, action) => {
+      console.log(action)
       state.isLoggedIn = true;
-      state.activeUser = action.payload.user;
+      state.activeUser = action.payload;
     },
   },
 });

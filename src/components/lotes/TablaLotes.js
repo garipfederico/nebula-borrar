@@ -12,6 +12,8 @@ import {
 import RowLote from "./RowLote";
 import {useSelector, useDispatch} from "react-redux";
 import {getOptionsState, getDocuments} from "../../states/lotesState";
+import { openAlertDialog } from "../../states/reusable/AlertDialogSlice";
+import { responseStrings, weSorryMessage } from "../../utils/responseStrings";
 
 const columns = [
   {id: "accion", label: "Acciones", minWidth: 50},
@@ -25,7 +27,6 @@ const columns = [
 export default function StickyHeadTable() {
   const dispatch = useDispatch();
   const {results, isError} = useSelector((state) => state.lotes.documents);
-
   const documents = results || [];
   console.log("results", documents);
   // Adapt the  structure's data of the response from API to the frontend structure
@@ -69,7 +70,7 @@ export default function StickyHeadTable() {
     dispatch(getOptionsState());
     // dispatch(getDocuments());
   }, []);
-
+ 
   return (
     <Paper sx={{width: "100%", overflow: "hidden"}}>
       <TableContainer sx={{ overflowX: "auto"}} >

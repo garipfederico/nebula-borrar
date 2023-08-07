@@ -46,7 +46,7 @@ useEffect(()=>{
   if (isLoading === false && isError === false && response !== null) {
     // Uncomment next line to navigate to home page after print labels
     navigate("/home");
-    dispatch(openSnackbar({snackbarMessage:'Lote creado exitosamente'}));
+    dispatch(openSnackbar({snackbarMessage:'Lote creado exitosamente. Un momento por favor.'}));
     dispatch(postCrearLoteReset())
   }
 },[isLoading])
