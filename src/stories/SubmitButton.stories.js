@@ -1,12 +1,4 @@
 import SubmitButton from "../reusable/buttons/SubmitButton";
-// export default {
-//     title: 'Example/SubmitButton',
-//     component: SubmitButton,
-//     parameters: {
-//         formik: 'formik'
-//     },
-// }
-
 export default {
   title: "Example/SubmitButton",
   component: SubmitButton,
@@ -18,16 +10,25 @@ export default {
   tags: ["autodocs"],
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {
-    backgroundColor: {control: "color"},
-    // requestType: {
-    //   control: {
-    //     type: "select",
-    //     options: ["POST", "PUT", "GET"],
-    //   },
-    // },
+    handleSubmit: {
+      type: { name: 'function', required: true }, // Indica que se espera una función
+      description: 'Función que gestiona el metodo deseado. Suele ser formik.handlesubmit',
+    },
+    requestType: {
+      control: {
+        type: "select",
+        options: ["POST", "PUT", "GET"],
+      },
+      description: 'Tipo de solicitud que disparará el boton'
+    },
+    textForRequestType:{
+      description: 'Texto del boton correspondiente al metodo elegido. Se corresponde con RequestType.'
+    }
   },
   args: {
-    textForTypeRequest: ["Hi", "Ho", "Let's go"],
+    requestType: "GET",
+    textForRequestType: ["Buscar", "Crear", "Guardar"],
+    handleSubmit: ()=>{'Una funcion'},
   },
 };
 
@@ -35,12 +36,6 @@ export const Primary = {
   args: {
     requestType: "POST",
     isLoading: true,
-    handleSubmit: () => {},
-  },
-};
-
-export const GetButtonForSearch = {
-  args: {
-    requestType: "GET", // Establecer el valor por defecto a 'POST'
+    handleSubmit: ()=>'Una',
   },
 };

@@ -35,7 +35,7 @@ useEffect(()=>{
         requestType="GET" // suele podria se useSelector de redux o un useState
         isLoading={false} // suele podria se useSelector de redux o un useState
         postOrPutTexts={["Crear e Imprimir", ""]}
-        textForTypeRequest={["Buscar", "POSTExample", "PUTExample"]}
+        textForRequestType={["Buscar", "POSTExample", "PUTExample"]}
         handleSubmit={formik.handleSubmit}
       />
     </Stack>

@@ -89,7 +89,7 @@ useEffect(()=>{
       <SubmitButton
         requestType="POST" // suele podria se useSelector de redux o un useState
         isLoading={isLoading} // suele podria se useSelector de redux o un useState
-        textForTypeRequest={["Crear e Imprimir", "Crear e Imprimir"]}
+        textForRequestType={["Crear e Imprimir", "Crear e Imprimir"]}
         handleSubmit={formik.handleSubmit}
       />
       <Box></Box>

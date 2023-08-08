@@ -15,17 +15,17 @@ import { Button } from '@mui/material';
  * <SubmitButton
  *      requestType={requestType}      // suele podria se useSelector de redux o un useState
  *      isLoading={isLoading}          // suele podria se useSelector de redux o un useState
- *      postOrPutTexts={["Crear","Guardar"]}
+ *      textForRequestType={["Crear","Guardar"]}
  *      handleSubmit={formik.handleSubmit}
  * >
  *
  */
 
 function SubmitButton(props) {
-const requestType = props.requestType
 const isLoading = props.isLoading
+const requestType = props.requestType
+const textForRequestType = props.textForRequestType
 const handleSubmit = props.handleSubmit
-const textForTypeRequest = props.textForTypeRequest
 
   return (
     <>
@@ -37,7 +37,7 @@ const textForTypeRequest = props.textForTypeRequest
               startIcon={<SaveIcon />}
               variant="outlined"
             >
-              Guardando...
+              Enviando...
             </LoadingButton>
           ) : (
             <Button
@@ -45,9 +45,9 @@ const textForTypeRequest = props.textForTypeRequest
               variant="contained"
               onClick={handleSubmit}
             >
-              { requestType === "GET" && textForTypeRequest[0]}
-              {requestType === "POST" && textForTypeRequest[1]}
-              {requestType === "PUT" && textForTypeRequest[2]}
+              { requestType === "GET" && textForRequestType[0]}
+              {requestType === "POST" && textForRequestType[1]}
+              {requestType === "PUT" && textForRequestType[2]}
               
 
             </Button>
@@ -58,10 +58,17 @@ const textForTypeRequest = props.textForTypeRequest
 }
 
 SubmitButton.propTypes = {
-  textForTypeRequest: PropTypes.arrayOf(PropTypes.string),
+  textForRequestType: PropTypes.arrayOf(PropTypes.string).isRequired,
   isLoading : PropTypes.bool.isRequired,
-  requestType: PropTypes.oneOf(['GET', 'POST','PUT']),
-  handleSubmit: PropTypes.func
+  requestType: PropTypes.oneOf(['GET', 'POST','PUT']).isRequired,
+  handleSubmit: PropTypes.func.isRequired
 }
+
+// SubmitButton.propTypes = {
+// textForRequestType:'Buscar', 
+// isLoading: false,
+// requestType: 'GET', 
+// // handleSubmit:'', 
+// }
 
 export default SubmitButton
