@@ -19,12 +19,12 @@ export default {
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {
     backgroundColor: {control: "color"},
-    requestType: {
-      control: {
-        type: "select",
-        options: ["POST", "PUT", "GET"],
-      },
-    },
+    // requestType: {
+    //   control: {
+    //     type: "select",
+    //     options: ["POST", "PUT", "GET"],
+    //   },
+    // },
   },
   args: {
     textForTypeRequest: ["Hi", "Ho", "Let's go"],

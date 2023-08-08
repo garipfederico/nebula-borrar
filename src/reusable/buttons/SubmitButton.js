@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes, { string } from 'prop-types';
 import LoadingButton from '@mui/lab/LoadingButton/LoadingButton'
 import SaveIcon from "@mui/icons-material/Save";
 import { Button } from '@mui/material';
@@ -54,6 +55,13 @@ const textForTypeRequest = props.textForTypeRequest
         ) : null}
     </>
   )
+}
+
+SubmitButton.propTypes = {
+  textForTypeRequest: PropTypes.arrayOf(PropTypes.string),
+  isLoading : PropTypes.bool.isRequired,
+  requestType: PropTypes.oneOf(['GET', 'POST','PUT']),
+  handleSubmit: PropTypes.func
 }
 
 export default SubmitButton
