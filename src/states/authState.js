@@ -5,7 +5,11 @@ const initialState = {
   isLoggedIn: null,
   isError: null,
   response: null,
-  activeUser: {exp:0},
+  activeUser: {
+    access:null,
+    refresh:null,
+    accessDecoded:{
+      exp:null},}
 };
 
 export const authSlice = createSlice({
@@ -23,11 +27,14 @@ export const authSlice = createSlice({
       state.response = error.response;
     },
     loggingInSuccess: (state, action) => {
+      console.log('loggingInSuccess',action.payload.response.data.access)
       state.isLoading = false;
       state.isLoggedIn = true;
       state.isError = false;
-      state.response = action.payload.response;
-      state.activeUser = action.payload.user;
+      // state.response = action.payload.response;
+      state.activeUser.accessDecoded = action.payload.user;
+      state.activeUser.access = action.payload.response.data.access
+      state.activeUser.refresh = action.payload.response.data.refresh
     },
     loggingOut: (state) => {
       state.isLoading = true;
@@ -35,12 +42,14 @@ export const authSlice = createSlice({
     loggingOutSuccess: (state) => {
       state.isLoading = false;
       state.isLoggedIn = false;
+      state.activeUser = initialState.activeUser
     },
     loggingReset: (state) => {
       state.isLoading = initialState.isLoading;
       state.isLoggedIn = initialState.isLoggedIn;
       state.isError = initialState.isError;
       state.response = initialState.response;
+      state.activeUser = initialState.activeUser;
     },
     getUser: (state) => {},
     getUserFail: (state) => {
@@ -49,7 +58,7 @@ export const authSlice = createSlice({
     getUserSuccess: (state, action) => {
       console.log(action)
       state.isLoggedIn = true;
-      state.activeUser = action.payload;
+      state.activeUser.accessDecoded = action.payload;
     },
   },
 });

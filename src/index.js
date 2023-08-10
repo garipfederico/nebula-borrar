@@ -16,6 +16,7 @@ import SnackbarSlice from "./states/reusable/SnackbarSlice";
 import lotesSaga from "./sagas/lotesSaga";
 import etiquetaSaga from "./sagas/etiquetaSaga";
 import authSaga from "./sagas/authSaga";
+import axiosBase from "./utils/axiosBase";
 
 const saga = createSagaMiddleware();
 const store = configureStore({
@@ -32,9 +33,14 @@ const store = configureStore({
 saga.run(authSaga);
 saga.run(etiquetaSaga);
 saga.run(lotesSaga);
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     <App />
   </Provider>
 );
+
+// if (window.Cypress) {
+//   window.store = store
+// }

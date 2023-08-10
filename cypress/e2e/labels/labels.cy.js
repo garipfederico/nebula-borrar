@@ -4,6 +4,8 @@ describe("Labels page - Caso de Uso imprimir etiquetas", () => {
   const username = "garip.federico@gmail.com";
   const password = "123";
   beforeEach("Logueo", () => {
+    
+    // cy.visit("http://localhost:3000/landing");
     // cy.session(username, () => {
     //   cy.request({
     //     method: 'POST',
@@ -77,13 +79,13 @@ describe("Labels page - Caso de Uso imprimir etiquetas", () => {
 
   it("Imprimir etiquetas, problema de coneccion", () => {
 
-    cy.intercept(
-      {
-        method: 'GET', // Route all GET requests
-        url: '*/api/label/create-bulk/*', // that have a URL that matches '/users/*'
-      },
-      [{status:400}] // and force the response to be: []
-    ).as('getUsers') // and assign an alias
+    // cy.intercept(
+    //   {
+    //     method: 'GET', // Route all GET requests
+    //     url: '*/api/label/create-bulk/*', // that have a URL that matches '/users/*'
+    //   },
+    //   [{status:400}] // and force the response to be: []
+    // ).as('getUsers') // and assign an alias
 
     cy.get(".MuiStack-root > .MuiButtonBase-root")
     .should("have.text", "Crear e Imprimir")

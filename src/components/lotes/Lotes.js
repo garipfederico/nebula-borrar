@@ -31,7 +31,7 @@ function Lotes() {
         justifyContent={"center"}
         spacing={5}
       >
-        {/* <SearchForm formik={formik} /> */}
+        <SearchForm formik={formik} />
         <TablaLotes />
       </Stack>
     </TitleCard>

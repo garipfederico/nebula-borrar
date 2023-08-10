@@ -45,7 +45,8 @@ export const dataDigitalizacionCard =
         subtitle:'Visualización de Lotes',
         description:'Consultar documentos por fecha y modificar su estado',
         url:'lotes',
-        icon:<AllInbox {...dataHomeIconStyle}/>
+        icon:<AllInbox {...dataHomeIconStyle}/>,
+        dataCy:'lotes'
         }
     
 ]
