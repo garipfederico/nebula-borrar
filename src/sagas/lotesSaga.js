@@ -33,8 +33,8 @@ function* requestManager(apiCallFunction, anUrl, anObject = null) {
     mock.restore()
   } else {
     console.log("Executing in dev mode");
-    request = yield call(apiCallFunction, anUrl, anObject)
-    console.log("request ",request )
+    request = yield call(apiCallFunction, anUrl, anObject);
+    console.log("request ",request );
 
   }
   return request
@@ -44,6 +44,7 @@ function* workGetOptionsStates() {
   //Call to get the options state for the combobox
   try {
       const stateOptionsRequest = yield requestManager(axiosBase.get, URL_optionsState)
+      console.log("stateOptionsRequest ",stateOptionsRequest.data.results )
     yield put(
       getOptionsStateSuccess({
         stateOptions: {...stateOptionsRequest.data.results},
@@ -56,10 +57,6 @@ function* workGetOptionsStates() {
     yield put(getOptionsStateFail({e}));
   }
 }
-
-
-
-
 
 function* workGetDocuments() {
   // Call to get the documents for the table
@@ -77,12 +74,12 @@ function* workGetDocuments() {
 
 function* workPutDocuments(action) {
   console.log(action.payload);
-  const {status_name, nroLote }= action.payload
+  const {name, nroLote }= action.payload
   const URLRequest =  URL_BASE + parcialURLdocument + nroLote + '/manage-status'
   console.log(URLRequest)
   try {
     const documentsResponse = yield requestManager(axiosBase.put, URLRequest, {
-      status: status_name
+      status: name
     });
     console.log("documentsResponse ", documentsResponse);
     yield put(putStateSuccess());

@@ -8,8 +8,7 @@ import SelectState from "./SelectState";
 // import {setRequestTypeDelete, setRequestTypePut} from '../../redux/store/misProductosState'
 
 function RowLote(props) {
-  // const isLoading = useSelector((state) => state.misProductos.isLoading);
-  const isLoading = false;
+  const isLoading = useSelector((state) => state.lotes.isLoading);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   console.log("props ", props);

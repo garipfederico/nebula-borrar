@@ -16,12 +16,12 @@ export default function SelectState({selectedValue, nroLote}) {
   const estadoAnteriorRef = React.useRef(selectedValue);
 
   const handleChange = (event) => {
-    const status_name = event.target.value;
+    const name = event.target.value;
     // console.log('nroLote', nroLote)
     // console.log("estado ", estado);
     // console.log("estadoAnteriorRef.current ", estadoAnteriorRef.current);
     setEstado(event.target.value);
-    dispatch(putState({status_name, nroLote}));
+    dispatch(putState({name, nroLote}));
   };
 
   React.useEffect(() => {
@@ -59,10 +59,10 @@ export default function SelectState({selectedValue, nroLote}) {
           onChange={handleChange}
         >
           {arrayIndexes.map((index) => {
-            const {id, status_name} = optionsState[index];
+            const {id, name} = optionsState[index];
             return (
-              <MenuItem value={status_name} key={id}>
-                {status_name}
+              <MenuItem value={name} key={id}>
+                {name}
               </MenuItem>
             );
           })}

@@ -16,11 +16,11 @@ import { openAlertDialog } from "../../states/reusable/AlertDialogSlice";
 import { responseStrings, weSorryMessage } from "../../utils/responseStrings";
 
 const columns = [
-  {id: "accion", label: "Acciones", minWidth: 50},
+  // {id: "accion", label: "Acciones", minWidth: 50},
   {id: "nroLote", label: "N° Lote", minWidth: 100},
   {id: "operador", label: "Operador", minWidth: 100},
   {id: "fecha", label: "Fecha", minWidth: 20},
-  {id: "cantidadDocs", label: "Cantidad de documentos", minWidth: 20},
+  // {id: "cantidadDocs", label: "Cantidad de documentos", minWidth: 20},
   {id: "estado", label: "Estado", minWidth: 50},
 ];
 
@@ -31,25 +31,22 @@ export default function StickyHeadTable() {
   console.log("results", documents);
   // Adapt the  structure's data of the response from API to the frontend structure
   const transformData = documents.map((unDoc) => {
+    console.log(unDoc.status)
     return {
       nroLote: unDoc.id,
       operador: unDoc.internal_id,
-      cantidadDocs: unDoc.file_id,
       fecha: "12/04/2021",
       estado: unDoc.status,
     };
   });
-  console.log(transformData);
 
   const documentos = transformData;
 
   const rows = documentos.map((unProducto) => {
-    const {accion, nroLote, operador, cantidadDocs, fecha, estado} = unProducto;
+    const {nroLote, operador, fecha, estado} = unProducto;
     return {
-      accion,
       nroLote,
       operador,
-      cantidadDocs,
       fecha,
       estado,
     };
@@ -68,7 +65,6 @@ export default function StickyHeadTable() {
 
   useEffect(() => {
     dispatch(getOptionsState());
-    // dispatch(getDocuments());
   }, []);
  
   return (

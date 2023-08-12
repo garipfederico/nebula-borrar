@@ -1,10 +1,10 @@
-import React, {useEffect} from "react";
+import React from "react";
 import TitleCard from "../../reusable/card/TitleCard";
 import TablaLotes from "./TablaLotes";
 import {useFormik} from "formik";
 import loteSchema from "./loteValidationSchema";
 import SearchForm from "./SearchForm";
-import {Box, Stack} from "@mui/material";
+import {Stack} from "@mui/material";
 
 function Lotes() {
   const formik = useFormik({
@@ -13,7 +13,6 @@ function Lotes() {
     },
     validationSchema: loteSchema.validationSchema,
     onSubmit: (dateToSearch) => {
-      console.log("Hola submit");
       console.log(dateToSearch);
     },
   });
@@ -22,7 +21,7 @@ function Lotes() {
     <TitleCard
       title="Lotes"
       subtitle="Un subtitulo"
-      width="80%"
+      width="50%"
       sx={{index: 3}}
     >
       <Stack
@@ -31,7 +30,7 @@ function Lotes() {
         justifyContent={"center"}
         spacing={5}
       >
-        <SearchForm formik={formik} />
+        {/* <SearchForm formik={formik} /> */}
         <TablaLotes />
       </Stack>
     </TitleCard>

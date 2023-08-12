@@ -42,15 +42,18 @@ function CrearLoteForm() {
     sx: {marginX: "auto", my: 4},
     spacing: 5,
   };
-useEffect(()=>{
-  if (isLoading === false && isError === false && response !== null) {
-    // Uncomment next line to navigate to home page after print labels
-    navigate("/home");
-    dispatch(openSnackbar({snackbarMessage:'Lote creado exitosamente. Un momento por favor.'}));
-    dispatch(postCrearLoteReset())
-  }
-},[isLoading])
-
+  useEffect(() => {
+    if (isLoading === false && isError === false && response !== null) {
+      // Uncomment next line to navigate to home page after print labels
+      navigate("/home");
+      dispatch(
+        openSnackbar({
+          snackbarMessage: "Lote creado exitosamente. Un momento por favor.",
+        })
+      );
+      dispatch(postCrearLoteReset());
+    }
+  }, [isLoading]);
 
   useEffect(() => {
     if (isLoading === false && isError === true && response !== null) {
@@ -87,8 +90,8 @@ useEffect(()=>{
         formik={formik}
       />
       <SubmitButton
-        requestType="POST" // suele podria se useSelector de redux o un useState
-        isLoading={isLoading} // suele podria se useSelector de redux o un useState
+        requestType="POST"
+        isLoading={isLoading}
         textForRequestType={["Crear e Imprimir", "Crear e Imprimir"]}
         handleSubmit={formik.handleSubmit}
       />

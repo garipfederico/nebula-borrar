@@ -9,7 +9,6 @@ import {
 import axios from "axios";
 
 const getUser = () => {
-  console.log('hola mundo')
   const getAccessToken = () => {
     const auth = JSON.parse(window.localStorage.getItem("docu.auth"));
     // console.log("auth ",auth )

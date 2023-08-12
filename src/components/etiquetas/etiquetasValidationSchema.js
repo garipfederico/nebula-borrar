@@ -16,7 +16,8 @@ const validationSchema = yup.object({
     .typeError('Los caracteres deben ser de tipo numéricos')
     .required(requiredTXT)
     .max(99999, haveMaxTXT(5))
-    .positive("Debe ser un valor positivo"),
+    .positive("Debe ser un valor positivo")
+    .test('is-even', 'Debe ser un número par', value => value % 2 === 0),
 });
 const etiquetasSchema = {
   validationSchema,
