@@ -1,6 +1,6 @@
 export const responseStrings = (status) => {
   return status === 403
-    ? "No tiene permisos o no está autenticado"
+    ? "No tiene permisos o no está autenticado - Inicie nuevamente la sesión"
     : status === 401
     ? "No autorizado"
     : status === 404

@@ -9,7 +9,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import {Box, Stack, Typography} from "@mui/material";
 import {closeAlertDialog} from "../states/reusable/AlertDialogSlice";
 import {Error, Cancel, HourglassBottom} from "@mui/icons-material";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 /**
  * No usar desde aca, esto solo se usa en el layout por unica vez
  * Para utilizar este componente hacerlo con dispatch(openAlertDialog({......}))
@@ -24,6 +24,7 @@ import { useEffect, useState } from "react";
  *      buttonTextAccept='Borrar'
  *      buttonTextDeny='Cancelar'
  *      buttonActionAccept={deleteCliente}
+ *      timer=number (default=0)
  * >
  *     <DeleteForeverIcon color="warning" fontSize="medium" />
  * </AlertDialog>
@@ -32,7 +33,6 @@ import { useEffect, useState } from "react";
  */
 
 function AlertDialogRedux(props) {
-  const [ count, setCount] = useState(3)
   const dispatch = useDispatch();
   const {
     open,
@@ -44,8 +44,9 @@ function AlertDialogRedux(props) {
     textAcceptButton,
     textCancelButton,
     otherMessages,
+    timer
   } = useSelector((state) => state.alertDialog);
-
+  const [count, setCount] = useState(timer);
 
   // Remember that any click outside de box it's the same that cancel action
   const handleClose = () => {
@@ -73,12 +74,14 @@ function AlertDialogRedux(props) {
       valorInicial--;
       setTimeout(() => contarHastaCero(valorInicial), 1000); // Llama a la función de nuevo después de 1 segundo (1000 ms)
     } else {
-      handleClose()
+      handleClose();
     }
   };
-  useEffect(()=>{
-    contarHastaCero(2)
-  },[])
+  useEffect(() => {
+    if(timer > 0){
+      contarHastaCero(count);
+    }
+  }, []);
 
   return (
     <>
@@ -105,9 +108,12 @@ function AlertDialogRedux(props) {
               {icon === "cancel" && (
                 <Cancel color="error" sx={{margin: "auto", fontSize: "70px"}} />
               )}
-              {icon === 'timeLapsed' && (
-                <HourglassBottom  color='grey' sx={{margin:'auto', fontSize:"70px"}}/>
-                  )}
+              {icon === "timeLapsed" && (
+                <HourglassBottom
+                  color="grey"
+                  sx={{margin: "auto", fontSize: "70px"}}
+                />
+              )}
               {/*  icon==='StringExample') && (
                 //   <ExampleComponent  color='error' sx={{margin:'auto', fontSize:"70px"}}/>
                 //  )*/}
@@ -125,7 +131,7 @@ function AlertDialogRedux(props) {
         <DialogContent>
           <Stack direction="column" justifyContent="center" alignItems="center">
             <DialogContentText id="alert-dialog-description" key="01">
-              {content} {count}
+              {content} {count > 0 ? count : null}
             </DialogContentText>
             {messages}
           </Stack>

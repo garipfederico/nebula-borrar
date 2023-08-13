@@ -41,4 +41,33 @@ try {
 // El siguiente if se agrega, ya que si no esta logueado e intenta asignar el token
 // se queda la pantalla en blanco ya que no puede asignarlo
 
+// Ver esto implementacion a futuro 
+// axiosBase.interceptors.response.use(
+//   (response) => {
+//     return response;
+//   },
+//   async (error) => {
+//     if (error.response && error.response.status === 401) {
+//       // Aquí puedes manejar la lógica de renovación del token o redirección al inicio de sesión.
+//       // Por ejemplo, intentar renovar el token utilizando el hook useSelector
+//       const auth = useSelector((state) => state.auth); // Asegúrate de ajustar el estado de Redux a tu estructura real
+
+//       if (auth && auth.refreshToken) {
+//         // Realizar la lógica para renovar el token aquí
+//         // Puedes usar otro axios.post para enviar el refreshToken y obtener un nuevo token de acceso
+//         // Luego actualiza el token en axiosBase.defaults.headers.common["Authorization"]
+//       } else {
+//         // Si no se puede renovar el token, redirige al usuario a la página de inicio de sesión
+//         // Puedes utilizar react-router-dom u otra librería de enrutamiento que estés utilizando
+//         window.location.href = "/login"; // Ajusta la ruta según tu configuración
+//       }
+//     }
+//     return Promise.reject(error);
+//   }
+// );
+
+
+
+
+
 export default axiosBase;

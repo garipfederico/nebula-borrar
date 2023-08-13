@@ -22,20 +22,16 @@ import {openAlertDialog} from "./states/reusable/AlertDialogSlice";
 //Data
 import {sessionExpiredString} from "./utils/responseStrings";
 function App() {
-  const {isLoggedIn, isError,isLoading} = useSelector((state) => state.auth);
-  // const {exp} = useSelector((state) => state.auth.activeUser.accessDecoded);
+  const {isLoggedIn, isError, isLoading} = useSelector((state) => state.auth);
+  const {exp} = useSelector((state) => state.auth.activeUser.accessDecoded);
   const dispatch = useDispatch();
   useEffect(() => {
-    // if(isError === null){
-      console.log('C')
-      dispatch(getUser({}));
-      
-    // }
+    dispatch(getUser({}));
   }, [isError, isLoading]);
   // console.log("isTokenExpired(exp)", isTokenExpired(exp));
 
   // useEffect(() => {
-  //   if (isTokenExpired(exp) ) {
+  //   if (isTokenExpired(exp)) {
   //     dispatch(loggingOut());
   //     dispatch(
   //       openAlertDialog({
@@ -73,10 +69,7 @@ function App() {
                       <Dashboard cardsDataArray={dataDigitalizationCard} />
                     }
                   />
-                  <Route
-                    path="/digitalization/labels"
-                    element={<Labels />}
-                  />
+                  <Route path="/digitalization/labels" element={<Labels />} />
                   <Route path="/digitalization/lotes" element={<Lotes />} />
                   <Route path="/digitalization/lotes/:id" element={<Lotes />} />
                   <Route

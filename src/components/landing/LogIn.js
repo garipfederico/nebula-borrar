@@ -11,6 +11,7 @@ import loginSchema from "./logInValidationSchema";
 import SubmitButton from "../../reusable/buttons/SubmitButton";
 import {loggingIn, loggingReset} from "../../states/authState";
 import {openAlertDialog} from "../../states/reusable/AlertDialogSlice";
+import { alert401 as alert401 } from "../../reusable/AlertDialogObjects";
 
 // changed
 function LogIn(props) {
@@ -43,11 +44,13 @@ function LogIn(props) {
   useEffect(() => {
     if (isError) {
       console.log(response.status)
+      // ...alert401(response)
       dispatch(
         openAlertDialog({
           title: "Lo sentimos ha ocurrido un error",
           content: (response.status === 401 ? "El usuario o la contraseña son incorrectos":""),
           icon: 'cancel',
+          timer:3,
           otherMessages: [
             response.status === 400 ?
             "Message: " + response.message : null,
@@ -55,7 +58,8 @@ function LogIn(props) {
             // "Code: " + response?.code,
           ],
           actionCancelButton: () => {},
-        })
+        }
+        )
       );
       dispatch(loggingReset({}))
     }

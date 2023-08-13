@@ -10,6 +10,7 @@ const initialState = {
   textAcceptButton: "",
   textCancelButton: "",
   otherMessages: [""],
+  timer: 0,
 };
 
 /*
