@@ -1,18 +1,17 @@
 import React from "react";
-import {Paper, Stack, Typography} from "@mui/material";
+import {Paper, Stack} from "@mui/material";
 import TitleCard from "../../reusable/card/TitleCard";
 import Tabs from "../../reusable/Tabs";
-import CrearLoteForm from "./CrearLoteForm";
-import ReimprimirLoteForm from "./ReimprimirLoteForm";
+import CreateBatchForm from "./CreateBatchForm";
+// import ReprintBatchForm from "./ReprintBatchForm";
 import UnderConstruction from "../../reusable/UnderConstruction";
 
-function Etiquetas() {
+function Labels() {
   return (
     <Stack
       width="100vw"
       flexDirection="column"
       justifyContent="center"
-      // alignItems="center"
       sx={{mt: "30px", alignItems: 'center'}}
     >
       <TitleCard
@@ -27,7 +26,7 @@ function Etiquetas() {
             labels={["Crear lote nuevo", "Reimprimir etiquetas"]}
             activeTab={0}
           >
-            <CrearLoteForm />
+            <CreateBatchForm />
             {/* <ReimprimirLoteForm /> */}
             <UnderConstruction/>
           </Tabs>
@@ -37,4 +36,4 @@ function Etiquetas() {
   );
 } 
 
-export default Etiquetas;
+export default Labels;

@@ -51,8 +51,12 @@ export const authSlice = createSlice({
       state.response = initialState.response;
       state.activeUser = initialState.activeUser;
     },
-    getUser: (state) => {},
+    getUser: (state) => {
+      // {}
+      // state= this.state
+    },
     getUserFail: (state) => {
+      state.isLoading= false
       state.isLoggedIn = false;
     },
     getUserSuccess: (state, action) => {

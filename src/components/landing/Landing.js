@@ -14,13 +14,13 @@ function Landing(props) {
   return (
     <TitleCard
       title="Bienvenido a Nebula Software!"
-      subtitle="Realize el loguin para ingresar o cree un usuario si no lo tiene."
+      subtitle="Inicie sesión o registrese si aun no tiene usuario."
       width="60vw"
     >
       <Box width="60%" sx={{margin: "auto"}}>
         <Tabs
           indexes={[0, 1]}
-          labels={["Ingreso", "Registro"]}
+          labels={["Iniciar sesión", "Registro"]}
           activeTab={activeTab}
         >
           <Login />

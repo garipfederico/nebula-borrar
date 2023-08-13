@@ -74,7 +74,7 @@ export const menuItem = [
   {
     text: "Digitalizacion",
     icon: <Scanner />,
-    url: "/digitalizacion",
+    url: "/digitalization",
     permiso: "",
   },
   {

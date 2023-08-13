@@ -46,9 +46,8 @@ function AlertDialogRedux(props) {
     otherMessages,
   } = useSelector((state) => state.alertDialog);
 
-  // console.log("open ", open);
 
-  // Remember that any clic outside de box it's the same that cancel action
+  // Remember that any click outside de box it's the same that cancel action
   const handleClose = () => {
     dispatch(closeAlertDialog());
     // actionCancelButton();
@@ -78,7 +77,7 @@ function AlertDialogRedux(props) {
     }
   };
   useEffect(()=>{
-    contarHastaCero(5)
+    contarHastaCero(2)
   },[])
 
   return (

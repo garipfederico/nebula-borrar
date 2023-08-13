@@ -2,21 +2,21 @@ import { AllInbox, Home, Person, QrCode2, Topic, Scanner } from "@mui/icons-mate
 
 const dataHomeIconStyle = {sx:{fontSize: "70px", color: "white"}}
 
-export const dataInicioCard = 
+export const dataHomeCard = 
     [ 
         {
         title:'Digitalizacion', 
         subtitle:'Creación e Impresion de Etiquetas',
         description:'Creación de etiquetas y pasos, reimpresión de etiquetas',
-        url:'/digitalizacion',
+        url:'/digitalization',
         icon:<Scanner {...dataHomeIconStyle}/>,
-        dataCy:'digitalizacion'
+        dataCy:'digitalization'
     },
     {
         title:'Documentos', 
         subtitle:'Visualización de Lotes',
         description:'Visualización y modificación de estado, de documentos correspondientes al lote de una fecha.',
-        url:'/documentos',
+        url:'/documents',
         icon:<Topic {...dataHomeIconStyle}/>
     },
     {
@@ -30,15 +30,15 @@ export const dataInicioCard =
 ]
 
 
-export const dataDigitalizacionCard = 
+export const dataDigitalizationCard = 
     [ 
         {
         title:'Etiquetas', 
         subtitle:'Creación e impresion de etiquetas',
         description:'Crear etiquetas y pasos, reimprimir etiquetas',
-        url:'etiquetas',
+        url:'labels',
         icon:<QrCode2 {...dataHomeIconStyle}/>,
-        dataCy:'etiquetas'
+        dataCy:'labels'
     },
     {
         title:'Lotes', 

@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Box, Stack, Typography} from "@mui/material";
+import {Box, Stack} from "@mui/material";
 import {useFormik} from "formik";
 import {useSelector} from "react-redux";
 import {useDispatch} from "react-redux";
@@ -8,7 +8,7 @@ import {useNavigate} from "react-router-dom";
 import TextInput from "../../reusable/textInput/TextInput";
 import SubmitButton from "../../reusable/buttons/SubmitButton";
 // Componentes
-import etiquetasSchema from "./etiquetasValidationSchema";
+import labelsSchema from "./labelsValidationSchema";
 // Redux
 import {postCrearLote, postCrearLoteReset} from "../../states/etiquetasState";
 import {openAlertDialog} from "../../states/reusable/AlertDialogSlice";
@@ -27,7 +27,7 @@ function CrearLoteForm() {
       expedientNumber: "",
       quantity: "",
     },
-    validationSchema: etiquetasSchema.validationSchema,
+    validationSchema: labelsSchema.validationSchema,
     onSubmit: (expedientNumber, quantity) => {
       dispatch(postCrearLote(expedientNumber, quantity));
     },

@@ -19,8 +19,8 @@ const validationSchema = yup.object({
     .positive("Debe ser un valor positivo")
     .test('is-even', 'Debe ser un número par', value => value % 2 === 0),
 });
-const etiquetasSchema = {
+const labelsSchema = {
   validationSchema,
 };
 
-export default etiquetasSchema;
+export default labelsSchema;

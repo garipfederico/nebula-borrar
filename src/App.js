@@ -1,12 +1,12 @@
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import "./App.css";
-import {dataDigitalizacionCard, dataInicioCard} from "./data/cardsdata";
+import {dataDigitalizationCard, dataHomeCard} from "./data/cardsdata";
 //Reusables
 import Drawer from "./reusable/drawer/Drawer";
 import MenuCard from "./reusable/card/MenuCard";
 import Dashboard from "./reusable/dashboard/Dashboard";
 //Pages
-import Etiquetas from "./components/etiquetas/Etiquetas";
+import Labels from "./components/labels/Labels";
 import Lotes from "./components/lotes/Lotes";
 import Documentos from "./components/documentos/Documentos";
 import GestionDeUsuarios from "./components/gestionDeUsuarios/GestionDeUsuarios";
@@ -20,29 +20,32 @@ import {isTokenExpired} from "./utils/tokenValidator";
 import {openAlertDialog} from "./states/reusable/AlertDialogSlice";
 
 //Data
-import {sessionExpiredString, weSorryMessage} from "./utils/responseStrings";
+import {sessionExpiredString} from "./utils/responseStrings";
 function App() {
+  const {isLoggedIn, isError,isLoading} = useSelector((state) => state.auth);
+  // const {exp} = useSelector((state) => state.auth.activeUser.accessDecoded);
   const dispatch = useDispatch();
-  // useEffect(() => {
-    dispatch(getUser({}));
-  // }, []);
-  const {isLoggedIn} = useSelector((state) => state.auth);
-  const {exp} = useSelector((state) => state.auth.activeUser.accessDecoded);
-  console.log("isTokenExpired(exp)", isTokenExpired(exp));
-
   useEffect(() => {
-    if (isTokenExpired(exp)) {
-      // if(isTokenExpired(false)){
-      dispatch(loggingOut());
-      dispatch(
-        openAlertDialog({
-          content: sessionExpiredString,
-          icon: "timeLapsed",
-          actionCancelButton: () => {},
-        })
-      );
-    }
-  }, []);
+    // if(isError === null){
+      console.log('C')
+      dispatch(getUser({}));
+      
+    // }
+  }, [isError, isLoading]);
+  // console.log("isTokenExpired(exp)", isTokenExpired(exp));
+
+  // useEffect(() => {
+  //   if (isTokenExpired(exp) ) {
+  //     dispatch(loggingOut());
+  //     dispatch(
+  //       openAlertDialog({
+  //         content: sessionExpiredString,
+  //         icon: "timeLapsed",
+  //         actionCancelButton: () => {},
+  //       })
+  //     );
+  //   }
+  // }, []);
 
   return (
     <div className="fondo">
@@ -62,20 +65,20 @@ function App() {
                 <>
                   <Route
                     path="/home"
-                    element={<Dashboard cardsDataArray={dataInicioCard} />}
+                    element={<Dashboard cardsDataArray={dataHomeCard} />}
                   />
                   <Route
-                    path="/digitalizacion"
+                    path="/digitalization"
                     element={
-                      <Dashboard cardsDataArray={dataDigitalizacionCard} />
+                      <Dashboard cardsDataArray={dataDigitalizationCard} />
                     }
                   />
                   <Route
-                    path="/digitalizacion/etiquetas"
-                    element={<Etiquetas />}
+                    path="/digitalization/labels"
+                    element={<Labels />}
                   />
-                  <Route path="/digitalizacion/lotes" element={<Lotes />} />
-                  <Route path="/digitalizacion/lotes/:id" element={<Lotes />} />
+                  <Route path="/digitalization/lotes" element={<Lotes />} />
+                  <Route path="/digitalization/lotes/:id" element={<Lotes />} />
                   <Route
                     path="/gestionDeUsuarios"
                     element={<GestionDeUsuarios />}

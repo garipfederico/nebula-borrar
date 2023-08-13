@@ -54,9 +54,10 @@ function LogIn(props) {
             // "Name:" + response?.name,
             // "Code: " + response?.code,
           ],
-          actionCancelButton: () => dispatch(loggingReset()),
+          actionCancelButton: () => {},
         })
       );
+      dispatch(loggingReset({}))
     }
   }, [isError]);
 

@@ -1,4 +1,4 @@
-describe("Login/ Landing page - Componentes estructurales", () => {
+describe("Login/ Landing page - Component verification and Login successful and failed", () => {
   beforeEach(() => {
     cy.visit("http://localhost:3000/landing");
   });
@@ -25,7 +25,7 @@ describe("Login/ Landing page - Componentes estructurales", () => {
     cy.get(".MuiStack-root > .MuiButtonBase-root").click();
     cy.url().should('include', "http://localhost:3000/home")
   });
-  it.skip("Login failed and a dialog message will be showed and closed", () => {
+  it.only("Login failed and a dialog message will be showed and closed", () => {
     cy.get("#username").type("garip.federico@gmail.com");
     cy.get("#password").type("12345");
     cy.get(".MuiStack-root > .MuiButtonBase-root").click();

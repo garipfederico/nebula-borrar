@@ -5,17 +5,17 @@ import {useSelector} from "react-redux";
 import SubmitButton from "../../reusable/buttons/SubmitButton";
 import {useFormik} from "formik";
 import {useDispatch} from "react-redux";
-import etiquetasSchema from "./etiquetasValidationSchema";
+import labelsSchema from "./labelsValidationSchema";
 import {postCrearLote} from "../../states/etiquetasState";
 
-function ReimprimirLoteForm() {
+function ReprintBatchForm() {
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       cajaId: "",
       cantidad: "",
     },
-    validationSchema: etiquetasSchema.validationSchema,
+    validationSchema: labelsSchema.validationSchema,
     onSubmit: () => {
       handleSubmit();
     },
@@ -62,4 +62,4 @@ function ReimprimirLoteForm() {
   );
 }
 
-export default ReimprimirLoteForm;
+export default ReprintBatchForm;
