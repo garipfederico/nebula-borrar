@@ -17,9 +17,6 @@ export default function SelectState({selectedValue, nroLote}) {
 
   const handleChange = (event) => {
     const name = event.target.value;
-    // console.log('nroLote', nroLote)
-    // console.log("estado ", estado);
-    // console.log("estadoAnteriorRef.current ", estadoAnteriorRef.current);
     setEstado(event.target.value);
     dispatch(putState({name, nroLote}));
   };

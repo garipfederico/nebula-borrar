@@ -2,7 +2,7 @@ import React from 'react'
 import TitleCard from '../../reusable/card/TitleCard'
 import UnderConstruction from '../../reusable/UnderConstruction'
 
-function Documentos() {
+function Documents() {
   return (
     <TitleCard title='Documentos' subtitle='Un subtitulo' width='90%'>
         <UnderConstruction/>
@@ -10,4 +10,4 @@ function Documentos() {
   )
 }
 
-export default Documentos
+export default Documents
