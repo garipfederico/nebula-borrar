@@ -20,7 +20,7 @@ const getUser = () => {
   if (access_token) {
     const [, payload] = access_token.split(".");
     const decoded = window.atob(payload);
-    console.log("decoded ", decoded);
+    // console.log("decoded ", decoded);
     return JSON.parse(decoded);
   }
   return undefined;

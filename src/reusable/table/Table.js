@@ -9,18 +9,16 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
-import RowLote from "./RowLote";
+import Row from "./Row";
 import {useSelector, useDispatch} from "react-redux";
 import {getOptionsState, getDocuments} from "../../states/lotesState";
 import { openAlertDialog } from "../../states/reusable/AlertDialogSlice";
 import { responseStrings, weSorryMessage } from "../../utils/responseStrings";
 
-const columns = [
-  // {id: "accion", label: "Acciones", minWidth: 50},
+const columnsDefinition = [
   {id: "nroLote", label: "N° Lote", minWidth: 100},
   {id: "operador", label: "Operador", minWidth: 100},
   {id: "fecha", label: "Fecha", minWidth: 20},
-  // {id: "cantidadDocs", label: "Cantidad de documentos", minWidth: 20},
   {id: "estado", label: "Estado", minWidth: 50},
 ];
 
@@ -73,7 +71,7 @@ export default function StickyHeadTable() {
         <Table stickyHeader aria-label="sticky table" size="small">
           <TableHead>
             <TableRow>
-              {columns.map((column) => (
+              {columnsDefinition.map((column) => (
                 <TableCell
                   key={column.id}
                   align={column.align}
@@ -89,10 +87,10 @@ export default function StickyHeadTable() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <RowLote
+                  <Row
                     key={row.nroLote}
                     row={row}
-                    columns={columns}
+                    columns={columnsDefinition}
                     _id={row._id}
                   />
                 );

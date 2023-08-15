@@ -1,6 +1,8 @@
 import React from 'react'
 import TitleCard from '../../reusable/card/TitleCard'
+import Table from '../../reusable/table/Table'
 import UnderConstruction from '../../reusable/UnderConstruction'
+
 
 function Documents() {
   return (

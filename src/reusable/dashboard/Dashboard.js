@@ -38,13 +38,13 @@ function Dashboard({cardsDataArray}) {
           const {title, subtitle, description, url, icon, dataCy} = cardData;
           return (
             <Box
+            key={index}
             sx={{
                 marginBottom: 8,
                 marginX:6
                 }
               }>
               <MenuCard
-                key={index}
                 title={title}
                 subtitle={subtitle}
                 description={description}

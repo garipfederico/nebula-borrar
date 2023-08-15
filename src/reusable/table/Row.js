@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {DeleteForever, Edit} from "@mui/icons-material";
 import {IconButton, Skeleton, TableCell, TableRow} from "@mui/material";
-import SelectState from "./SelectState";
+// import SelectState from "./SelectState";
 
 // import {setRequestTypeDelete, setRequestTypePut} from '../../redux/store/misProductosState'
 
@@ -61,7 +61,7 @@ function RowLote(props) {
               </>
             ) : column.id === "estado" ? (
               <>
-                <SelectState selectedValue={props.row.estado || ""} nroLote={props.row.nroLote} />
+                {/* <SelectState selectedValue={props.row.estado || ""} nroLote={props.row.nroLote} /> */}
               </>
             ) : column.format && typeof value === "number" ? (
               column.format(value)

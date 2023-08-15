@@ -76,7 +76,7 @@ function App() {
                     path="/gestionDeUsuarios"
                     element={<GestionDeUsuarios />}
                   />
-                  <Route path="/documentos" element={<Documents />} />
+                  <Route path="/documents" element={<Documents />} />
                   <Route path="/login" element={<MenuCard />} />
                   <Route path="/*" element={<Navigate to="/home" />} />
                 </>
