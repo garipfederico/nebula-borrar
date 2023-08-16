@@ -11,6 +11,8 @@
 # production
 /build
 
+# Cypress downloads from label's test
+/cypress/downloads
 # misc
 .DS_Store
 .env.local

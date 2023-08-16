@@ -93,7 +93,7 @@ describe("Labels page - Caso de uso cambiar estado de documento del lote", () =>
     cy.get('[data-value="escaneado"]').should("be.visible");
   });
 
-  it.only("Comprobando el cambio de estado exitoso", () => {
+  it("Comprobando el cambio de estado exitoso", () => {
     // Click en el combobox para abrir las opciones
     const openDropdown = (nroFila) => {cy.get(
       `:nth-child(${nroFila}) > :nth-child(4) > .MuiBox-root > .MuiFormControl-root > .MuiInputBase-root > #demo-simple-select`

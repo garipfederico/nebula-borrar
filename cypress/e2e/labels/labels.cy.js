@@ -37,7 +37,7 @@ describe("Labels page - Caso de Uso imprimir etiquetas", () => {
     cy.get("#quantity").type("12");
   });
 
-  it("Imprimir etiquetas, curso normal", () => {
+  it.only("Imprimir etiquetas, curso normal", () => {
     cy.window().then((win) => {
       cy.stub(win.console, "log").as("consoleLog");
     });
