@@ -14,10 +14,11 @@ export const documentsSlice = createSlice({
   reducers: {
     getDocuments: (state) => {
       state.isLoading = true;
+      state.documents = [{internal_id:0},{},{},{},{},{},{},{},{},{}];
     },
     getDocumentsSuccess: (state, action) => {
       state.isLoading = false;
-      state.optionsState = action.payload.stateOptions;
+      state.documents = action.payload.documents;
     },
     getOptionsFail: (state, action) => {
       console.log('action.payload', action.payload)
@@ -36,7 +37,7 @@ export const documentsSlice = createSlice({
 export const {
 getDocuments,
 getDocumentsSuccess,
-getOptionsFail,
+getDocumentsFail,
 resetState,
 } = documentsSlice.actions;
 

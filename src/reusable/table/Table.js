@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {
   Paper,
   Table,
@@ -10,27 +10,20 @@ import {
   TableRow,
 } from "@mui/material";
 import Row from "./Row";
-import {useSelector, useDispatch} from "react-redux";
-import {getOptionsState, getDocuments} from "../../states/lotesState";
-import {openAlertDialog} from "../../states/reusable/AlertDialogSlice";
-import {responseStrings, weSorryMessage} from "../../utils/responseStrings";
 
 export default function Tabla({
   columnsDefinition,
-  idsColumnsComponentDefinition,
-  columnsComponents,
   dataTable,
-  idRow,
+  columnKeyName,
+  isLoading
 }) {
-  const dispatch = useDispatch();
-  const {results, isError} = useSelector((state) => state.lotes.documents);
-  const documents = results || [];
-
-  const rows = dataTable.map((unProducto) => {
+  
+const rows = dataTable.map((aRow) => {
     return {
-      ...unProducto,
+      ...aRow,
     };
   });
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -42,10 +35,6 @@ export default function Tabla({
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
-  useEffect(() => {
-    dispatch(getOptionsState());
-  }, []);
 
   return (
     <Paper sx={{width: "100%", overflow: "hidden"}}>
@@ -67,18 +56,15 @@ export default function Tabla({
           <TableBody>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
+              .map((row, index) => {
                 return (
                   <Row
-                    key={row.numero}
+                  key={index}
+                    columnKeyName={columnKeyName}
                     row={row}
                     columnsDefinition={columnsDefinition || []}
-                    idRow={idRow}
-                    idsColumnsComponentDefinition={
-                      idsColumnsComponentDefinition
-                    }
-                    columnsComponents={columnsComponents}
-                  />
+                    isLoading = {isLoading}
+                    />
                 );
               })}
           </TableBody>
