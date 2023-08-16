@@ -7,8 +7,9 @@ function Row({
   columnsDefinition,
   columnKeyName,
   row,
-  isLoading
+  
 }) {
+  const isLoading = useSelector((state) => state.documents.isLoading);
   const navigate = useNavigate();
   const idRow = row[columnKeyName]
 
@@ -27,11 +28,11 @@ function Row({
         const value = row[column.id];
         return (
           <TableCell key={column.id} align={column.align} onClick={()=>handleClick(idRow)} sx={{cursor: "pointer"}}>
-            {isLoading ? 
-              (<Skeleton />)
-            : 
-              (value)
-            }
+            {isLoading ? (
+              <Skeleton />
+            ) : ( 
+            value
+            )}
           </TableCell>
         );
       })}
