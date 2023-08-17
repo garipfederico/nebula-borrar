@@ -37,7 +37,7 @@ function Documents() {
 
   return (
     <TitleCard title="Documentos" subtitle="Un subtitulo" width="80%">
-      <Stack direction="column" spacing={2} width="90%">
+      <Stack direction="column" spacing={2} width="90%" sx={{mb:5}}>
         <SearchBar
           isLoading={isLoading}
           handleSubmit={handleSubmit}
