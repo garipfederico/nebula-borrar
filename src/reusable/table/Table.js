@@ -25,24 +25,20 @@ export default function Tabla({
       ...aRow,
     };
   });
-
+  
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
+  
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
+  
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
-  // const veryfyError = useError();
-  // veryfyError(isError, response);
-
-  useError(isError || null, response || null);
-
+   
+  useError(isError, response);
   return (
     <Paper sx={{width: "100%", overflow: "hidden"}}>
       <TableContainer sx={{overflowX: "auto"}}>
