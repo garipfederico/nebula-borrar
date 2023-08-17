@@ -34,6 +34,7 @@ const columnsDefinition = [
         dataTable={dataTable}
         columnKeyName = {columnKeyName}
         isLoading = {isLoading}
+        stateName = {'documents'}
          />
     </TitleCard>
   );

@@ -7,9 +7,10 @@ function Row({
   columnsDefinition,
   columnKeyName,
   row,
+  stateName
   
 }) {
-  const isLoading = useSelector((state) => state.documents.isLoading);
+  const isLoading = useSelector((state) => state[stateName].isLoading);
   const navigate = useNavigate();
   const idRow = row[columnKeyName]
 

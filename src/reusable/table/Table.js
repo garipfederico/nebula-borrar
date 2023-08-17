@@ -15,7 +15,8 @@ export default function Tabla({
   columnsDefinition,
   dataTable,
   columnKeyName,
-  isLoading
+  isLoading,
+  stateName
 }) {
   
 const rows = dataTable.map((aRow) => {
@@ -63,7 +64,7 @@ const rows = dataTable.map((aRow) => {
                     columnKeyName={columnKeyName}
                     row={row}
                     columnsDefinition={columnsDefinition || []}
-                    isLoading = {isLoading}
+                    stateName = {stateName}
                     />
                 );
               })}

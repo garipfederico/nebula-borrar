@@ -51,6 +51,7 @@ describe("Labels page - Caso de Uso imprimir etiquetas", () => {
       // Verificar que la referencia a la nueva ventana no sea nula
       expect(win).to.not.be.null;
     });
+    
     cy.url().should("include", "/home");
     cy.get(".MuiSnackbar-root > .MuiPaper-root").should(
       "have.text",
