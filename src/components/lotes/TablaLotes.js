@@ -13,7 +13,7 @@ import RowLote from "./RowLote";
 import {useSelector, useDispatch} from "react-redux";
 import {getOptionsState, getDocuments} from "../../states/lotesState";
 import { openAlertDialog } from "../../states/reusable/AlertDialogSlice";
-import { responseStrings, weSorryMessage } from "../../utils/responseStrings";
+import { responseStrings, weSorryMessage } from "../../data/responseStrings";
 
 const columns = [
   // {id: "accion", label: "Acciones", minWidth: 50},

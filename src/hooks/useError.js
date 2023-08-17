@@ -1,7 +1,7 @@
 import React from "react";
 import {useDispatch} from "react-redux";
 import {openAlertDialog} from "../states/reusable/AlertDialogSlice";
-import {weSorryMessage, responseStrings} from "../utils/responseStrings";
+import {weSorryMessage, responseStrings} from "../data/responseStrings";
 
 function useError(isError, response) {
   const dispatch = useDispatch();

@@ -14,7 +14,7 @@ import {postCrearLote, postCrearLoteReset} from "../../states/etiquetasState";
 import {openAlertDialog} from "../../states/reusable/AlertDialogSlice";
 import {openSnackbar} from "../../states/reusable/SnackbarSlice";
 // Data
-import {responseStrings, weSorryMessage} from "../../utils/responseStrings";
+import {responseStrings, weSorryMessage} from "../../data/responseStrings";
 import {mockImagesLabelData} from "../../sagas/mockLabelData";
 
 // function CrearLoteForm() {

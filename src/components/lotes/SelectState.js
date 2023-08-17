@@ -7,7 +7,7 @@ import Select from "@mui/material/Select";
 import {useDispatch, useSelector} from "react-redux";
 import {putState, resetState} from "../../states/lotesState";
 import {openAlertDialog} from "../../states/reusable/AlertDialogSlice";
-import {responseStrings, weSorryMessage} from "../../utils/responseStrings";
+import {responseStrings, weSorryMessage} from "../../data/responseStrings";
 
 export default function SelectState({selectedValue, nroLote}) {
   const dispatch = useDispatch();
