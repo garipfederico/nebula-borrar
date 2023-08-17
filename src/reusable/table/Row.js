@@ -1,16 +1,15 @@
 import React from "react";
 import {useNavigate} from "react-router-dom";
-import {useSelector} from "react-redux";
 import {Skeleton, TableCell, TableRow} from "@mui/material";
 
 function Row({
   columnsDefinition,
   columnKeyName,
   row,
-  stateName
+  isLoading
   
 }) {
-  const isLoading = useSelector((state) => state[stateName].isLoading);
+  // const isLoading = useSelector((state) => state[stateName].isLoading);
   const navigate = useNavigate();
   const idRow = row[columnKeyName]
 

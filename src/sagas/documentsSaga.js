@@ -1,6 +1,5 @@
 import {call, put, takeEvery} from "redux-saga/effects";
 import {
-  getDocuments,
   getDocumentsSuccess,
   getDocumentsFail,
 } from "../states/documentsState";
@@ -19,8 +18,9 @@ function* requestManager(apiCallFunction, anUrl, anObject = null) {
   if (process.env.REACT_APP_ENVIRONMENT_TYPE === "mocked") {
     console.log("Executing in mocked mode");
     var mock = new MockAdapter(axiosBase);
-    mock.onGet(URL_documents).reply(200, {...OptionsState})
-    .onGet(URL_documents).reply(200, {...documents})
+    mock
+    // .onGet(URL_documents).reply(200, {...documents})
+    .onGet(URL_documents).reply(404, {message: 'Unauthorized'})
     .onPut(anUrl).reply(200)
     request = yield call(apiCallFunction, anUrl, anObject)
     mock.restore()

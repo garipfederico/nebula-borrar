@@ -20,12 +20,13 @@ const columnsDefinition = [
 
   function Documents() {
     const dispatch = useDispatch()
-    const {isLoading} = useSelector((state) => state.documents.isLoading)
+    const {isError, isLoading, response} = useSelector((state) => state.documents)
     const dataTable = useSelector((state) => state.documents.documents) || []
-
     useEffect(()=>{
       dispatch(getDocuments({}))
     },[])
+
+    
 
   return (
     <TitleCard title="Documentos" subtitle="Un subtitulo" width="80%">
@@ -34,7 +35,8 @@ const columnsDefinition = [
         dataTable={dataTable}
         columnKeyName = {columnKeyName}
         isLoading = {isLoading}
-        stateName = {'documents'}
+        isError = {isError}
+        response = {response}
          />
     </TitleCard>
   );

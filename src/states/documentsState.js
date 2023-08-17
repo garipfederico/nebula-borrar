@@ -14,17 +14,18 @@ export const documentsSlice = createSlice({
   reducers: {
     getDocuments: (state) => {
       state.isLoading = true;
-      state.documents = [{internal_id:0},{},{},{},{},{},{},{},{},{}];
+      state.documents = [{},{},{},{},{},{},{},{},{},{}];
     },
     getDocumentsSuccess: (state, action) => {
       state.isLoading = false;
       state.documents = action.payload.documents;
     },
-    getOptionsFail: (state, action) => {
+    getDocumentsFail: (state, action) => {
       console.log('action.payload', action.payload)
       state.isLoading = false;
       state.isError = true;
       state.response = action.payload.e.response
+      state.documents = [];
     },
     resetState: (state) => {
       state.isLoading = false;

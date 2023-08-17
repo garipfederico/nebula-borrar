@@ -1,4 +1,5 @@
 import {useState} from "react";
+import useError from "../../hooks/useError";
 import {
   Paper,
   Table,
@@ -16,10 +17,10 @@ export default function Tabla({
   dataTable,
   columnKeyName,
   isLoading,
-  stateName
+  isError,
+  response,
 }) {
-  
-const rows = dataTable.map((aRow) => {
+  const rows = dataTable.map((aRow) => {
     return {
       ...aRow,
     };
@@ -36,6 +37,11 @@ const rows = dataTable.map((aRow) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  // const veryfyError = useError();
+  // veryfyError(isError, response);
+
+  useError(isError || null, response || null);
 
   return (
     <Paper sx={{width: "100%", overflow: "hidden"}}>
@@ -60,12 +66,12 @@ const rows = dataTable.map((aRow) => {
               .map((row, index) => {
                 return (
                   <Row
-                  key={index}
+                    key={index}
                     columnKeyName={columnKeyName}
                     row={row}
                     columnsDefinition={columnsDefinition || []}
-                    stateName = {stateName}
-                    />
+                    isLoading={isLoading}
+                  />
                 );
               })}
           </TableBody>
