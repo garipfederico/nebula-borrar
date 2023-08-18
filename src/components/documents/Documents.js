@@ -23,13 +23,9 @@ const columnKeyName = "internal_id";
 
 function Documents() {
   const dispatch = useDispatch();
-  const {isError, isLoading, response} = useSelector(
+  const {isError, isLoading, response, documents, count} = useSelector(
     (state) => state.documents
   );
-  // const {documents: dataTable, count } = useSelector((state) => state.documents) || [];
-  const {documents, count } = useSelector((state) => state.documents) || [];
-  // const {documents, count } = useSelector((state) => state.documents) || [];
-  
   
   const [page, setPage] = useState(()=>0);
   const [rowsPerPage, setRowsPerPage] = useState(()=>10);

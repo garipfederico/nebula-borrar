@@ -1,4 +1,3 @@
-import {useEffect, useState} from "react";
 import useError from "../../hooks/useError";
 import {
   Paper,
@@ -11,7 +10,6 @@ import {
   TableRow,
 } from "@mui/material";
 import Row from "./Row";
-import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
 
 export default function Tabla({
   columnsDefinition,
@@ -26,20 +24,6 @@ export default function Tabla({
   handleChangePage,
   handleChangeRowsPerPage
 }) {
-
-  const [rows, setRows] = useState([])
-  
-
-  useEffect(()=>{
-
-    setRows( dataTable.map((aRow) => {
-      return {
-        ...aRow,
-      };
-    })
-    )
-    
-  },[])
 
   useError(isError, response);
   return (
@@ -60,9 +44,8 @@ export default function Tabla({
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, index) => {
+              {dataTable
+              .map((row, index) => { 
                 return (
                   <Row
                     key={index}
