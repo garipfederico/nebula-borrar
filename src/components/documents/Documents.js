@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import TitleCard from "../../reusable/card/TitleCard";
 import Table from "../../reusable/table/Table";
 import SearchBar from "../../reusable/searchBar/SearchBar";
@@ -26,10 +26,31 @@ function Documents() {
   const {isError, isLoading, response} = useSelector(
     (state) => state.documents
   );
-  const dataTable = useSelector((state) => state.documents.documents) || [];
+  // const {documents: dataTable, count } = useSelector((state) => state.documents) || [];
+  const {documents, count } = useSelector((state) => state.documents) || [];
+  // const {documents, count } = useSelector((state) => state.documents) || [];
+  
+  
+  const [page, setPage] = useState(()=>0);
+  const [rowsPerPage, setRowsPerPage] = useState(()=>10);
+  
   useEffect(() => {
-    dispatch(getDocuments({}));
+    dispatch(getDocuments({page, rowsPerPage}));
   }, []);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
+useEffect(()=>{
+  dispatch(getDocuments({page, rowsPerPage}))
+},[page, rowsPerPage])
+
 
   const handleSubmit = () => {
     console.log("Hola mundo");
@@ -48,11 +69,16 @@ function Documents() {
         />
         <Table
           columnsDefinition={columnsDefinition}
-          dataTable={dataTable}
+          dataTable={documents}
           columnKeyName={columnKeyName}
           isLoading={isLoading}
           isError={isError}
           response={response}
+          count={count}
+          page = {page}
+          rowsPerPage = {rowsPerPage}
+          handleChangePage = {handleChangePage}
+          handleChangeRowsPerPage = {handleChangeRowsPerPage}
         />
       </Stack>
     </TitleCard>

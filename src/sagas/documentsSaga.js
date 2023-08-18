@@ -33,11 +33,21 @@ function* requestManager(apiCallFunction, anUrl, anObject = null) {
   return request
 }
 
-function* workGetDocuments() {
+function* workGetDocuments(action) {
   // Call to get the documents for the table
+  const {page, rowsPerPage} = action.payload
+  const offset = (page) * rowsPerPage
+  console.log("page ",page )
+  console.log("rowsPerPage ",rowsPerPage )
+  let URL = URL_documents
+  // if(page && rowsPerPage){
+    URL += '?limit=' + rowsPerPage + '&offset=' + (offset)
+  // }
+  console.log(URL_documents)
   try {
-    const documentsRequest = yield requestManager(axiosBase.get, URL_documents)
-    yield put(getDocumentsSuccess({documents: documentsRequest.data.results}));
+    const documentsRequest = yield requestManager(axiosBase.get, URL)
+    const {results, count, next, previous} = documentsRequest.data
+    yield put(getDocumentsSuccess({documents: results, count, next, previous  }));
   } catch (e) {
     console.log("Error trying to get from API the documents");
     console.log(e);
@@ -45,7 +55,9 @@ function* workGetDocuments() {
   }
   return;
 }
-
+// "http://localhost:8003/api/document/?limit=10&offset=10"
+// http://localhost:8003/api/document/?limit=10&offset=10
+// 
 function* documentsSaga() {
     yield takeEvery("documents/getDocuments", workGetDocuments);
 }

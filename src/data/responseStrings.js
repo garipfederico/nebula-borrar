@@ -6,7 +6,9 @@ export const responseStrings = (status) => {
     : status === 404
     ? "Recurso no encontrado"
     : status === 500
-    ? "Error en el servidor"
+    ? "Error interno en el servidor"
+    : status === 0
+    ? "Problemas de conectividad, verifique su conección a internet"
     : "Estado de respuesta no reconocido";
 };
 

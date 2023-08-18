@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import useError from "../../hooks/useError";
 import {
   Paper,
@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@mui/material";
 import Row from "./Row";
+import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
 
 export default function Tabla({
   columnsDefinition,
@@ -19,25 +20,27 @@ export default function Tabla({
   isLoading,
   isError,
   response,
+  count,
+  page,
+  rowsPerPage,
+  handleChangePage,
+  handleChangeRowsPerPage
 }) {
-  const rows = dataTable.map((aRow) => {
-    return {
-      ...aRow,
-    };
-  });
+
+  const [rows, setRows] = useState([])
   
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-  
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-   
+
+  useEffect(()=>{
+
+    setRows( dataTable.map((aRow) => {
+      return {
+        ...aRow,
+      };
+    })
+    )
+    
+  },[])
+
   useError(isError, response);
   return (
     <Paper sx={{width: "100%", overflow: "hidden"}}>
@@ -74,13 +77,17 @@ export default function Tabla({
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
+      labelRowsPerPage="Documentos por pagina"
+        rowsPerPageOptions={[5, 10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={count} // ESTE TIENE QUE VENIR DEL BACK
         rowsPerPage={rowsPerPage}
-        page={page}
+        page={page} // este valor miltiplicado por las rowPerPage + 1 dan el numero inicial o sea ->1-10 of 10. ES AUTOMATICO
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
+        // Page = Pagina
+        // Limit = rowsPerPage
+        // Offset = Page * Limit  
       />
     </Paper>
   );

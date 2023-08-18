@@ -6,6 +6,9 @@ const initialState = {
   isError: false,
   response: {},
   documents: [],
+  count: null,
+  next: null,
+  previous: null
 };
 
 export const documentsSlice = createSlice({
@@ -13,12 +16,17 @@ export const documentsSlice = createSlice({
   initialState: initialState,
   reducers: {
     getDocuments: (state) => {
+
       state.isLoading = true;
       state.documents = [{},{},{},{},{},{},{},{},{},{}];
     },
     getDocumentsSuccess: (state, action) => {
       state.isLoading = false;
       state.documents = action.payload.documents;
+      state.count = action.payload.count;
+      state.next = action.payload.next;
+      state.previous = action.payload.previous;
+
     },
     getDocumentsFail: (state, action) => {
       console.log('action.payload', action.payload)
