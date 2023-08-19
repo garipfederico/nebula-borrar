@@ -10,6 +10,8 @@ import {
   TableRow,
 } from "@mui/material";
 import Row from "./Row";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 export default function Tabla({
   columnsDefinition,
@@ -19,13 +21,38 @@ export default function Tabla({
   isError,
   response,
   count,
-  page,
-  rowsPerPage,
-  handleChangePage,
-  handleChangeRowsPerPage
+  reduxStateGetter
+  // page,
+  // rowsPerPage,
+  // handleChangePage,
+  // handleChangeRowsPerPage
 }) {
-
+  const dispatch = useDispatch();
   useError(isError, response);
+
+
+  const [page, setPage] = useState(()=>0);
+  const [rowsPerPage, setRowsPerPage] = useState(()=>10);
+  
+  useEffect(() => {
+    dispatch(reduxStateGetter({page, rowsPerPage}));
+  }, []);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
+useEffect(()=>{
+  dispatch(reduxStateGetter({page, rowsPerPage}))
+},[page, rowsPerPage])
+
+
+
   return (
     <Paper sx={{width: "100%", overflow: "hidden"}}>
       <TableContainer sx={{overflowX: "auto"}}>

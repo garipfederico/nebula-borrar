@@ -7,46 +7,25 @@ import {getDocuments} from "../../states/documentsState";
 import {Stack} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
-// The id of the columnsDefinition has to be the same as
-// the ids of the key of the objects that come from the back
+// The values of id of the columnsDefinition are the attributes 
+// of the JSON that come from the back.
 const columnsDefinition = [
   {id: "fecha", label: "Fecha", minWidth: 100},
   {id: "internal_id", label: "Numero", minWidth: 100},
   {id: "document_description", label: "Nombre de documento", minWidth: 20},
 ];
 
-// columnKeyName: Especifica cual columna de la columnsDefinition sera la key
-// Queda como mejora, que esto sea una propiedad en una de las
-// columnsDefinition para luego implementar metodo adentro de table
-
+// columnKeyName: Specifies which column of the columnsDefinition will be the key.
+// to avoid warnings in the rendering of react tables.
+// It remains as an improvement, that this will be a property in one of the
+// columnsDefinition lines (and not a const outside) to then implement method inside table that in the iteration
+//  verifies if it is a row with the specification columnsKeyName then will be added as index of a row.
 const columnKeyName = "internal_id";
 
 function Documents() {
-  const dispatch = useDispatch();
   const {isError, isLoading, response, documents, count} = useSelector(
     (state) => state.documents
   );
-  
-  const [page, setPage] = useState(()=>0);
-  const [rowsPerPage, setRowsPerPage] = useState(()=>10);
-  
-  useEffect(() => {
-    dispatch(getDocuments({page, rowsPerPage}));
-  }, []);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
-useEffect(()=>{
-  dispatch(getDocuments({page, rowsPerPage}))
-},[page, rowsPerPage])
-
 
   const handleSubmit = () => {
     console.log("Hola mundo");
@@ -71,10 +50,7 @@ useEffect(()=>{
           isError={isError}
           response={response}
           count={count}
-          page = {page}
-          rowsPerPage = {rowsPerPage}
-          handleChangePage = {handleChangePage}
-          handleChangeRowsPerPage = {handleChangeRowsPerPage}
+          reduxStateGetter={getDocuments}
         />
       </Stack>
     </TitleCard>
