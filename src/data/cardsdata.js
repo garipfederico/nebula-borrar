@@ -17,7 +17,8 @@ export const dataHomeCard =
         subtitle:'Visualización de Lotes',
         description:'Visualización y modificación de estado, de documentos correspondientes al lote de una fecha.',
         url:'/documents',
-        icon:<Topic {...dataHomeIconStyle}/>
+        icon:<Topic {...dataHomeIconStyle}/>,
+        dataCy:'documents'
     },
     {
         title:'Gestion de Usuarios', 
