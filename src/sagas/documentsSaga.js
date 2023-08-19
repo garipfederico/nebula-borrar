@@ -20,7 +20,7 @@ function* requestManager(apiCallFunction, anUrl, anObject = null) {
     var mock = new MockAdapter(axiosBase);
     mock
     // .onGet(URL_documents).reply(200, {...documents})
-    .onGet(URL_documents).reply(404, {message: 'Unauthorized'})
+    .onGet(anUrl).reply(401, {message: 'Unauthorized'})
     .onPut(anUrl).reply(200)
     request = yield call(apiCallFunction, anUrl, anObject)
     mock.restore()

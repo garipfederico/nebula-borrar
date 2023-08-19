@@ -1,4 +1,4 @@
-import { useState, useEffect} from "react";
+import {useState, useEffect} from "react";
 import {styled, useTheme} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -38,10 +38,10 @@ import AvatarProfilePic from "../AvatarProfilePic";
 import DrawerItem from "./DrawerItem";
 import {Stack} from "@mui/material";
 // import UserInfo from "./UserInfo";
-import { useDispatch, useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
-import { loggingOut } from "../../states/authState";
-import { useNavigate } from "react-router-dom";
+import {loggingOut} from "../../states/authState";
+import {useNavigate} from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -122,9 +122,9 @@ const DrawerHeader = styled("div")(({theme}) => ({
 }));
 
 export default function PersistentDrawerLeft() {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const {isLoggedIn} = useSelector(state=>state.auth)
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const {isLoggedIn} = useSelector((state) => state.auth);
   const theme = useTheme();
   const [open, setOpen] = useState(false);
 
@@ -136,9 +136,9 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
- useEffect(()=>{
-navigate(isLoggedIn?'./home':'./landing')
- },[isLoggedIn])
+  useEffect(() => {
+    navigate(isLoggedIn ? "./home" : "./landing");
+  }, [isLoggedIn]);
 
   return (
     <Box sx={{display: "flex"}}>
@@ -173,8 +173,7 @@ navigate(isLoggedIn?'./home':'./landing')
         open={open}
       >
         <DrawerHeader>
-          <Stack width="100%" direction="column" alignItems="start" sx={{m:2}}>
-          
+          <Stack width="100%" direction="column" alignItems="start" sx={{m: 2}}>
             {/* <UserInfo/> */}
             <Typography variant="b2">UserNameHardcoded</Typography>
             <Typography variant="caption">Email hardcoded</Typography>
@@ -210,48 +209,50 @@ navigate(isLoggedIn?'./home':'./landing')
         <Divider />
 
         <List>
-        <Stack direction='column' justifyContent={'center'} width='100%'>
-            <ListItem key={'Soporte'} disablePadding>
+          <Stack direction="column" justifyContent={"center"} width="100%">
+            <ListItem key={"Soporte"} disablePadding>
               <ListItemButton>
                 <ListItemIcon>
-                 <SupportAgent/>
+                  <SupportAgent />
                 </ListItemIcon>
-                <ListItemText primary={'Soporte'} />
+                <ListItemText primary={"Soporte"} />
               </ListItemButton>
             </ListItem>
-            <ListItem key={'Cerrar sesión'} disablePadding>
-              <ListItemButton onClick={()=>{
-                dispatch(loggingOut())
-                handleDrawerClose()
-                }}>
+            <ListItem key={"Cerrar sesión"} disablePadding>
+              <ListItemButton
+                onClick={() => {
+                  dispatch(loggingOut());
+                  handleDrawerClose();
+                }}
+              >
                 <ListItemIcon>
-                 <Logout/>
+                  <Logout />
                 </ListItemIcon>
-                <ListItemText primary={'Cerrar sesión'} />
+                <ListItemText primary={"Cerrar sesión"} />
               </ListItemButton>
             </ListItem>
-        </Stack>
+          </Stack>
         </List>
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
       </Main>
       {open && (
-                <Box
-                    id="closebox"
-                    sx={{
-                        backgroundColor: "#000000",
-                        opacity: "0.5",
-                        width: "100vw",
-                        height: "100vh",
-                        zIndex: "255",
-                        position: "absolute",
-                        left: "0vw",
-                    }}
-                    onClick={handleDrawerClose}
-                    // onWheel={handleWheel}
-                ></Box>
-            )}
+        <Box
+          id="closebox"
+          sx={{
+            backgroundColor: "#000000",
+            opacity: "0.5",
+            width: "100vw",
+            height: "100vh",
+            zIndex: "255",
+            position: "absolute",
+            left: "0vw",
+          }}
+          onClick={handleDrawerClose}
+          // onWheel={handleWheel}
+        ></Box>
+      )}
     </Box>
   );
 }
