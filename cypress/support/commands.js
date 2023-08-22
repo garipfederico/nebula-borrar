@@ -35,13 +35,64 @@ Cypress.Commands.add("verifyClickAndNavigate", (data_cy) => {
   cy.url().should("include", "http://localhost:3000/" + data_cy);
 });
 
-Cypress.Commands.add("tableVerifyColumnsNames", (arrayNames) => {
+Cypress.Commands.add("table_verifyColumnsNames", (arrayNames) => {
   arrayNames.map((aName, index) =>
     cy
-      .get(`.MuiTableHead-root > .MuiTableRow-root > :nth-child(${index+1})`)
+      .get(`.MuiTableHead-root > .MuiTableRow-root > :nth-child(${index + 1})`)
       .should("have.text", aName)
   );
 });
+
+Cypress.Commands.add("table_verifyCellsDataType", () => {});
+Cypress.Commands.add("table_isCellNumber", (row, column) => {
+  cy.get(
+    `.MuiTableBody-root > :nth-child(${row}) > :nth-child(${column})`
+  ).should(($element) => {
+    const text = $element.text();
+    const isNumber = !isNaN(parseFloat(text)) && isFinite(text);
+
+    expect(isNumber).to.equal(true, "El texto debe ser un número");
+  });
+});
+
+Cypress.Commands.add("table_isCellDate", (row, column) => {
+  cy.get(
+    `MuiTableBody-root > :nth-child(${row}) > :nth-child(${column})`
+  ).should(($element) => {
+    const text = $element.text();
+
+    // Expresión regular para validar el formato de fecha (dd/mm/yyyy)
+    const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
+
+    const isDate = dateRegex.test(text);
+
+    expect(isDate).to.equal(
+      true,
+      "El texto debe tener el formato de fecha dd/mm/yyyy"
+    );
+  });
+});
+
+Cypress.Commands.add("table_dropdown_verifyValues", (textValuesArray) => {
+  cy.get("#\\:r4\\:").click();
+  for (let x of textValuesArray) {
+    cy.get(`[data-value=${x}]`).should("be.visible");
+  }
+  cy.get(`[data-value=${textValuesArray[0]}]`).click();
+  
+});
+
+Cypress.Commands.add("table_dropdown_selectAnOption", (stringOption) => {
+  cy.get("#\\:r4\\:").click();
+  cy.get(`[data-value=${stringOption}]`).click();
+});
+
+Cypress.Commands.add("table_verifyNumberOfRows", (rowFileNumber) => {
+  cy.get(
+    `.MuiTableBody-root > :nth-child(${rowFileNumber}) > :nth-child(1)`
+  ).should("exist");
+});
+
 //
 // -- This is a child command --
 // Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })

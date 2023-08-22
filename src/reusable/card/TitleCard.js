@@ -1,15 +1,9 @@
-import {Box, Paper, Stack, Typography} from "@mui/material";
+import {Paper, Stack, Typography} from "@mui/material";
 import React from "react";
-import HomeIcon from "@mui/icons-material/Home";
-import {useNavigate} from "react-router-dom";
 
 
 function TitleCard({title, subtitle, width, children}) {
-  const navigate = useNavigate();
-  const handleClick = (url) => {
-    navigate(url);
-  };
-
+ 
   return (
       <Paper
         elevation={12}
@@ -20,7 +14,7 @@ function TitleCard({title, subtitle, width, children}) {
           zIndex:'3'
         }}
       >
-        <Stack directrion="column" justifyContent={"space-between"}>
+        <Stack direction="column" justifyContent={"space-between"}>
           <Stack
             direction="row"
             justifyContent={"space-between"}

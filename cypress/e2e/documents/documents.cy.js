@@ -7,133 +7,58 @@ describe("Documents page - Caso de uso cambiar comprobar existencia de documento
     const password = "123";
     cy.login(username, password);
     cy.verifyClickAndNavigate("documents");
+  });
+  it("Verificar contenido de la tabla. Titulos y tipo de datos en todas las celdas ", () => {
+    let rowsPerPage;
 
+    cy.table_verifyColumnsNames(["Fecha", "Numero", "Nombre de documento"]);
+
+    cy.get("#\\:r4\\:")
+      .invoke("text")
+      .then((value) => {
+        cy.log("value ", value);
+        rowsPerPage = value;
+        cy.log("rowsPerPage", rowsPerPage);
+        for (let row = 1; row <= rowsPerPage; row++) {
+          cy.log(row);
+          cy.table_isCellNumber(row, 2);
+          // cy.table_isCellDate(row, 1) // Agregar cuando este listo el back
+        }
+      });
   });
 
-  it.only("Verificar contenido de la pagina ", () => {
-    cy.tableVerifyColumnsNames(["Fecha", 'Numero', 'Nombre de documento'])
-    //   cy.url().should("include", "http://localhost:3000/digitalization/lotes");
-    // });
-    // it("Comprobacion de nombres de columnas", () => {
-    //   cy.get(".MuiTableHead-root > .MuiTableRow-root > :nth-child(1)").should(
-    //     "have.text",
-    //     "N° Lote"
-    //   );
-    //   cy.get(".MuiTableHead-root > .MuiTableRow-root > :nth-child(2)").should(
-    //     "have.text",
-    //     "Operador"
-    //   );
-    //   cy.get(".MuiTableHead-root > .MuiTableRow-root > :nth-child(3)").should(
-    //     "have.text",
-    //     "Fecha"
-    //   );
-    //   cy.get(".MuiTableHead-root > .MuiTableRow-root > :nth-child(4)").should(
-    //     "have.text",
-    //     "Estado"
-    //   );
+  it("Comprobar la paginacion ", () => {
+    cy.get(".MuiTablePagination-displayedRows")
+      .invoke("text")
+      .then((text) => {
+        const matches = text.match(/(\d+)\s*–\s*(\d+)\s*of\s*(\d+)/);
+
+        if (matches) {
+          const firstRow = parseInt(matches[1]);
+          const lastRow = parseInt(matches[2]);
+          const totalRows = parseInt(matches[3]);
+
+          const documentPerPage = totalRows - firstRow + 1;
+          const numberOfClicks = Math.floor(totalRows / documentPerPage);
+
+          for (let x = 1; x <= numberOfClicks; x++) {
+            cy.wait(1500);
+            cy.get('[aria-label="Go to next page"]').click();
+          }
+          for (let x = 1; x <= numberOfClicks; x++) {
+            cy.wait(1500);
+            cy.get('[aria-label="Go to previous page"]').click();
+          }
+        }
+      });
   });
-
-  it("Comprobacion de existencia de filas con datos", () => {
-    cy.get(".MuiTableBody-root > :nth-child(1) > :nth-child(1)").should(
-      ($element) => {
-        const text = $element.text();
-        const isNumber = !isNaN(parseFloat(text)) && isFinite(text);
-
-        expect(isNumber).to.equal(true, "El texto debe ser un número");
-      }
-    );
-
-    cy.get(".MuiTableBody-root > :nth-child(1) > :nth-child(2)").should(
-      ($element) => {
-        const text = $element.text();
-        const isNumber = !isNaN(parseFloat(text)) && isFinite(text);
-
-        expect(isNumber).to.equal(true, "El texto debe ser un número");
-      }
-    );
-
-    cy.get(".MuiTableBody-root > :nth-child(1) > :nth-child(3)").should(
-      ($element) => {
-        const text = $element.text();
-
-        // Expresión regular para validar el formato de fecha (dd/mm/yyyy)
-        const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
-
-        const isDate = dateRegex.test(text);
-
-        expect(isDate).to.equal(
-          true,
-          "El texto debe tener el formato de fecha dd/mm/yyyy"
-        );
-      }
-    );
-
-    cy.get(
-      ":nth-child(1) > :nth-child(4) > .MuiBox-root > .MuiFormControl-root > .MuiInputBase-root > #demo-simple-select"
-    )
-      .should(($select) => {
-        const possibleTexts = ["en progreso", "inicializado", "escaneado"];
-        const actualText = $select.text();
-        expect(possibleTexts.some((text) => actualText.includes(text))).to.be
-          .true;
-      })
-      .click();
-  });
-
-  it("Comprobando la existencia de los estados en el combobox", () => {
-    cy.get(
-      ":nth-child(1) > :nth-child(4) > .MuiBox-root > .MuiFormControl-root > .MuiInputBase-root > #demo-simple-select"
-    ).click();
-    cy.get('[data-value="en progreso"]').should("be.visible");
-    cy.get('[data-value="inicializado"]').should("be.visible");
-    cy.get('[data-value="escaneado"]').should("be.visible");
-  });
-
-  it("Comprobando el cambio de estado exitoso", () => {
-    // Click en el combobox para abrir las opciones
-    const openDropdown = (nroFila) => {
-      cy.get(
-        `:nth-child(${nroFila}) > :nth-child(4) > .MuiBox-root > .MuiFormControl-root > .MuiInputBase-root > #demo-simple-select`
-      ).click();
-    };
-    const verifyAndClick = (stringOption) => {
-      cy.get(`[data-value="${stringOption}"]`).should("be.visible").click();
-    };
-    const delay = 200;
-    openDropdown(1);
-    verifyAndClick("inicializado");
-    cy.wait(delay);
-
-    openDropdown(1);
-    verifyAndClick("en progreso");
-    cy.wait(delay);
-
-    openDropdown(1);
-    verifyAndClick("escaneado");
-    cy.wait(delay);
-
-    openDropdown(2);
-    verifyAndClick("inicializado");
-    cy.wait(delay);
-    openDropdown(2);
-    verifyAndClick("en progreso");
-    cy.wait(delay);
-    openDropdown(2);
-    verifyAndClick("escaneado");
-    cy.wait(delay);
-
-    // Click en el menu
-    cy.get(".MuiToolbar-root > .MuiButtonBase-root").click();
-    // Click en home
-    cy.get(
-      ":nth-child(3) > :nth-child(1) > .MuiButtonBase-root > .MuiListItemText-root > .MuiTypography-root"
-    ).click();
-    // Click en digitalizacion
-    cy.get('[data-cy="digitalization"] > .css-1shxafo-MuiStack-root').click();
-    // Click en lotes
-    cy.get('[data-cy="lotes"] > .css-1shxafo-MuiStack-root').click();
-    cy.get(
-      ":nth-child(1) > :nth-child(4) > .MuiBox-root > .MuiFormControl-root > .MuiInputBase-root > #demo-simple-select"
-    ).should("have.text", "escaneado");
+  it("Comprobar funcionalidad de cantidad de documentos por paginas", () => {
+    cy.table_dropdown_verifyValues(["5", "10", "25", "100"]);
+    cy.table_dropdown_selectAnOption("5");
+    cy.table_verifyNumberOfRows(5)
+    cy.table_dropdown_selectAnOption("10");
+    cy.table_verifyNumberOfRows(10)
+    cy.table_dropdown_selectAnOption("25");
+    cy.table_verifyNumberOfRows(12) // Actualmente solo hay cargados 12 documentos
   });
 });
