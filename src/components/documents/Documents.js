@@ -10,7 +10,7 @@ import SearchIcon from "@mui/icons-material/Search";
 // The values of id of the columnsDefinition are the attributes 
 // of the JSON that come from the back.
 const columnsDefinition = [
-  {id: "fecha", label: "Fecha", minWidth: 100},
+  {id: "created_at", label: "Fecha", minWidth: 100},
   {id: "internal_id", label: "Numero", minWidth: 100},
   {id: "document_description", label: "Nombre de documento", minWidth: 20},
 ];
@@ -44,12 +44,12 @@ function Documents() {
         />
         <Table
           columnsDefinition={columnsDefinition}
-          dataTable={documents}
           columnKeyName={columnKeyName}
+          dataTable={documents}
           isLoading={isLoading}
           isError={isError}
-          response={response}
           count={count}
+          response={response}
           reduxStateGetter={getDocuments}
         />
       </Stack>
