@@ -10,8 +10,9 @@ import {
   TableRow,
 } from "@mui/material";
 import Row from "./Row";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import {useEffect, useState} from "react";
+import {useDispatch} from "react-redux";
+import PropTypes from "prop-types";
 
 export default function Tabla({
   columnsDefinition,
@@ -21,7 +22,7 @@ export default function Tabla({
   isError,
   response,
   count,
-  reduxStateGetter
+  reduxStateGetter,
   // page,
   // rowsPerPage,
   // handleChangePage,
@@ -30,10 +31,9 @@ export default function Tabla({
   const dispatch = useDispatch();
   useError(isError, response);
 
+  const [page, setPage] = useState(() => 0);
+  const [rowsPerPage, setRowsPerPage] = useState(() => 10);
 
-  const [page, setPage] = useState(()=>0);
-  const [rowsPerPage, setRowsPerPage] = useState(()=>10);
-  
   useEffect(() => {
     dispatch(reduxStateGetter({page, rowsPerPage}));
   }, []);
@@ -47,11 +47,9 @@ export default function Tabla({
     setPage(0);
   };
 
-useEffect(()=>{
-  dispatch(reduxStateGetter({page, rowsPerPage}))
-},[page, rowsPerPage])
-
-
+  useEffect(() => {
+    dispatch(reduxStateGetter({page, rowsPerPage}));
+  }, [page, rowsPerPage]);
 
   return (
     <Paper sx={{width: "100%", overflow: "hidden"}}>
@@ -71,23 +69,22 @@ useEffect(()=>{
             </TableRow>
           </TableHead>
           <TableBody>
-              {dataTable
-              .map((row, index) => { 
-                return (
-                  <Row
-                    key={index}
-                    columnKeyName={columnKeyName}
-                    row={row}
-                    columnsDefinition={columnsDefinition || []}
-                    isLoading={isLoading}
-                  />
-                );
-              })}
+            {dataTable.map((row, index) => {
+              return (
+                <Row
+                  key={index}
+                  columnKeyName={columnKeyName}
+                  row={row}
+                  columnsDefinition={columnsDefinition || []}
+                  isLoading={isLoading}
+                />
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
-      labelRowsPerPage="Documentos por pagina"
+        labelRowsPerPage="Documentos por pagina"
         rowsPerPageOptions={[5, 10, 25, 100]}
         component="div"
         count={count} // ESTE TIENE QUE VENIR DEL BACK
@@ -97,8 +94,27 @@ useEffect(()=>{
         onRowsPerPageChange={handleChangeRowsPerPage}
         // Page = Pagina
         // Limit = rowsPerPage
-        // Offset = Page * Limit  
+        // Offset = Page * Limit
       />
     </Paper>
   );
 }
+
+Table.propTypes = {
+  columnsDefinition: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      minWidth: PropTypes.number.isRequired,
+    })
+  ).isRequired,
+  columnKeyName: PropTypes.string.isRequired,
+  dataTable: PropTypes.arrayOf(PropTypes.shape({})),
+  isLoading: PropTypes.bool.isRequired,
+  isError: PropTypes.bool.isRequired,
+  count: PropTypes.number.isRequired,
+  response: PropTypes.shape({
+    status: PropTypes.number.isRequired,
+  }).isRequired,
+  reduxStateGetter: PropTypes.func.isRequired,
+};
