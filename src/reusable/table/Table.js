@@ -57,15 +57,17 @@ export default function Tabla({
         <Table stickyHeader aria-label="sticky table" size="small">
           <TableHead>
             <TableRow>
-              {columnsDefinition.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{minWidth: column.minWidth}}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
+              {columnsDefinition.map((column) =>
+                column.hiddenValue ? null : (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{minWidth: column.minWidth}}
+                  >
+                    {column.label}
+                  </TableCell>
+                )
+              )}
             </TableRow>
           </TableHead>
           <TableBody>

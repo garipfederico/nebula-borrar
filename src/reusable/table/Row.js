@@ -15,7 +15,7 @@ function Row({
   const handleClick = (idRow) => {
     console.log(idRow)
     // navigate("./" + idRow, {state: {editing: true}});
-    navigate("./" + idRow);
+    navigate("./" + row[columnKeyName]);
   };
   
 
@@ -26,6 +26,7 @@ function Row({
       {columnsDefinition.map((column) => {
         const value = row[column.id];
         return (
+          column.hiddenValue? null:
           <TableCell key={column.id} align={column.align} onClick={()=>handleClick(idRow)} sx={{cursor: "pointer"}}>
             {isLoading ? (
               <Skeleton />
