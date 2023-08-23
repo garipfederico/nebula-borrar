@@ -1,14 +1,21 @@
 import React, {useEffect, useState} from "react";
-import TitleCard from "../../reusable/card/TitleCard";
-import Table from "../../reusable/table/Table";
-import SearchBar from "../../reusable/searchBar/SearchBar";
-import {useDispatch, useSelector} from "react-redux";
-import {getDocuments, getOneDocument} from "../../states/documentsState";
+import {useParams} from "react-router-dom";
 import {Stack} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import {useParams} from "react-router-dom";
+
+// Reusables
+import SearchBar from "../../reusable/searchBar/SearchBar";
+import Table from "../../reusable/table/Table";
+import TitleCard from "../../reusable/card/TitleCard";
+
+// Components
 import DocumentForm from "./DocumentForm";
 
+// Redux
+import {useDispatch, useSelector} from "react-redux";
+import {getDocuments, getOneDocument} from "../../states/documentsState";
+
+// Data
 // The values of id of the columnsDefinition are the attributes
 // of the JSON that come from the back.
 const columnsDefinition = [
@@ -68,7 +75,11 @@ function Documents() {
           response={response}
           reduxStateGetter={getDocuments}
         />
-        {showForm ? <DocumentForm /> : null}
+        {showForm ? 
+        <DocumentForm 
+
+        /> 
+        : null}
       </Stack>
     </TitleCard>
   );

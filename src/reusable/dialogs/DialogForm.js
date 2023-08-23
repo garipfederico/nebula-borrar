@@ -7,12 +7,13 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import {useNavigate} from "react-router-dom";
+import { Paper, Stack, Typography } from "@mui/material";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function AlertDialogSlide({navigateOnClose}) {
+export default function DialogForm({children, navigateOnClose, title, subtitle}) {
   const [open, setOpen] = React.useState(true);
   const navigate = useNavigate();
 
@@ -25,24 +26,54 @@ export default function AlertDialogSlide({navigateOnClose}) {
 
   return (
     <div>
-      <Dialog
+          
+       <Dialog
+       fullWidth={true}
+       maxWidth={'100vw'}
         open={open}
         TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{"Use Google's location service?"}</DialogTitle>
+    <Paper
+              elevation={6}
+              sx={{
+                width: "90%",
+                height: "90px",
+                position: "relative",
+                marginX:'auto',
+                top: "5px",
+                zIndex: 255,
+                background: "linear-gradient(90deg, #67BF6B, #4BA64F)",
+                paddingLeft: 2,
+              }}
+            >
+              <Stack
+                height="100%"
+                direction="column"
+                justifyContent="center"
+                alignItems="start"
+              >
+                <Typography color="white" variant={"h6"} textAlign={"end"}>
+                  {title}
+                </Typography>
+
+                <Typography color="white" variant={"caption"} textAlign={"end"}>
+                  {subtitle}
+                </Typography>
+              </Stack>
+            </Paper>
+
+        {/* <DialogTitle>{title}</DialogTitle> */}
         <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            Let Google help apps determine location. This means sending
-            anonymous location data to Google, even when no apps are running.
-          </DialogContentText>
+          {children}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Disagree</Button>
           <Button onClick={handleClose}>Agree</Button>
         </DialogActions>
+            {/* </TitleCard> */}
       </Dialog>
     </div>
   );

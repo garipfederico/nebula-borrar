@@ -8,6 +8,29 @@ import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 
 import { useMediaQuery } from '@mui/material';
 
+/**
+ * 
+ * @param {*} props 
+ * @example
+ *   <DatePicker
+ *      value={formik.values.fechaNacimiento || ""}
+ *      id="fechaNacimiento"
+ *      name="fechaNacimiento"
+ *      editable={true}
+ *      onChange={formik.setFieldValue}
+ *      errorProp={
+ *          formik.touched.fechaNacimiento &&
+ *          Boolean(formik.errors.fechaNacimiento)
+ *      }
+ *      helperTextProp={
+ *          formik.touched.fechaNacimiento &&
+ *          formik.errors.fechaNacimiento
+ *      }
+ * />
+ * @returns 
+ */
+
+
 export default function DatePicker(props) {
 
     const isMediumDevice = useMediaQuery('(max-width:900px');
@@ -50,18 +73,4 @@ export default function DatePicker(props) {
 }
 
 
-            // <DatePicker
-            //     value={formik.values.fechaNacimiento || ""}
-            //     id="fechaNacimiento"
-            //     name="fechaNacimiento"
-            //     editable={true}
-            //     onChange={formik.setFieldValue}
-            //     errorProp={
-            //         formik.touched.fechaNacimiento &&
-            //         Boolean(formik.errors.fechaNacimiento)
-            //     }
-            //     helperTextProp={
-            //         formik.touched.fechaNacimiento &&
-            //         formik.errors.fechaNacimiento
-            //     }
-            // />
+          
