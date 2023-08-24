@@ -13,7 +13,6 @@ export default function DocumentForm() {
   return (
     <>
       <DialogForm 
-      
         navigateOnClose="/documents" 
         title="Edicion de documento"
         >

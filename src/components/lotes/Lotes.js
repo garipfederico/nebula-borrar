@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TitleCard from "../../reusable/card/TitleCard";
 import TablaLotes from "./TablaLotes";
 import {useFormik} from "formik";
 import loteSchema from "./loteValidationSchema";
 import SearchForm from "./SearchForm";
 import {Stack} from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+
 
 function Lotes() {
+  // const dispatch = useDispatch()
+  const {results} = useSelector(state=>state.lotes.documents)
+const batch = results[0].batch 
+  console.log("results2 ",results[0].batch )  
+// useEffect(())
+
   const formik = useFormik({
     initialValues: {
       dateToSearch: "",
@@ -19,8 +27,8 @@ function Lotes() {
 
   return (
     <TitleCard
-      title="Lotes"
-      subtitle="Un subtitulo"
+      title="Lote"
+      subtitle={ "Consulta del Lote nro.:" + batch } 
       width="50%"
       sx={{index: 3}}
     >

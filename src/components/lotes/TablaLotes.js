@@ -17,7 +17,7 @@ import { responseStrings, weSorryMessage } from "../../data/responseStrings";
 
 const columns = [
   // {id: "accion", label: "Acciones", minWidth: 50},
-  {id: "nroLote", label: "N° Lote", minWidth: 100},
+  {id: "nroDoc", label: "N° de Documento", minWidth: 100},
   {id: "operador", label: "Operador", minWidth: 100},
   {id: "fecha", label: "Fecha", minWidth: 20},
   // {id: "cantidadDocs", label: "Cantidad de documentos", minWidth: 20},
@@ -33,7 +33,7 @@ export default function StickyHeadTable() {
   const transformData = documents.map((unDoc) => {
     console.log(unDoc.status)
     return {
-      nroLote: unDoc.id,
+      nroDoc: unDoc.id,
       operador: unDoc.internal_id,
       fecha: "12/04/2021",
       estado: unDoc.status,
@@ -43,9 +43,9 @@ export default function StickyHeadTable() {
   const documentos = transformData;
 
   const rows = documentos.map((unProducto) => {
-    const {nroLote, operador, fecha, estado} = unProducto;
+    const {nroDoc, operador, fecha, estado} = unProducto;
     return {
-      nroLote,
+      nroDoc,
       operador,
       fecha,
       estado,
@@ -90,7 +90,7 @@ export default function StickyHeadTable() {
               .map((row) => {
                 return (
                   <RowLote
-                    key={row.nroLote}
+                    key={row.nroDoc}
                     row={row}
                     columns={columns}
                     _id={row._id}

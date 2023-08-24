@@ -76,6 +76,7 @@ function TextInput({
           {...textFieldValidationProps(nombreVariable)}
           value={text}
           type={type && 'password'}
+          disabled={!editing}
           // type={type ? 'numeric' : "numeric"}
           // inputProps={{
             // inputMode: "numeric", // Permite la entrada numérica en dispositivos móviles

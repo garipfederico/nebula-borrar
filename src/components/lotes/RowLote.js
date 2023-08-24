@@ -43,7 +43,7 @@ function RowLote(props) {
   };
 
   return (
-    <TableRow hover role="checkbox" tabIndex={-1} key={props.row.nroLote}> 
+    <TableRow hover role="checkbox" tabIndex={-1} key={props.row.nroDoc}> 
       {props.columns.map((column) => {
         const value = props.row[column.id];
         return (
@@ -61,7 +61,7 @@ function RowLote(props) {
               </>
             ) : column.id === "estado" ? (
               <>
-                <SelectState selectedValue={props.row.estado || ""} nroLote={props.row.nroLote} />
+                <SelectState selectedValue={props.row.estado || ""} nroDoc={props.row.nroDoc} />
               </>
             ) : column.format && typeof value === "number" ? (
               column.format(value)
