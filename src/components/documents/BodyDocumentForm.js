@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React, {useEffect} from "react";
 import {Box, Button, Paper, Stack, Typography} from "@mui/material";
 
 // Reusables
 import TextInput from "../../reusable/textInput/TextInput";
 import DatePicker from "../../reusable/DatePicker";
-import Select from "../../reusable/Select";
+import SelectDocument from "../../reusable/SelectDocument";
 // Components
 
 // Redux
@@ -32,14 +32,14 @@ function BodyDocumentForm() {
     documentSchema,
   });
 
-  useEffect(()=>{
-    console.log("document.data ",document.data )
-    formik.setValues(document.data)
-  },[document])
+  useEffect(() => {
+    console.log("document.data ", document.data);
+    formik.setValues(document.data);
+  }, [document]);
 
   return (
     <>
-      <Stack direction="row" justifyContent={'start'}>
+      <Stack direction="row" justifyContent={"start"}>
         <Stack
           direction="column"
           width={"70vw"}
@@ -71,7 +71,7 @@ function BodyDocumentForm() {
                   nombreVariable="internal_id"
                   text={formik.values.internal_id}
                   variant="h6"
-                  editing={false}
+                  editing={true}
                   isLoading={isLoading}
                   formik={formik}
                   label="Nro documento" // default nombreVariable
@@ -83,7 +83,7 @@ function BodyDocumentForm() {
                   nombreVariable="document_description"
                   text={formik.values.document_description}
                   variant="h6"
-                  editing={false}
+                  editing={true}
                   isLoading={isLoading}
                   formik={formik}
                   label="Nombre" // default nombreVariable
@@ -98,16 +98,21 @@ function BodyDocumentForm() {
                 spacing={10}
                 sx={{px: 10}}
               >
-                <Select
+                <SelectDocument
                   label="Categoria"
-                  optionsState={[{name: "opcion1"}, {name: "opction2"}]}
+                  formik={formik}
+                  valueName="document_type"
+                  optionsState={[{name: "document"}, {name: "document2"}]}
                 />
-                <Select
+                <SelectDocument
                   label="Nivel de Confidencialidad"
+                  formik={formik}
+                  valueName="confidentiality"
                   optionsState={[
-                    {name: "Confidencialidad 1"},
-                    {name: "Confidencialidad 2"},
+                    {name: "1"},
+                    {name: "2"},
                   ]}
+                  value={formik.values.confidentiality} 
                 />
               </Stack>
             </Stack>
@@ -116,31 +121,41 @@ function BodyDocumentForm() {
             <Stack direction="column">
               <Typography variant="h6">Situación Física</Typography>
               <Stack direction="row">
-                <Select
+                <SelectDocument
                   label="Ubicacion"
+                  formik={formik}
+                  valueName="confidenciality"
                   optionsState={[
                     {name: "Edificio central"},
                     {name: "Anexo I"},
                     {name: "Anexo II"},
                   ]}
                 />
-                <Select
+                <SelectDocument
+                  formik={formik}
+                  valueName="status"
                   label="Estado"
                   optionsState={[
-                    {name: "Iniciado"},
-                    {name: "En progreso"},
-                    {name: "Escaneado"},
+                    {name: "inicializado"},
+                    {name: "en progreso"},
+                    {name: "escaneado"},
                   ]}
                 />
               </Stack>
             </Stack>
           </Paper>
         </Stack>
-        <Stack direction="column" justifyContent={'center'} alignItems={'center'} width={'10%'} spacing={3}>
-          <Button variant='contained'>Ver</Button>
-          <Button variant='contained'>Imprimir</Button>
-          <Button variant='contained'>Editar</Button>
-          <Button variant='contained'>Volver</Button>
+        <Stack
+          direction="column"
+          justifyContent={"center"}
+          alignItems={"center"}
+          width={"10%"}
+          spacing={3}
+        >
+          <Button variant="contained">Ver</Button>
+          <Button variant="contained">Imprimir</Button>
+          <Button variant="contained">Editar</Button>
+          <Button variant="contained">Volver</Button>
         </Stack>
       </Stack>
     </>

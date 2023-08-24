@@ -9,15 +9,16 @@ import Select from "@mui/material/Select";
 // import {openAlertDialog} from "../../states/reusable/AlertDialogSlice";
 // import {responseStrings, weSorryMessage} from "../../data/responseStrings";
 
-export default function SelectState({selectedValue, optionsState, label}) {
+export default function SelectDocument({selectedValue, optionsState, label, formik, valueName}) {
 //   const dispatch = useDispatch();
   const [estado, setEstado] = React.useState(selectedValue);
 //   const {optionsState, isError, response} = useSelector((state) => state.lotes);
 //   const estadoAnteriorRef = React.useRef(selectedValue);
 
   const handleChange = (event) => {
-    const name = event.target.value;
+    // const name = event.target.value;
     setEstado(event.target.value);
+    formik.setFieldValue(valueName,event.target.value)
     // dispatch(putState({name, nroLote}));
   };
 
@@ -51,7 +52,7 @@ export default function SelectState({selectedValue, optionsState, label}) {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={estado}
+          value={formik.values[valueName]}
           label="Estado"
           onChange={handleChange}
         >
