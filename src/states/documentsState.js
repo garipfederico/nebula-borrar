@@ -1,12 +1,14 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
-  typeRequest: null,
+  requestType: null,
   isLoading: false,
   isError: false,
   response: {},
   documents: [],
-  document: {},
+  document: {
+    requestType: null
+  },
   count: null,
 };
 
@@ -35,6 +37,7 @@ export const documentsSlice = createSlice({
     getOneDocumentSuccess: (state, action) => {
       state.isLoading = false;
       state.document = action.payload.document;
+      state.document.requestType = 'GET';
     },
     getOneDocumentFail: (state, action) => {
       console.log("action.payload", action.payload);
@@ -42,6 +45,14 @@ export const documentsSlice = createSlice({
       state.isError = true;
       state.response = action.payload.e.response;
       state.documents = [];
+    },
+    editOneDocument: (state) => {
+      state.document.editing = true
+      state.document.requestType = "PUT"
+    },
+    putOneDocument: (state, action) => {
+      state.document.isLoading = true;
+
     },
     resetState: (state) => {
       state.isLoading = false;
@@ -58,6 +69,8 @@ export const {
   getOneDocument,
   getOneDocumentSuccess,
   getOneDocumentFail,
+  editOneDocument,
+  putOneDocument,
   resetState,
 } = documentsSlice.actions;
 

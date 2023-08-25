@@ -13,7 +13,7 @@ import { Button } from '@mui/material';
  * @param {handleSubmit} La funcion que maneja el submit
  * @example
  * <SubmitButton
- *      requestType={requestType}      // suele podria se useSelector de redux o un useState
+ *      requestType={requestType}      // useSelector de redux o un useState GET | POST | PUT
  *      isLoading={isLoading}          // suele podria se useSelector de redux o un useState
  *      textForRequestType={["Crear","Guardar"]}
  *      handleSubmit={formik.handleSubmit}

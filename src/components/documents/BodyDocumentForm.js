@@ -1,22 +1,27 @@
 import React, {useEffect} from "react";
 import {Box, Button, Paper, Stack, Typography} from "@mui/material";
+import {useFormik} from "formik";
 
 // Reusables
 import TextInput from "../../reusable/textInput/TextInput";
 import DatePicker from "../../reusable/DatePicker";
 import SelectDocument from "../../reusable/SelectDocument";
+import SubmitButton from "../../reusable/buttons/SubmitButton";
 // Components
 
 // Redux
-import {useSelector} from "react-redux";
-import {useFormik} from "formik";
+import {useSelector, useDispatch} from "react-redux";
+import {editOneDocument, putOneDocument} from "../../states/documentsState";
 
 // Data
 import documentSchema from "./documentSchema";
 
 function BodyDocumentForm() {
-  const {document, isLoading} = useSelector((state) => state.documents);
-  console.log("document ", document);
+  const dispatch = useDispatch();
+  const {document} = useSelector((state) => state.documents);
+  const {editing, requestType, isLoading} = useSelector(
+    (state) => state.documents.document
+  );
   const formik = useFormik({
     initialValues: {
       internal_id: null,
@@ -27,13 +32,18 @@ function BodyDocumentForm() {
       created_at: "",
     },
     onSubmit: (values) => {
+      console.log("Hola mundete");
+      if (requestType === "GET") {
+        dispatch(editOneDocument());
+      } else if (requestType === "PUT") {
+        dispatch(putOneDocument());
+      }
       return values;
     },
     documentSchema,
   });
 
   useEffect(() => {
-    console.log("document.data ", document.data);
     formik.setValues(document.data);
   }, [document]);
 
@@ -55,7 +65,7 @@ function BodyDocumentForm() {
                     value={formik.values.created_at || ""}
                     id="createdAt"
                     name="createdAt"
-                    editable={true}
+                    editable={editing}
                     onChange={formik.setFieldValue}
                     errorProp={
                       formik.touched.created_at &&
@@ -71,7 +81,7 @@ function BodyDocumentForm() {
                   nombreVariable="internal_id"
                   text={formik.values.internal_id}
                   variant="h6"
-                  editing={true}
+                  editing={editing}
                   isLoading={isLoading}
                   formik={formik}
                   label="Nro documento" // default nombreVariable
@@ -83,7 +93,7 @@ function BodyDocumentForm() {
                   nombreVariable="document_description"
                   text={formik.values.document_description}
                   variant="h6"
-                  editing={true}
+                  editing={editing}
                   isLoading={isLoading}
                   formik={formik}
                   label="Nombre" // default nombreVariable
@@ -103,16 +113,15 @@ function BodyDocumentForm() {
                   formik={formik}
                   valueName="document_type"
                   optionsState={[{name: "document"}, {name: "document2"}]}
+                  editing={editing}
                 />
                 <SelectDocument
                   label="Nivel de Confidencialidad"
                   formik={formik}
                   valueName="confidentiality"
-                  optionsState={[
-                    {name: "1"},
-                    {name: "2"},
-                  ]}
-                  value={formik.values.confidentiality} 
+                  optionsState={[{name: "1"}, {name: "2"}]}
+                  value={formik.values.confidentiality}
+                  editing={editing}
                 />
               </Stack>
             </Stack>
@@ -130,6 +139,7 @@ function BodyDocumentForm() {
                     {name: "Anexo I"},
                     {name: "Anexo II"},
                   ]}
+                  editing={editing}
                 />
                 <SelectDocument
                   formik={formik}
@@ -140,6 +150,7 @@ function BodyDocumentForm() {
                     {name: "en progreso"},
                     {name: "escaneado"},
                   ]}
+                  editing={editing}
                 />
               </Stack>
             </Stack>
@@ -153,8 +164,13 @@ function BodyDocumentForm() {
           spacing={3}
         >
           <Button variant="contained">Ver</Button>
+          <SubmitButton
+            requestType={document.requestType}
+            isLoading={isLoading} // suele podria se useSelector de redux o un useState
+            textForRequestType={["Editar", "", "Guardar"]}
+            handleSubmit={formik.handleSubmit}
+          />
           <Button variant="contained">Imprimir</Button>
-          <Button variant="contained">Editar</Button>
           <Button variant="contained">Volver</Button>
         </Stack>
       </Stack>

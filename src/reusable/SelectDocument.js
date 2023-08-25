@@ -9,7 +9,7 @@ import Select from "@mui/material/Select";
 // import {openAlertDialog} from "../../states/reusable/AlertDialogSlice";
 // import {responseStrings, weSorryMessage} from "../../data/responseStrings";
 
-export default function SelectDocument({selectedValue, optionsState, label, formik, valueName}) {
+export default function SelectDocument({selectedValue, optionsState, label, formik, valueName, editing}) {
 //   const dispatch = useDispatch();
   const [estado, setEstado] = React.useState(selectedValue);
 //   const {optionsState, isError, response} = useSelector((state) => state.lotes);
@@ -47,7 +47,7 @@ export default function SelectDocument({selectedValue, optionsState, label, form
 
   return (
     <Box sx={{minWidth: 120, width:'100%'}}>
-      <FormControl fullWidth size="large" variant="standard">
+      <FormControl fullWidth size="large" variant="standard" disabled={!editing}>
         <InputLabel id="demo-simple-select-label">{label}</InputLabel>
         <Select
           labelId="demo-simple-select-label"
