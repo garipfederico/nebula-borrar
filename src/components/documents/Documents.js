@@ -16,6 +16,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {getDocuments, getOneDocument} from "../../states/documentsState";
 
 // Data
+import {convertDateFieldObjectsArray} from "../../utils/timeISOtoDDMMYYYY"
 // The values of id of the columnsDefinition are the attributes
 // of the JSON that come from the back.
 const columnsDefinition = [
@@ -38,6 +39,9 @@ function Documents() {
   const {isError, isLoading, response, documents, count} = useSelector(
     (state) => state.documents
   );
+
+
+
   const [showForm, setShowForm] = useState(false);
   const {id: documentId} = useParams();
 
@@ -49,6 +53,8 @@ function Documents() {
       setShowForm(false);
     }
   }, [documentId]);
+
+const documentsDateConverted = convertDateFieldObjectsArray(documents, 'created_at')
 
   const handleSubmit = () => {
     console.log("Hola mundo");
@@ -68,7 +74,7 @@ function Documents() {
         <Table
           columnsDefinition={columnsDefinition}
           columnKeyName={columnKeyName}
-          dataTable={documents}
+          dataTable={documentsDateConverted}
           isLoading={isLoading}
           isError={isError}
           count={count}

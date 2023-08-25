@@ -57,10 +57,35 @@ function BodyDocumentForm() {
           sx={{margin: "auto"}}
         >
           <Paper sx={{p: 2}}>
-            <Stack direction="column">
+            <Stack direction="column" spacing={4}>
               <Typography variant="h6">Datos del Documento Digital</Typography>
-              <Stack direction="row" spacing={4}>
-                <Box width={"100%"}>
+              <Stack direction="row" spacing={5}>
+
+                <TextInput
+                  nombreVariable="internal_id"
+                  text={formik.values.internal_id}
+                  variant="h6"
+                  editing={editing}
+                  isLoading={isLoading}
+                  formik={formik}
+                  label="Nro documento" // default nombreVariable
+                  // sxTextFieldProp={null}
+                  // type='password' //default string
+                  data-cy="nroDocumento"
+                />
+                <TextInput
+                  nombreVariable="document_description"
+                  text={formik.values.document_description}
+                  variant="h6"
+                  editing={editing}
+                  isLoading={isLoading}
+                  formik={formik}
+                  label="Nombre" // default nombreVariable
+                  sxTextFieldProp={null}
+                  // type='password' //default string
+                  data-cy="nombre"
+                />
+                <Box width={"70%"}>
                   <DatePicker
                     value={formik.values.created_at || ""}
                     id="createdAt"
@@ -77,31 +102,6 @@ function BodyDocumentForm() {
                     isLoading={isLoading}
                   />
                 </Box>
-
-                <TextInput
-                  nombreVariable="internal_id"
-                  text={formik.values.internal_id}
-                  variant="h6"
-                  editing={editing}
-                  isLoading={isLoading}
-                  formik={formik}
-                  label="Nro documento" // default nombreVariable
-                  sxTextFieldProp={null}
-                  // type='password' //default string
-                  data-cy="nroDocumento"
-                />
-                <TextInput
-                  nombreVariable="document_description"
-                  text={formik.values.document_description}
-                  variant="h6"
-                  editing={editing}
-                  isLoading={isLoading}
-                  formik={formik}
-                  label="Nombre" // default nombreVariable
-                  sxTextFieldProp={null}
-                  // type='password' //default string
-                  data-cy="nombre"
-                />
               </Stack>
               <Stack
                 direction="row"
@@ -132,9 +132,10 @@ function BodyDocumentForm() {
           <Paper sx={{p: 2}}>
             <Stack direction="column">
               <Typography variant="h6">Situación Física</Typography>
-              <Stack direction="row">
+              <Stack direction="row" spacing={15} justifyContent={'space-around'}>
+              <Stack direction="column" spacing={2} width='40%'>
                 <SelectDocument
-                  label="Ubicacion"
+                  label="Edificio"
                   formik={formik}
                   valueName="confidenciality"
                   optionsState={[
@@ -144,11 +145,62 @@ function BodyDocumentForm() {
                   ]}
                   editing={editing}
                   isLoading={isLoading}
-                />
+                  />
                 <SelectDocument
+                  label="Piso"
+                  formik={formik}
+                  valueName="confidenciality"
+                  optionsState={[
+                    {name: "Oficina"},
+                    {name: "Anexo I"},
+                    {name: "Anexo II"},
+                  ]}
+                  editing={editing}
+                  isLoading={isLoading}
+                  />
+                <SelectDocument
+                  label="Oficina"
+                  formik={formik}
+                  valueName="confidenciality"
+                  optionsState={[
+                    {name: "Edificio central"},
+                    {name: "Anexo I"},
+                    {name: "Anexo II"},
+                  ]}
+                  editing={editing}
+                  isLoading={isLoading}
+                  />
+                <SelectDocument
+                  label="Estante"
+                  formik={formik}
+                  valueName="confidenciality"
+                  optionsState={[
+                    {name: "Edificio central"},
+                    {name: "Anexo I"},
+                    {name: "Anexo II"},
+                  ]}
+                  editing={editing}
+                  isLoading={isLoading}
+                  />
+                <SelectDocument
+                  label="Caja"
+                  formik={formik}
+                  valueName="confidenciality"
+                  optionsState={[
+                    {name: "Edificio central"},
+                    {name: "Anexo I"},
+                    {name: "Anexo II"},
+                  ]}
+                  editing={editing}
+                  isLoading={isLoading}
+                  />
+                  </Stack>
+
+                <Stack  width='50%'>
+                <SelectDocument
+                  label="Estado"
                   formik={formik}
                   valueName="status"
-                  label="Estado"
                   optionsState={[
                     {name: "inicializado"},
                     {name: "en progreso"},
@@ -157,6 +209,7 @@ function BodyDocumentForm() {
                   editing={editing}
                   isLoading={isLoading}
                 />
+                </Stack>
               </Stack>
             </Stack>
           </Paper>

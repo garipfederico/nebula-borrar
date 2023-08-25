@@ -11,37 +11,10 @@ import { Skeleton } from "@mui/material";
 // import {responseStrings, weSorryMessage} from "../../data/responseStrings";
 
 export default function SelectDocument({selectedValue, optionsState, label, formik, valueName, editing, isLoading}) {
-//   const dispatch = useDispatch();
-  const [estado, setEstado] = React.useState(selectedValue);
-//   const {optionsState, isError, response} = useSelector((state) => state.lotes);
-//   const estadoAnteriorRef = React.useRef(selectedValue);
 
   const handleChange = (event) => {
-    // const name = event.target.value;
-    setEstado(event.target.value);
     formik.setFieldValue(valueName,event.target.value)
-    // dispatch(putState({name, nroLote}));
   };
-
-//   React.useEffect(() => {
-//     // Finalidad: en caso de un put fallido, lanza el alertdialog y
-//     // vuelte el select al estado anterior
-//     if (isError) {
-//       dispatch(
-//         openAlertDialog({
-//           icon: "error",
-//           title: weSorryMessage,
-//           content: responseStrings(response.status),
-//           otherMessages: ["Status: " + response.status],
-//           open: false,
-//           actionCancelButton: () => {
-//             dispatch(resetState());
-//           },
-//         })
-//       );
-//       setEstado(estadoAnteriorRef.current);
-//     }
-//   }, [isError, response.status]);
 
   // Array that have indexes numbers for each elements
   const arrayIndexes = Object.keys(optionsState);
