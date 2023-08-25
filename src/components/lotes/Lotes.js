@@ -1,19 +1,31 @@
-import React, { useEffect } from "react";
-import TitleCard from "../../reusable/card/TitleCard";
-import TablaLotes from "./TablaLotes";
+import React, {useEffect} from "react";
 import {useFormik} from "formik";
-import loteSchema from "./loteValidationSchema";
-import SearchForm from "./SearchForm";
 import {Stack} from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
 
+// Reusables
+import TitleCard from "../../reusable/card/TitleCard";
+import SearchForm from "./SearchForm";
+
+// Components
+import TablaLotes from "./TablaLotes";
+
+// Redux
+import {useDispatch, useSelector} from "react-redux";
+import {getDocuments} from "../../states/lotesState";
+
+// Data
+import loteSchema from "./loteValidationSchema";
 
 function Lotes() {
-  // const dispatch = useDispatch()
-  const {results} = useSelector(state=>state.lotes.documents)
-const batch = results[0].batch 
-  console.log("results2 ",results[0].batch )  
-// useEffect(())
+  const dispatch = useDispatch();
+  const {results} = useSelector((state) => state.lotes.documents);
+  const batch = results[0].batch;
+  
+  useEffect(() => {
+    dispatch(getDocuments());
+  }, []);
+  console.log("results2 ", results[0].batch);
+  // useEffect(())
 
   const formik = useFormik({
     initialValues: {
@@ -28,7 +40,7 @@ const batch = results[0].batch
   return (
     <TitleCard
       title="Lote"
-      subtitle={ "Consulta del Lote nro.:" + batch } 
+      subtitle={"Consulta del Lote nro.:" + batch}
       width="50%"
       sx={{index: 3}}
     >

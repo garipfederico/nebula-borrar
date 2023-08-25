@@ -9,18 +9,23 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
+// Reusables
+
+// Components
 import RowLote from "./RowLote";
+
+// Redux
 import {useSelector, useDispatch} from "react-redux";
 import {getOptionsState, getDocuments} from "../../states/lotesState";
 import { openAlertDialog } from "../../states/reusable/AlertDialogSlice";
+
+// Data
 import { responseStrings, weSorryMessage } from "../../data/responseStrings";
 
 const columns = [
-  // {id: "accion", label: "Acciones", minWidth: 50},
   {id: "nroDoc", label: "N° de Documento", minWidth: 100},
   {id: "operador", label: "Operador", minWidth: 100},
   {id: "fecha", label: "Fecha", minWidth: 20},
-  // {id: "cantidadDocs", label: "Cantidad de documentos", minWidth: 20},
   {id: "estado", label: "Estado", minWidth: 50},
 ];
 
@@ -65,6 +70,7 @@ export default function StickyHeadTable() {
 
   useEffect(() => {
     dispatch(getOptionsState());
+    // dispatch(getDocuments());
   }, []);
  
   return (

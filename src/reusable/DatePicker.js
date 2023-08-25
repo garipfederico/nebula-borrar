@@ -6,7 +6,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 
-import { useMediaQuery } from '@mui/material';
+import { Skeleton, useMediaQuery } from '@mui/material';
 
 /**
  * 
@@ -44,6 +44,10 @@ export default function DatePicker(props) {
     }
 
     return (
+        <>
+        {props.isLoading ? (
+         <Skeleton width={"100%"} height='50px' />
+         ) : (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <Stack spacing={3}>
                 {isMediumDevice ?
@@ -69,7 +73,8 @@ export default function DatePicker(props) {
                 }
             </Stack>
         </LocalizationProvider>
-    );
+    
+    )}</>)
 }
 
 

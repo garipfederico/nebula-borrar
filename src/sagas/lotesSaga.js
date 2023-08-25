@@ -50,7 +50,7 @@ function* workGetOptionsStates() {
         stateOptions: {...stateOptionsRequest.data.results},
       })
     );
-    yield put(getDocuments())
+    // yield put(getDocuments())
   } catch (e) {
     console.log("Error trying to get from API the options state");
     console.log(e);

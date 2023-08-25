@@ -23,23 +23,8 @@ function RowLote(props) {
     // navigate("./" + props.id, {state: {editing: false}});
   };
 
-  const handleDelete = () => {
-    // dispatch(setRequestTypeDelete())
-    // deleteRequest(props._id)
-  };
-
   const activateAlert = (e) => {
-    // setButtonActionAcceptAlertDialog(()=>handleDelete)
     e.stopPropagation();
-    
-    // setOpenAlertDialog(true);
-    // setTitleAlertDialog("Eliminar Producto");
-    // setContentAlertDialog(
-    //   "Esta seguro que desea eliminar el producto: " +
-    //     props.row.marca +
-    //     ", " +
-    //     props.row.modelo
-    // );
   };
 
   return (

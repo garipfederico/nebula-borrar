@@ -6,7 +6,7 @@ const initialState = {
   isError: false,
   response: {},
   optionsState: [],
-  documents: [],
+  documents: {results:['']},
 };
 
 export const lotesSlice = createSlice({

@@ -74,6 +74,7 @@ function BodyDocumentForm() {
                     helperTextProp={
                       formik.touched.created_at && formik.errors.created_at
                     }
+                    isLoading={isLoading}
                   />
                 </Box>
 
@@ -114,6 +115,7 @@ function BodyDocumentForm() {
                   valueName="document_type"
                   optionsState={[{name: "document"}, {name: "document2"}]}
                   editing={editing}
+                  isLoading={isLoading}
                 />
                 <SelectDocument
                   label="Nivel de Confidencialidad"
@@ -122,6 +124,7 @@ function BodyDocumentForm() {
                   optionsState={[{name: "1"}, {name: "2"}]}
                   value={formik.values.confidentiality}
                   editing={editing}
+                  isLoading={isLoading}
                 />
               </Stack>
             </Stack>
@@ -140,6 +143,7 @@ function BodyDocumentForm() {
                     {name: "Anexo II"},
                   ]}
                   editing={editing}
+                  isLoading={isLoading}
                 />
                 <SelectDocument
                   formik={formik}
@@ -151,6 +155,7 @@ function BodyDocumentForm() {
                     {name: "escaneado"},
                   ]}
                   editing={editing}
+                  isLoading={isLoading}
                 />
               </Stack>
             </Stack>
