@@ -22,6 +22,13 @@ function BodyDocumentForm() {
   const {editing, requestType, isLoading} = useSelector(
     (state) => state.documents.document
   );
+  const {all_document_types, all_confidentialities} = document.data;
+  const allDocumentTypes = all_document_types.map((aType) => {
+    return {name: aType.type};
+  });
+  const allConfidentialities = all_confidentialities.map((aConfidentiality) => {
+    return {name: aConfidentiality.level};
+  });
   const formik = useFormik({
     initialValues: {
       internal_id: null,
@@ -32,7 +39,6 @@ function BodyDocumentForm() {
       created_at: "",
     },
     onSubmit: (values) => {
-      console.log("Hola mundete");
       if (requestType === "GET") {
         dispatch(editOneDocument());
       } else if (requestType === "PUT") {
@@ -60,7 +66,6 @@ function BodyDocumentForm() {
             <Stack direction="column" spacing={4}>
               <Typography variant="h6">Datos del Documento Digital</Typography>
               <Stack direction="row" spacing={5}>
-
                 <TextInput
                   nombreVariable="internal_id"
                   text={formik.values.internal_id}
@@ -112,8 +117,11 @@ function BodyDocumentForm() {
                 <SelectDocument
                   label="Categoria"
                   formik={formik}
-                  valueName="document_type"
-                  optionsState={[{name: "document"}, {name: "document2"}]}
+                  valueName={"document_type"}
+                  optionsState={
+                    allDocumentTypes
+                    // [{name: "document"}, {name: "document2"}]
+                  }
                   editing={editing}
                   isLoading={isLoading}
                 />
@@ -121,7 +129,10 @@ function BodyDocumentForm() {
                   label="Nivel de Confidencialidad"
                   formik={formik}
                   valueName="confidentiality"
-                  optionsState={[{name: "1"}, {name: "2"}]}
+                  optionsState={
+                    allConfidentialities
+                    // [{name: "1"}, {name: "2"}]
+                  }
                   value={formik.values.confidentiality}
                   editing={editing}
                   isLoading={isLoading}
@@ -132,83 +143,87 @@ function BodyDocumentForm() {
           <Paper sx={{p: 2}}>
             <Stack direction="column">
               <Typography variant="h6">Situación Física</Typography>
-              <Stack direction="row" spacing={15} justifyContent={'space-around'}>
-              <Stack direction="column" spacing={2} width='40%'>
-                <SelectDocument
-                  label="Edificio"
-                  formik={formik}
-                  valueName="confidenciality"
-                  optionsState={[
-                    {name: "Edificio central"},
-                    {name: "Anexo I"},
-                    {name: "Anexo II"},
-                  ]}
-                  editing={editing}
-                  isLoading={isLoading}
+              <Stack
+                direction="row"
+                spacing={15}
+                justifyContent={"space-around"}
+              >
+                <Stack direction="column" spacing={2} width="40%">
+                  <SelectDocument
+                    label="Edificio"
+                    formik={formik}
+                    valueName="confidenciality"
+                    optionsState={[
+                      {name: "Edificio central"},
+                      {name: "Anexo I"},
+                      {name: "Anexo II"},
+                    ]}
+                    editing={editing}
+                    isLoading={isLoading}
                   />
-                <SelectDocument
-                  label="Piso"
-                  formik={formik}
-                  valueName="confidenciality"
-                  optionsState={[
-                    {name: "Oficina"},
-                    {name: "Anexo I"},
-                    {name: "Anexo II"},
-                  ]}
-                  editing={editing}
-                  isLoading={isLoading}
+                  <SelectDocument
+                    label="Piso"
+                    formik={formik}
+                    valueName="confidenciality"
+                    optionsState={[
+                      {name: "Oficina"},
+                      {name: "Anexo I"},
+                      {name: "Anexo II"},
+                    ]}
+                    editing={editing}
+                    isLoading={isLoading}
                   />
-                <SelectDocument
-                  label="Oficina"
-                  formik={formik}
-                  valueName="confidenciality"
-                  optionsState={[
-                    {name: "Edificio central"},
-                    {name: "Anexo I"},
-                    {name: "Anexo II"},
-                  ]}
-                  editing={editing}
-                  isLoading={isLoading}
+                  <SelectDocument
+                    label="Oficina"
+                    formik={formik}
+                    valueName="confidenciality"
+                    optionsState={[
+                      {name: "Edificio central"},
+                      {name: "Anexo I"},
+                      {name: "Anexo II"},
+                    ]}
+                    editing={editing}
+                    isLoading={isLoading}
                   />
-                <SelectDocument
-                  label="Estante"
-                  formik={formik}
-                  valueName="confidenciality"
-                  optionsState={[
-                    {name: "Edificio central"},
-                    {name: "Anexo I"},
-                    {name: "Anexo II"},
-                  ]}
-                  editing={editing}
-                  isLoading={isLoading}
+                  <SelectDocument
+                    label="Estante"
+                    formik={formik}
+                    valueName="confidenciality"
+                    optionsState={[
+                      {name: "Edificio central"},
+                      {name: "Anexo I"},
+                      {name: "Anexo II"},
+                    ]}
+                    editing={editing}
+                    isLoading={isLoading}
                   />
-                <SelectDocument
-                  label="Caja"
-                  formik={formik}
-                  valueName="confidenciality"
-                  optionsState={[
-                    {name: "Edificio central"},
-                    {name: "Anexo I"},
-                    {name: "Anexo II"},
-                  ]}
-                  editing={editing}
-                  isLoading={isLoading}
+                  <SelectDocument
+                    label="Caja"
+                    formik={formik}
+                    valueName="confidenciality"
+                    optionsState={[
+                      {name: "Edificio central"},
+                      {name: "Anexo I"},
+                      {name: "Anexo II"},
+                    ]}
+                    editing={editing}
+                    isLoading={isLoading}
                   />
-                  </Stack>
+                </Stack>
 
-                <Stack  width='50%'>
-                <SelectDocument
-                  label="Estado"
-                  formik={formik}
-                  valueName="status"
-                  optionsState={[
-                    {name: "inicializado"},
-                    {name: "en progreso"},
-                    {name: "escaneado"},
-                  ]}
-                  editing={editing}
-                  isLoading={isLoading}
-                />
+                <Stack width="50%">
+                  <SelectDocument
+                    label="Estado"
+                    formik={formik}
+                    valueName="status"
+                    optionsState={[
+                      {name: "inicializado"},
+                      {name: "en progreso"},
+                      {name: "escaneado"},
+                    ]}
+                    editing={editing}
+                    isLoading={isLoading}
+                  />
                 </Stack>
               </Stack>
             </Stack>

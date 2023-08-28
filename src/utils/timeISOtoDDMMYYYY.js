@@ -1,10 +1,10 @@
 export function convertirFormatoFecha(fechaOriginal) {
-    const fecha = new Date(fechaOriginal);
-    const dia = fecha.getUTCDate();
-    const mes = fecha.getUTCMonth() + 1;
-    const anio = fecha.getUTCFullYear();
-    const fechaFormateada = `${dia < 10 ? '0' : ''}${dia}/${mes < 10 ? '0' : ''}${mes}/${anio}`;
-    return fechaFormateada;
+    const date = new Date(fechaOriginal);
+    const day = date.getUTCDate();
+    const month = date.getUTCMonth() + 1;
+    const year = date.getUTCFullYear();
+    const formattedDate = `${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year}`;
+    return formattedDate;
 }
 
 // Llamar a la función con una fecha original
@@ -15,17 +15,17 @@ export function convertirFormatoFecha(fechaOriginal) {
 // console.log(fechaFormateada); // Salida: "18/08/2023"
 
 export function convertDateFieldObjectsArray(objectsArray, dateField) {
-    const newArray = objectsArray.map(objeto => {
-        const fechaOriginal = objeto[dateField];
-        const fecha = new Date(fechaOriginal);
-        const dia = fecha.getUTCDate();
-        const mes = fecha.getUTCMonth() + 1;
-        const anio = fecha.getUTCFullYear();
-        const fechaFormateada = `${dia < 10 ? '0' : ''}${dia}/${mes < 10 ? '0' : ''}${mes}/${anio}`;
+    const newArray = objectsArray.map(object => {
+        const originalDate = object[dateField];
+        const date = new Date(originalDate);
+        const day = date.getUTCDate();
+        const month = date.getUTCMonth() + 1;
+        const year = date.getUTCFullYear();
+        const formattedDate = `${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year}`;
         
         return {
-            ...objeto,
-            [dateField]: fechaFormateada
+            ...object,
+            [dateField]: formattedDate
         };
     });
 
