@@ -13,12 +13,12 @@ function Row({
   const idRow = row[columnKeyName]
 
   const handleClick = (idRow) => {
-    console.log(idRow)
-    // navigate("./" + idRow, {state: {editing: true}});
-    navigate("./" + row[columnKeyName]);
+    if(isLoading){
+    } else{
+      console.log(idRow)
+      navigate("./" + row[columnKeyName]);
+    }
   };
-  
-
 
   // {/* <Skeleton >{value}</Skeleton> */}
   return (

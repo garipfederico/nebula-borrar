@@ -76,7 +76,6 @@ function BodyDocumentForm() {
                   label="Nro documento" // default nombreVariable
                   // sxTextFieldProp={null}
                   // type='password' //default string
-                  data-cy="nroDocumento"
                 />
                 <TextInput
                   nombreVariable="document_description"

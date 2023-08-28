@@ -34,8 +34,7 @@ function TextInput({
   rows,
   sxTextFieldProp,
   type,
-  dataCy,
-
+  
 }) {
   const textFieldValidationProps = (nombreVariable) => {
     return {
@@ -77,6 +76,7 @@ function TextInput({
           value={text}
           type={type && 'password'}
           disabled={!editing}
+          inputProps={{ 'data-cy': nombreVariable }}
           // type={type ? 'numeric' : "numeric"}
           // inputProps={{
             // inputMode: "numeric", // Permite la entrada numérica en dispositivos móviles

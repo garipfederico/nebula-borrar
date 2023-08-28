@@ -21,7 +21,7 @@ import {convertDateFieldObjectsArray} from "../../utils/timeISOtoDDMMYYYY"
 // of the JSON that come from the back.
 const columnsDefinition = [
   {id: "id", label: "", minWidth: 0, hiddenValue: true},
-  {id: "created_at", label: "Fecha", minWidth: 100},
+  {id: "created_at", label: "Fecha", minsWidth: 100},
   {id: "internal_id", label: "Numero", minWidth: 100},
   {id: "document_description", label: "Nombre de documento", minWidth: 20},
 ];
@@ -32,7 +32,7 @@ const columnsDefinition = [
 // It remains as an improvement, that this will be a property in one of the
 // columnsDefinition lines (and not a const outside) to then implement method inside table that in the iteration
 //  verifies if it is a row with the specification columnsKeyName then will be added as index of a row.
-const columnKeyName = "id"; 
+const columnKeyName = "id";
 
 function Documents() {
   const dispatch = useDispatch();
