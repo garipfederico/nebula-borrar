@@ -29,6 +29,7 @@ const handleSubmit = props.handleSubmit
 const icon = props.icon
 const size = props.size
 const width = props.width
+const dataCy = props.dataCy
 
   return (
     <>
@@ -50,6 +51,7 @@ const width = props.width
               size={size && size}
               startIcon={icon && icon}
               sx={width ? {width:width}: null}
+              data-cy= {dataCy}
             >
               {requestType === "GET" && textForRequestType[0]}
               {requestType === "POST" && textForRequestType[1]}

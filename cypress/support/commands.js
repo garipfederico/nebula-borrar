@@ -93,6 +93,30 @@ Cypress.Commands.add("table_verifyNumberOfRows", (rowFileNumber) => {
   ).should("exist");
 });
 
+
+Cypress.Commands.add("datePicker", (variableName) =>{
+cy.get(`[data-cy="${variableName}"]`).children('input')
+.invoke('prop', 'value')
+.then((value) => {
+  cy.log('value: ',value)
+  expect(value).to.match(/^\d{2}\/\d{2}\/\d{4}$/)
+});
+})
+
+
+Cypress.Commands.add("comboBox", (labelName, variableName, possiblesNames)=>{
+  cy.get(`[data-cy="${variableName}-label"]`).should('have.text', labelName)
+  cy.get(`[data-cy="${variableName}"] > #demo-simple-select`)
+  .should(($select) => {
+    const possibleTexts = possiblesNames;
+    const actualText = $select.text();
+    expect(possibleTexts.some((text) => actualText.includes(text))).to.be
+      .true;
+  })
+
+})
+
+
 //
 // -- This is a child command --
 // Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })

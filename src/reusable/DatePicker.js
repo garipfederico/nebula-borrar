@@ -41,6 +41,7 @@ export default function DatePicker(props) {
         inputFormat: "dd/MM/yyyy",
         readOnly: !props.editable,
         id: props.id,
+        InputProps:{'data-cy': props.name}
     }
 
     return (
@@ -59,9 +60,11 @@ export default function DatePicker(props) {
                             <TextField {...params}
                                 error={props.errorProp}
                                 helperText={props.helperTextProp} />}
+                    inputRef={{'data-cy': props.name}}
                     />
                     :
                     <DesktopDatePicker
+                    // InputProps={{'data-cy': props.name}}
                         {...datePickerCommonProperties}
                         value={props.value}
                         onChange={value => props.onChange(props.id, value)}

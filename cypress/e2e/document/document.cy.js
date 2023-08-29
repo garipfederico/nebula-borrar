@@ -3,18 +3,25 @@
 
 import { wait } from "@testing-library/user-event/dist/utils";
 
-describe("Documents page - Caso de uso cambiar comprobar existencia de documentos", () => {
+describe("Document page - Consultar documento", () => {
   beforeEach("Logueo", () => {
     const username = "garip.federico@gmail.com";
     const password = "123";
     cy.login(username, password);
     cy.verifyClickAndNavigate("documents");
   });
-  it.only("Verificar navegacion y existencia de elementos visuales . ", () => {
+  it.only("Verificar navegacion, existencia de elementos visuales y tipos de datos . ", () => {
+    
     
     cy.get('.MuiTableBody-root > :nth-child(1) > :nth-child(2)').click()
     cy.url().should("match", /http:\/\/localhost:3000\/documents\/\d+/);
-
+    // espera carga de datos
+    cy.wait(800)
+    //Verificando existencia de botones y sus textos
+    cy.get('[data-cy="ver"]').should('have.text','Ver')
+    cy.get('[data-cy="editar"]').should('have.text','Editar')
+    cy.get('[data-cy="imprimir"]').should('have.text','Imprimir')
+    cy.get('[data-cy="volver"]').should('have.text','Volver')
     // Existencia de Titulo en la TitleCard
     cy.get('.MuiPaper-elevation24 > .MuiPaper-elevation6 > .MuiStack-root > .MuiTypography-h6')
     .should('have.text', 'Edicion de documento')
@@ -34,51 +41,27 @@ describe("Documents page - Caso de uso cambiar comprobar existencia de documento
     cy.get('#document_description-label')
     .should('have.text', 'Nombre')
     
-    cy.get('[data-cy="internal_id"]').invoke('text').then((text) => {
+    cy.get('[data-cy="internal_id"]')
+    .invoke('text')
+    .then((text) => {
       expect(text).to.be.a('string');
     });
-    // cy.wait(2000)
-    // cy.get('#\\:rh\\:').should('have.text', '18/08/2023')
-    // cy.get('[data-cy="createdAt"]').should('exist');
-    // const datePicker =  cy.get('.MuiBox-root > .MuiStack-root > .MuiFormControl-root > .MuiInputBase-root')
-    const datePicker =  cy.get('#\\:ra\\:')
-    cy.log('datePicker: ', datePicker)
-    
-    
-    /*
-    .invoke('value').then(date => {
-      expect(date).to.match(/^\d{2}\/\d{2}\/\d{4}$/);
-      cy.log('date: ',date )
-    });
-    */
-    
+  
+    // DatePicker
+    cy.datePicker('createdAt')
+
+    // Selects
+    cy.comboBox('Categoria','document_type', ['document'])
+    cy.comboBox('Nivel de Confidencialidad','confidentiality', ['1','2'])
+    cy.comboBox('Estado','status', ['en progreso','inicializado', 'escaneado'])
+
+
     //  Existencia de titulo de seccion Situacion fisica
     cy.get('.css-nen11g-MuiStack-root > .MuiTypography-root')
     .should('have.text', 'Situación Física')
-    
-
-    
-
-
-    // let rowsPerPage;
-
-    // cy.table_verifyColumnsNames(["Fecha", "Numero", "Nombre de documento"]);
-
-    // cy.get("#\\:r4\\:")
-    //   .invoke("text")
-    //   .then((value) => {
-    //     cy.log("value ", value);
-    //     rowsPerPage = value;
-    //     cy.log("rowsPerPage", rowsPerPage);
-    //     for (let row = 1; row <= rowsPerPage; row++) {
-    //       cy.log(row);
-    //       cy.table_isCellNumber(row, 2);
-    //       // cy.table_isCellDate(row, 1) // Agregar cuando este listo el back
-    //     }
-    //   });
   });
 
-  it("Comprobar la paginacion ", () => {
+  it("Verificar modificacion de documento ", () => {
     cy.get(".MuiTablePagination-displayedRows")
       .invoke("text")
       .then((text) => {

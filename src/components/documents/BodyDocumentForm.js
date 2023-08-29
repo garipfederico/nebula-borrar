@@ -235,15 +235,22 @@ function BodyDocumentForm() {
           width={"10%"}
           spacing={3}
         >
-          <Button variant="contained">Ver</Button>
+          <Button variant="contained" data-cy={"ver"}>
+            Ver
+          </Button>
           <SubmitButton
+            dataCy={"editar"}
             requestType={document.requestType}
             isLoading={isLoading} // suele podria se useSelector de redux o un useState
             textForRequestType={["Editar", "", "Guardar"]}
             handleSubmit={formik.handleSubmit}
           />
-          <Button variant="contained">Imprimir</Button>
-          <Button variant="contained">Volver</Button>
+          <Button variant="contained" data-cy={"imprimir"}>
+            Imprimir
+          </Button>
+          <Button variant="contained" data-cy={"volver"}>
+            Volver
+          </Button>
         </Stack>
       </Stack>
     </>
