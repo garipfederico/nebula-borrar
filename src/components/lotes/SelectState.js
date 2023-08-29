@@ -9,7 +9,7 @@ import {putState, resetState} from "../../states/lotesState";
 import {openAlertDialog} from "../../states/reusable/AlertDialogSlice";
 import {responseStrings, weSorryMessage} from "../../data/responseStrings";
 
-export default function SelectState({selectedValue, nroLote}) {
+export default function SelectState({selectedValue, nroDoc}) {
   const dispatch = useDispatch();
   const [estado, setEstado] = React.useState(selectedValue);
   const {optionsState, isError, response} = useSelector((state) => state.lotes);
@@ -18,7 +18,7 @@ export default function SelectState({selectedValue, nroLote}) {
   const handleChange = (event) => {
     const name = event.target.value;
     setEstado(event.target.value);
-    dispatch(putState({name, nroLote}));
+    dispatch(putState({name, nroDoc}));
   };
 
   React.useEffect(() => {

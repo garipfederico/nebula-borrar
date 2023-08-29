@@ -21,7 +21,7 @@ describe("Labels page - Caso de uso cambiar estado de documento del lote", () =>
   it("Comprobacion de nombres de columnas", () => {
     cy.get(".MuiTableHead-root > .MuiTableRow-root > :nth-child(1)").should(
       "have.text",
-      "N° Lote"
+      "N° de Documento"
     );
     cy.get(".MuiTableHead-root > .MuiTableRow-root > :nth-child(2)").should(
       "have.text",

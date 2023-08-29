@@ -7,20 +7,19 @@ import SelectState from "./SelectState";
 
 // import {setRequestTypeDelete, setRequestTypePut} from '../../redux/store/misProductosState'
 
-function RowLote(props) {
+function RowLote({key, row, columns, _id}) {
   const isLoading = useSelector((state) => state.lotes.isLoading);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  console.log("props ", props);
-  console.log("props.row.estado ", props.row.estado);
+  console.log("row.estado ", row.estado);
   const handleEdit = (idProducto) => {
     idProducto.stopPropagation();
     // dispatch(setRequestTypePut())
-    navigate("./" + props._id, {state: {editing: true}});
+    navigate("./" + _id, {state: {editing: true}});
   };
 
   const handleGet = () => {
-    // navigate("./" + props.id, {state: {editing: false}});
+    // navigate("./" + _id, {state: {editing: false}});
   };
 
   const activateAlert = (e) => {
@@ -28,9 +27,9 @@ function RowLote(props) {
   };
 
   return (
-    <TableRow hover role="checkbox" tabIndex={-1} key={props.row.nroDoc}> 
-      {props.columns.map((column) => {
-        const value = props.row[column.id];
+    <TableRow hover role="checkbox" tabIndex={-1} key={row.nroDoc}>
+      {columns.map((column) => {
+        const value = row[column.id];
         return (
           <TableCell key={column.id} align={column.align} onClick={handleGet}>
             {isLoading ? (
@@ -46,7 +45,10 @@ function RowLote(props) {
               </>
             ) : column.id === "estado" ? (
               <>
-                <SelectState selectedValue={props.row.estado || ""} nroDoc={props.row.nroDoc} />
+                <SelectState
+                  selectedValue={row.estado || ""}
+                  nroDoc={row.nroDoc}
+                />
               </>
             ) : column.format && typeof value === "number" ? (
               column.format(value)
