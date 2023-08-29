@@ -124,8 +124,6 @@ describe("Labels page - Caso de uso cambiar estado de documento del lote", () =>
     verifyAndClick("escaneado")
     cy.wait(delay)
 
-
-
     // Click en el menu
     cy.get(".MuiToolbar-root > .MuiButtonBase-root").click();
     // Click en home

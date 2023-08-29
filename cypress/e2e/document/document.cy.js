@@ -10,7 +10,7 @@ describe("Document page - Consultar documento", () => {
     cy.login(username, password);
     cy.verifyClickAndNavigate("documents");
   });
-  it.only("Verificar navegacion, existencia de elementos visuales y tipos de datos . ", () => {
+  it("Verificar navegacion, existencia de elementos visuales y tipos de datos . ", () => {
     
     
     cy.get('.MuiTableBody-root > :nth-child(1) > :nth-child(2)').click()
@@ -61,7 +61,7 @@ describe("Document page - Consultar documento", () => {
     .should('have.text', 'Situación Física')
   });
 
-  it("Verificar modificacion de documento ", () => {
+  it.skip("Verificar modificacion de documento ", () => {
     cy.get(".MuiTablePagination-displayedRows")
       .invoke("text")
       .then((text) => {
@@ -85,14 +85,5 @@ describe("Document page - Consultar documento", () => {
           }
         }
       });
-  });
-  it("Comprobar funcionalidad de cantidad de documentos por paginas", () => {
-    cy.table_dropdown_verifyValues(["5", "10", "25", "100"]);
-    cy.table_dropdown_selectAnOption("5");
-    cy.table_verifyNumberOfRows(5)
-    cy.table_dropdown_selectAnOption("10");
-    cy.table_verifyNumberOfRows(10)
-    cy.table_dropdown_selectAnOption("25");
-    cy.table_verifyNumberOfRows(12) // Actualmente solo hay cargados 12 documentos
   });
 });

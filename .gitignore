@@ -13,6 +13,7 @@
 
 # Cypress downloads from label's test
 /cypress/downloads
+/cypress/videos
 # misc
 .DS_Store
 .env.local
