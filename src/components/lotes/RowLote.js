@@ -1,10 +1,13 @@
 import React, {useContext} from "react";
 import {useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
 import {DeleteForever, Edit} from "@mui/icons-material";
 import {IconButton, Skeleton, TableCell, TableRow} from "@mui/material";
+// Reusables
+// Components
 import SelectState from "./SelectState";
-
+// Redux
+import {useDispatch, useSelector} from "react-redux";
+// Data
 // import {setRequestTypeDelete, setRequestTypePut} from '../../redux/store/misProductosState'
 
 function RowLote({key, row, columns, _id}) {

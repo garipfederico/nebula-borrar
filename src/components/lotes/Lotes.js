@@ -3,6 +3,7 @@ import {useFormik} from "formik";
 import {Stack} from "@mui/material";
 
 // Reusables
+import useError from "../../hooks/useError"
 import TitleCard from "../../reusable/card/TitleCard";
 import SearchForm from "./SearchForm";
 
@@ -18,14 +19,15 @@ import loteSchema from "./loteValidationSchema";
 
 function Lotes() {
   const dispatch = useDispatch();
-  const {results} = useSelector((state) => state.lotes.documents);
+  const { results } = useSelector((state) => state.lotes.documents);
+  const {isError, response } = useSelector((state) => state.lotes);
   const batch = results[0].batch;
   
   useEffect(() => {
     dispatch(getDocuments());
   }, []);
-  console.log("results2 ", results[0].batch);
-  // useEffect(())
+
+  useError(isError, response)
 
   const formik = useFormik({
     initialValues: {

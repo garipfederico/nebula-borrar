@@ -22,14 +22,19 @@ const URL_document = URL_BASE + parcialURLdocument;
 // REACT_APP_ENVIRONMENT_TYPE = dev | mocked | test
 function* requestManager(apiCallFunction, anUrl, anObject = null) {
   console.log(process.env.REACT_APP_ENVIRONMENT_TYPE === "mocked")
+  console.log("anUrl ",anUrl )
   let request = {}
   if (process.env.REACT_APP_ENVIRONMENT_TYPE === "mocked") {
     console.log("Executing in mocked mode");
     var mock = new MockAdapter(axiosBase);
-    mock.onGet(URL_optionsState).reply(200, {...OptionsState})
-    .onGet(URL_document).reply(200, {...documents})
-    .onPut(anUrl).reply(200)
+    // mock.onGet(anUrl).reply(200, {...OptionsState})
+    // .onGet(anUrl).reply(200, {...documents})
+    // .onPut(anUrl).reply(200)
+    mock.onGet(anUrl).reply(401, {message: "Unauthorized"})
+    .onGet(anUrl).reply(401,  {message: "Unauthorized"})
+    .onPut(anUrl).reply( 401, {message: "Unauthorized"})
     request = yield call(apiCallFunction, anUrl, anObject)
+    console.log("request ",request )
     mock.restore()
   } else {
     console.log("Executing in dev mode");

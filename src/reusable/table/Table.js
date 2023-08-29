@@ -29,6 +29,7 @@ export default function Tabla({
   // handleChangeRowsPerPage
 }) {
   const dispatch = useDispatch();
+
   useError(isError, response);
 
   const [page, setPage] = useState(() => 0);
