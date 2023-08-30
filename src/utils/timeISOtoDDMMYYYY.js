@@ -14,6 +14,13 @@ export function convertirFormatoFecha(fechaOriginal) {
 
 // console.log(fechaFormateada); // Salida: "18/08/2023"
 
+
+/**
+ * 
+ * @param {*} objectsArray 
+ * @param {*} dateField 
+ * @returns 
+ */
 export function convertDateFieldObjectsArray(objectsArray, dateField) {
     const newArray = objectsArray.map(object => {
         const originalDate = object[dateField];

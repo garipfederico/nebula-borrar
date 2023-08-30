@@ -21,11 +21,12 @@ import { openAlertDialog } from "../../states/reusable/AlertDialogSlice";
 
 // Data
 import { responseStrings, weSorryMessage } from "../../data/responseStrings";
+import {convertDateFieldObjectsArray} from "../../utils/timeISOtoDDMMYYYY" 
 
 const columns = [
   {id: "nroDoc", label: "N° de Documento", minWidth: 100},
-  {id: "operador", label: "Operador", minWidth: 100},
   {id: "fecha", label: "Fecha", minWidth: 20},
+  {id: "descripcion", label: "Descripción del documento", minWidth: 20},
   {id: "estado", label: "Estado", minWidth: 50},
 ];
 
@@ -36,23 +37,24 @@ export default function StickyHeadTable() {
   console.log("results", documents);
   // Adapt the  structure's data of the response from API to the frontend structure
   const transformData = documents.map((unDoc) => {
-    console.log(unDoc.status)
     return {
-      nroDoc: unDoc.id,
-      operador: unDoc.internal_id,
-      fecha: "12/04/2021",
+      nroDoc: unDoc.internal_id,
+      fecha: unDoc.created_at,
+      descripcion: unDoc.document_description,
       estado: unDoc.status,
     };
   });
+  
+  const ArrayDateFieldFormatted = convertDateFieldObjectsArray(transformData,'fecha')
 
-  const documentos = transformData;
+  const documentos = ArrayDateFieldFormatted;
 
   const rows = documentos.map((unProducto) => {
-    const {nroDoc, operador, fecha, estado} = unProducto;
+    const {nroDoc, fecha, descripcion, estado} = unProducto;
     return {
       nroDoc,
-      operador,
       fecha,
+      descripcion,
       estado,
     };
   });

@@ -5,6 +5,7 @@ import {
   getOneDocumentSuccess,
   getOneDocumentFail,
   searchDocumentsSuccess,
+  searchDocumentsEmpty,
   searchDocumentsFail
 } from "../states/documentsState";
 import axiosBase from "../utils/axiosBase";
@@ -48,8 +49,8 @@ function* workGetDocuments(action) {
   URL += "?limit=" + rowsPerPage + "&offset=" + offset;
   console.log(URL_documents);
   try {
-    const documentsRequest = yield requestManager(axiosBase.get, URL);
-    const {results, count} = documentsRequest.data;
+    const documentsResponse = yield requestManager(axiosBase.get, URL);
+    const {results, count} = documentsResponse.data;
     yield put(getDocumentsSuccess({documents: results, count}));
   } catch (e) {
     console.log("Error trying to get from API the documents");
@@ -64,8 +65,8 @@ function* workGetOneDocument(action) {
   const { id } = action.payload
   const URL = URL_documents + id + '/get-document/'
   try {
-    const documentsRequest = yield requestManager(axiosBase.get, URL);
-    yield put(getOneDocumentSuccess({document:documentsRequest}))
+    const documentsResponse = yield requestManager(axiosBase.get, URL);
+    yield put(getOneDocumentSuccess({document:documentsResponse}))
   } catch (e){
     yield put(getOneDocumentFail(e))
   }
@@ -73,12 +74,20 @@ function* workGetOneDocument(action) {
 
 function* workSearchDocuments(action){
   const {textToSearch} = action.payload
-try{
-  yield console.log(textToSearch)
-
-  yield put()
+  try{
+  const URL = URL_documents + 'get-document-by-number/' + textToSearch + '/'
+  const documentsResponse = yield requestManager(axiosBase.get, URL)
+  yield put(searchDocumentsSuccess({documentsResponse}))
 }
-catch(e){}
+catch(e){
+  console.log("e ",e.response )
+  if(e.response.status === 404){
+    console.log("e.response.status ",e.response.status )
+    yield put(searchDocumentsEmpty())
+  } else {
+    yield put(searchDocumentsFail({e}))
+  }
+}
 }
 
 

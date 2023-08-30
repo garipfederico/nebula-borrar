@@ -28,6 +28,11 @@ function SearchBar({
           }}
           size={size}
           label="Buscar un documento"
+          onKeyDown={(e => {
+            if (e.key === 'Enter') {
+            e.preventDefault();
+            handleSubmit()
+          }})}
         />
         <SubmitButton
           requestType={"GET"}

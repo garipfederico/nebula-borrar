@@ -63,10 +63,19 @@ export const documentsSlice = createSlice({
       state.isLoading = true;
     },
     searchDocumentsSuccess : (state, action) => {
-      
+      state.isLoading = false;
+      state.documents = [action.payload.documentsResponse.data]
+      state.count = 1;
+    },
+    searchDocumentsEmpty : (state, action) => {
+      state.isLoading = false;
+      state.documents = []
+      state.count = 1;
     },
     searchDocumentsFail : (state, action) => {
-
+      state.isLoading = false;
+      state.isError = true;
+      state.response = action.payload.e.response
     },
     resetState: (state) => {
       state.isLoading = false;
@@ -87,6 +96,7 @@ export const {
   putOneDocument,
   searchDocuments,
   searchDocumentsSuccess,
+  searchDocumentsEmpty,
   searchDocumentsFail,
   resetState,
 } = documentsSlice.actions;
