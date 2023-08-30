@@ -1,6 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
+  searchText: '',
   requestType: null,
   isLoading: false,
   isError: false,
@@ -58,6 +59,15 @@ export const documentsSlice = createSlice({
       state.document.isLoading = true;
 
     },
+    searchDocuments: (state, action) => {
+      state.isLoading = true;
+    },
+    searchDocumentsSuccess : (state, action) => {
+      
+    },
+    searchDocumentsFail : (state, action) => {
+
+    },
     resetState: (state) => {
       state.isLoading = false;
       state.isError = false;
@@ -75,6 +85,9 @@ export const {
   getOneDocumentFail,
   editOneDocument,
   putOneDocument,
+  searchDocuments,
+  searchDocumentsSuccess,
+  searchDocumentsFail,
   resetState,
 } = documentsSlice.actions;
 

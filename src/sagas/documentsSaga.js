@@ -4,6 +4,8 @@ import {
   getDocumentsFail,
   getOneDocumentSuccess,
   getOneDocumentFail,
+  searchDocumentsSuccess,
+  searchDocumentsFail
 } from "../states/documentsState";
 import axiosBase from "../utils/axiosBase";
 import MockAdapter from "axios-mock-adapter";
@@ -67,13 +69,23 @@ function* workGetOneDocument(action) {
   } catch (e){
     yield put(getOneDocumentFail(e))
   }
+}
 
+function* workSearchDocuments(action){
+  const {textToSearch} = action.payload
+try{
+  yield console.log(textToSearch)
+
+  yield put()
+}
+catch(e){}
 }
 
 
 function* documentsSaga() {
   yield takeEvery("documents/getDocuments", workGetDocuments);
   yield takeEvery("documents/getOneDocument", workGetOneDocument);
+  yield takeEvery("documents/searchDocuments", workSearchDocuments);
 }
 
 export default documentsSaga;

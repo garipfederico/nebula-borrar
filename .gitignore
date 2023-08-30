@@ -14,6 +14,8 @@
 # Cypress downloads from label's test
 /cypress/downloads
 /cypress/videos
+/cypress/screenshots
+
 # misc
 .DS_Store
 .env.local

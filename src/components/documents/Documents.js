@@ -13,10 +13,10 @@ import DocumentForm from "./DocumentForm";
 
 // Redux
 import {useDispatch, useSelector} from "react-redux";
-import {getDocuments, getOneDocument} from "../../states/documentsState";
+import {getDocuments, getOneDocument, searchDocuments} from "../../states/documentsState";
 
 // Data
-import {convertDateFieldObjectsArray} from "../../utils/timeISOtoDDMMYYYY"
+import {convertDateFieldObjectsArray} from "../../utils/timeISOtoDDMMYYYY";
 // The values of id of the columnsDefinition are the attributes
 // of the JSON that come from the back.
 const columnsDefinition = [
@@ -39,9 +39,7 @@ function Documents() {
   const {isError, isLoading, response, documents, count} = useSelector(
     (state) => state.documents
   );
-
-
-
+  const [textToSearch, setTextToSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
   const {id: documentId} = useParams();
 
@@ -54,16 +52,22 @@ function Documents() {
     }
   }, [documentId]);
 
-const documentsDateConverted = convertDateFieldObjectsArray(documents, 'created_at')
+  const documentsDateConverted = convertDateFieldObjectsArray(
+    documents,
+    "created_at"
+  );
 
   const handleSubmit = () => {
-    console.log("Hola mundo");
+    console.log(textToSearch);
+    dispatch(searchDocuments({textToSearch}))
   };
 
   return (
     <TitleCard title="Documentos" subtitle="Un subtitulo" width="80%">
       <Stack direction="column" spacing={2} width="90%" sx={{mb: 5}}>
         <SearchBar
+          textToSearch={textToSearch}
+          setTextToSearch={setTextToSearch}
           isLoading={isLoading}
           handleSubmit={handleSubmit}
           icon={<SearchIcon />}
@@ -81,11 +85,7 @@ const documentsDateConverted = convertDateFieldObjectsArray(documents, 'created_
           response={response}
           reduxStateGetter={getDocuments}
         />
-        {showForm ? 
-        <DocumentForm 
-
-        /> 
-        : null}
+        {showForm ? <DocumentForm /> : null}
       </Stack>
     </TitleCard>
   );

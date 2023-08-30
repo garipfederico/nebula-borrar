@@ -1,6 +1,7 @@
 import React from "react";
 import {useState} from "react";
 import {Paper, Stack, TextField} from "@mui/material";
+// Reusables
 import SubmitButton from "../buttons/SubmitButton";
 
 function SearchBar({
@@ -10,20 +11,23 @@ function SearchBar({
   size,
   buttonWidth,
   inputFieldWidth,
+  textToSearch,
+  setTextToSearch
 }) {
-  const [inputSearch, setInputSearch] = useState("");
+
   return (
     <Paper sx={{p: 3}}>
       <Stack direction="row" justifyContent={"space-around"}>
         <TextField
           sx={inputFieldWidth ? {width: inputFieldWidth} : null}
-          id="inputSearch"
-          value={inputSearch}
+          id="textToSearch"
+          name="textToSearch"
+          value={textToSearch}
           onChange={(e) => {
-            setInputSearch(e.target.value);
+            setTextToSearch(e.target.value);
           }}
           size={size}
-          // label='Buscar'
+          label="Buscar un documento"
         />
         <SubmitButton
           requestType={"GET"}

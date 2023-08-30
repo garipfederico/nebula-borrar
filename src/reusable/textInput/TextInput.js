@@ -1,7 +1,6 @@
 import React from "react";
-import {Box, Skeleton, TextField} from "@mui/material";
+import {Skeleton, TextField} from "@mui/material";
 import {startCase} from "lodash";
-import { Password } from "@mui/icons-material";
 
 /**
  *
@@ -62,7 +61,6 @@ function TextInput({
 
   const calcHeight = rows ? rows * 50 : 50;
   return (
-    // <Box sx={{mt: 2}}>
     <>
       {isLoading ? (
         <Skeleton width={"100%"} height={calcHeight + "px"} />
@@ -85,7 +83,6 @@ function TextInput({
         />
       )}
     </>
-    // </Box>
   );
 }
 
