@@ -30,7 +30,8 @@ export default function Tabla({
   count,
   reduxStateGetter,
   // page,
-  // rowsPerPage,
+  rowsPerPage,
+  setRowsPerPage,
   // handleChangePage,
   // handleChangeRowsPerPage
 }) {
@@ -40,7 +41,7 @@ export default function Tabla({
   useMessage(isError, messageType, dispatch, resetState);
 
   const [page, setPage] = useState(() => 0);
-  const [rowsPerPage, setRowsPerPage] = useState(() => 10);
+  // const [rowsPerPage, setRowsPerPage] = useState(() => 10);
 
   useEffect(() => {
     dispatch(reduxStateGetter({page, rowsPerPage}));

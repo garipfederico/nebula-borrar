@@ -1,6 +1,7 @@
 import React from "react";
 import {useState} from "react";
-import {Paper, Stack, TextField} from "@mui/material";
+import {Box, IconButton, Paper, Stack, TextField} from "@mui/material";
+import {HighlightOff} from "@mui/icons-material/";
 // Reusables
 import SubmitButton from "../buttons/SubmitButton";
 
@@ -12,12 +13,12 @@ function SearchBar({
   buttonWidth,
   inputFieldWidth,
   textToSearch,
-  setTextToSearch
+  setTextToSearch,
+  handleCleanSearchInput
 }) {
-
   return (
     <Paper sx={{p: 3}}>
-      <Stack direction="row" justifyContent={"space-around"}>
+      <Stack direction="row" justifyContent={"start"}>
         <TextField
           sx={inputFieldWidth ? {width: inputFieldWidth} : null}
           id="textToSearch"
@@ -28,13 +29,23 @@ function SearchBar({
           }}
           size={size}
           label="Buscar un documento"
-          onKeyDown={(e => {
-            if (e.key === 'Enter') {
-              console.log('presione enter????????')
-            e.preventDefault();
-            handleSubmit()
-          }})}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              handleSubmit();
+            }
+          }}
         />
+        <IconButton
+          aria-label="delete"
+          disabled={textToSearch === "" ? true : false}
+          color="primary"
+          onClick={handleCleanSearchInput}
+          sx={{mr:8}}
+        >
+          <HighlightOff />
+        </IconButton>
+
         <SubmitButton
           requestType={"GET"}
           textForRequestType={["Buscar"]}
@@ -44,6 +55,8 @@ function SearchBar({
           size={size}
           width={buttonWidth}
         />
+        
+
       </Stack>
     </Paper>
   );

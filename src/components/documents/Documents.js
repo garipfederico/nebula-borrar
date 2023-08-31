@@ -13,7 +13,11 @@ import DocumentForm from "./DocumentForm";
 
 // Redux
 import {useDispatch, useSelector} from "react-redux";
-import {getDocuments, getOneDocument, searchDocuments} from "../../states/documentsState";
+import {
+  getDocuments,
+  getOneDocument,
+  searchDocuments,
+} from "../../states/documentsState";
 
 // Data
 import {convertDateFieldObjectsArray} from "../../utils/timeISOtoDDMMYYYY";
@@ -42,6 +46,7 @@ function Documents() {
   const [textToSearch, setTextToSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
   const {id: documentId} = useParams();
+  const [rowsPerPage, setRowsPerPage] = useState(() => 10);
 
   useEffect(() => {
     if (documentId !== undefined) {
@@ -58,8 +63,12 @@ function Documents() {
   );
 
   const handleSubmit = () => {
-    console.log(textToSearch);
-    dispatch(searchDocuments({textToSearch}))
+    dispatch(searchDocuments({textToSearch}));
+  };
+
+  const handleCleanSearchInput = () => {
+    setTextToSearch("");
+    dispatch(getDocuments({page:0, rowsPerPage}));
   };
 
   return (
@@ -74,6 +83,7 @@ function Documents() {
           size="small"
           buttonWidth="25%"
           inputFieldWidth="60%"
+          handleCleanSearchInput={handleCleanSearchInput}
         />
         <Table
           columnsDefinition={columnsDefinition}
@@ -84,6 +94,8 @@ function Documents() {
           count={count}
           response={response}
           reduxStateGetter={getDocuments}
+          rowsPerPage={rowsPerPage}
+          setRowsPerPage={setRowsPerPage}
         />
         {showForm ? <DocumentForm /> : null}
       </Stack>

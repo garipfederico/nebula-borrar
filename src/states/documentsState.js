@@ -84,6 +84,7 @@ export const documentsSlice = createSlice({
       state.isError = false;
       state.response = {};
       state.messageType = ''
+      state.document = initialState.document
     },
   },
 });

@@ -43,6 +43,7 @@ function* requestManager(apiCallFunction, anUrl, anObject = null) {
 function* workGetDocuments(action) {
   // Call to get the documents for the table
   const {page, rowsPerPage} = action.payload;
+  
   const offset = page * rowsPerPage;
   console.log("page ", page);
   console.log("rowsPerPage ", rowsPerPage);
