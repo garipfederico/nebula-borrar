@@ -30,6 +30,15 @@ const columns = [
   {id: "estado", label: "Estado", minWidth: 50},
 ];
 
+
+
+// Hacer un navigate al id o sea al id de python
+// El internal_id es para mostrar en el front
+// Debo pasar una columna o un parametro id para poder hacer la solicitud al back
+// con el id
+
+
+
 export default function StickyHeadTable() {
   const dispatch = useDispatch();
   const {results, isError} = useSelector((state) => state.lotes.documents);
