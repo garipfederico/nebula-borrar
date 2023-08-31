@@ -6,7 +6,8 @@ import {
   getOneDocumentFail,
   searchDocumentsSuccess,
   searchDocumentsEmpty,
-  searchDocumentsFail
+  searchDocumentsFail,
+  resetState
 } from "../states/documentsState";
 import axiosBase from "../utils/axiosBase";
 import MockAdapter from "axios-mock-adapter";
@@ -84,6 +85,7 @@ catch(e){
   if(e.response.status === 404){
     console.log("e.response.status ",e.response.status )
     yield put(searchDocumentsEmpty())
+    // yield put(resetState())
   } else {
     yield put(searchDocumentsFail({e}))
   }

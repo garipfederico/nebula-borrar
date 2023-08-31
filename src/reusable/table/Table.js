@@ -1,4 +1,4 @@
-import useError from "../../hooks/useError";
+import {useEffect, useState} from "react";
 import {
   Paper,
   Table,
@@ -9,10 +9,16 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
-import Row from "./Row";
-import {useEffect, useState} from "react";
-import {useDispatch} from "react-redux";
 import PropTypes from "prop-types";
+// Reusables
+import useError from "../../hooks/useError";
+import useMessage from "../../hooks/useMessage";
+// Components
+import Row from "./Row";
+// Redux
+import {useDispatch, useSelector} from "react-redux";
+import { resetState } from "../../states/documentsState";
+// Data
 
 export default function Tabla({
   columnsDefinition,
@@ -29,8 +35,9 @@ export default function Tabla({
   // handleChangeRowsPerPage
 }) {
   const dispatch = useDispatch();
-
+  const {messageType} = useSelector((state) => state.documents);
   useError(isError, response);
+  useMessage(isError, messageType, dispatch, resetState);
 
   const [page, setPage] = useState(() => 0);
   const [rowsPerPage, setRowsPerPage] = useState(() => 10);

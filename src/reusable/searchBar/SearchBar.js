@@ -30,6 +30,7 @@ function SearchBar({
           label="Buscar un documento"
           onKeyDown={(e => {
             if (e.key === 'Enter') {
+              console.log('presione enter????????')
             e.preventDefault();
             handleSubmit()
           }})}

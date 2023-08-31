@@ -71,8 +71,7 @@ export default function DialogForm({
           </Paper>
           <DialogContent>{children}</DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Disagree</Button>
-            <Button onClick={handleClose}>Agree</Button>
+            <Button onClick={handleClose}>Cerrar</Button>
           </DialogActions>
         </Dialog>
       </Stack>

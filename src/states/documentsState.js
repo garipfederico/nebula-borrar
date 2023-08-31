@@ -5,6 +5,7 @@ const initialState = {
   requestType: null,
   isLoading: false,
   isError: false,
+  messageType: '',
   response: {},
   documents: [],
   document: {
@@ -69,7 +70,8 @@ export const documentsSlice = createSlice({
     },
     searchDocumentsEmpty : (state, action) => {
       state.isLoading = false;
-      state.documents = []
+      state.documents = [];
+      state.messageType = 'noResults'
       state.count = 1;
     },
     searchDocumentsFail : (state, action) => {
@@ -81,6 +83,7 @@ export const documentsSlice = createSlice({
       state.isLoading = false;
       state.isError = false;
       state.response = {};
+      state.messageType = ''
     },
   },
 });
