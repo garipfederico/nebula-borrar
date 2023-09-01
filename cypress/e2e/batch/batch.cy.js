@@ -1,4 +1,4 @@
-describe("Labels page - Caso de uso cambiar estado de documento del lote", () => {
+describe("Batch page - Caso de uso cambiar estado de documento del lote", () => {
   const username = "garip.federico@gmail.com";
   const password = "123";
 
@@ -18,6 +18,23 @@ describe("Labels page - Caso de uso cambiar estado de documento del lote", () =>
   it("Navegacion", () => {
     cy.url().should("include", "http://localhost:3000/digitalization/lotes");
   });
+
+  it("Comprobacion de la estructura del backend", () => {
+    cy.request("GET", "http://localhost:8003/api/document-status/").as(
+      "respuestaEndpoint"
+    );
+    cy.get("@respuestaEndpoint").its("status").should("eq", 200);
+    cy.get("@respuestaEndpoint").its("body.results").should("have.length", 3);
+
+    cy.get("@respuestaEndpoint")
+      .its("body.results")
+      .each((result) => {
+        expect(result)
+          .to.have.property("name")
+          .and.to.be.oneOf(["inicializado", "en progreso", "escaneado"]);
+      });
+  });
+
   it("Comprobacion de nombres de columnas", () => {
     cy.get(".MuiTableHead-root > .MuiTableRow-root > :nth-child(1)").should(
       "have.text",
@@ -25,11 +42,11 @@ describe("Labels page - Caso de uso cambiar estado de documento del lote", () =>
     );
     cy.get(".MuiTableHead-root > .MuiTableRow-root > :nth-child(2)").should(
       "have.text",
-      "Operador"
+      "Fecha"
     );
     cy.get(".MuiTableHead-root > .MuiTableRow-root > :nth-child(3)").should(
       "have.text",
-      "Fecha"
+      "Descripción del documento"
     );
     cy.get(".MuiTableHead-root > .MuiTableRow-root > :nth-child(4)").should(
       "have.text",
@@ -48,15 +65,6 @@ describe("Labels page - Caso de uso cambiar estado de documento del lote", () =>
     );
 
     cy.get(".MuiTableBody-root > :nth-child(1) > :nth-child(2)").should(
-      ($element) => {
-        const text = $element.text();
-        const isNumber = !isNaN(parseFloat(text)) && isFinite(text);
-
-        expect(isNumber).to.equal(true, "El texto debe ser un número");
-      }
-    );
-
-    cy.get(".MuiTableBody-root > :nth-child(1) > :nth-child(3)").should(
       ($element) => {
         const text = $element.text();
 
@@ -95,34 +103,36 @@ describe("Labels page - Caso de uso cambiar estado de documento del lote", () =>
 
   it("Comprobando el cambio de estado exitoso", () => {
     // Click en el combobox para abrir las opciones
-    const openDropdown = (nroFila) => {cy.get(
-      `:nth-child(${nroFila}) > :nth-child(4) > .MuiBox-root > .MuiFormControl-root > .MuiInputBase-root > #demo-simple-select`
-    ).click();}
+    const openDropdown = (nroFila) => {
+      cy.get(
+        `:nth-child(${nroFila}) > :nth-child(4) > .MuiBox-root > .MuiFormControl-root > .MuiInputBase-root > #demo-simple-select`
+      ).click();
+    };
     const verifyAndClick = (stringOption) => {
       cy.get(`[data-value="${stringOption}"]`).should("be.visible").click();
-    }
-    const delay = 200
-    openDropdown(1)
-    verifyAndClick("inicializado")
-    cy.wait(delay)
+    };
+    const delay = 200;
+    openDropdown(1);
+    verifyAndClick("inicializado");
+    cy.wait(delay);
 
-    openDropdown(1)
-    verifyAndClick("en progreso")
-    cy.wait(delay)
-    
-    openDropdown(1)
-    verifyAndClick("escaneado")
-    cy.wait(delay)
-    
-    openDropdown(2)
-    verifyAndClick("inicializado")
-    cy.wait(delay)
-    openDropdown(2)
-    verifyAndClick("en progreso")
-    cy.wait(delay)
-    openDropdown(2)
-    verifyAndClick("escaneado")
-    cy.wait(delay)
+    openDropdown(1);
+    verifyAndClick("en progreso");
+    cy.wait(delay);
+
+    openDropdown(1);
+    verifyAndClick("escaneado");
+    cy.wait(delay);
+
+    openDropdown(2);
+    verifyAndClick("inicializado");
+    cy.wait(delay);
+    openDropdown(2);
+    verifyAndClick("en progreso");
+    cy.wait(delay);
+    openDropdown(2);
+    verifyAndClick("escaneado");
+    cy.wait(delay);
 
     // Click en el menu
     cy.get(".MuiToolbar-root > .MuiButtonBase-root").click();
