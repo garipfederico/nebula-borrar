@@ -16,12 +16,10 @@ import RowLote from "./RowLote";
 
 // Redux
 import {useSelector, useDispatch} from "react-redux";
-import {getOptionsState, getDocuments} from "../../states/lotesState";
-import { openAlertDialog } from "../../states/reusable/AlertDialogSlice";
+import {getOptionsState} from "../../states/lotesState";
 
 // Data
-import { responseStrings, weSorryMessage } from "../../data/responseStrings";
-import {convertDateFieldObjectsArray} from "../../utils/timeISOtoDDMMYYYY" 
+import {convertDateFieldObjectsArray} from "../../utils/timeISOtoDDMMYYYY";
 
 const columns = [
   {id: "nroDoc", label: "N° de Documento", minWidth: 100},
@@ -30,37 +28,36 @@ const columns = [
   {id: "estado", label: "Estado", minWidth: 50},
 ];
 
-
-
 // Hacer un navigate al id o sea al id de python
 // El internal_id es para mostrar en el front
 // Debo pasar una columna o un parametro id para poder hacer la solicitud al back
 // con el id
 
-
-
 export default function StickyHeadTable() {
   const dispatch = useDispatch();
-  const {results, isError} = useSelector((state) => state.lotes.documents);
+  const {results} = useSelector((state) => state.lotes.documents);
   const documents = results || [];
-  console.log("results", documents);
   // Adapt the  structure's data of the response from API to the frontend structure
   const transformData = documents.map((unDoc) => {
     return {
+      id: unDoc.id,
       nroDoc: unDoc.internal_id,
       fecha: unDoc.created_at,
       descripcion: unDoc.document_description,
       estado: unDoc.status,
     };
   });
-  
-  const ArrayDateFieldFormatted = convertDateFieldObjectsArray(transformData,'fecha')
+
+  const ArrayDateFieldFormatted = convertDateFieldObjectsArray(
+    transformData,
+    "fecha"
+  );
 
   const documentos = ArrayDateFieldFormatted;
-
   const rows = documentos.map((unProducto) => {
-    const {nroDoc, fecha, descripcion, estado} = unProducto;
+    const {id, nroDoc, fecha, descripcion, estado} = unProducto;
     return {
+      id,
       nroDoc,
       fecha,
       descripcion,
@@ -81,12 +78,11 @@ export default function StickyHeadTable() {
 
   useEffect(() => {
     dispatch(getOptionsState());
-    // dispatch(getDocuments());
   }, []);
- 
+
   return (
     <Paper sx={{width: "100%", overflow: "hidden"}}>
-      <TableContainer sx={{ overflowX: "auto"}} >
+      <TableContainer sx={{overflowX: "auto"}}>
         <Table stickyHeader aria-label="sticky table" size="small">
           <TableHead>
             <TableRow>
@@ -111,6 +107,7 @@ export default function StickyHeadTable() {
                     row={row}
                     columns={columns}
                     _id={row._id}
+                    id={row.id}
                   />
                 );
               })}

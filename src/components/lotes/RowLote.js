@@ -1,56 +1,26 @@
-import React, {useContext} from "react";
-import {useNavigate} from "react-router-dom";
-import {DeleteForever, Edit} from "@mui/icons-material";
-import {IconButton, Skeleton, TableCell, TableRow} from "@mui/material";
+import React from "react";
+import { Skeleton, TableCell, TableRow} from "@mui/material";
 // Reusables
 // Components
 import SelectState from "./SelectState";
 // Redux
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 // Data
 
-function RowLote({key, row, columns, _id}) {
+function RowLote({row, columns, id}) {
   const isLoading = useSelector((state) => state.lotes.isLoading);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  console.log("row.estado ", row.estado);
-  const handleEdit = (idProducto) => {
-    idProducto.stopPropagation();
-    // dispatch(setRequestTypePut())
-    navigate("./" + _id, {state: {editing: true}});
-  };
-
-  const handleGet = () => {
-    // navigate("./" + _id, {state: {editing: false}});
-  };
-
-  const activateAlert = (e) => {
-    e.stopPropagation();
-  };
 
   return (
     <TableRow hover role="checkbox" tabIndex={-1} key={row.nroDoc}>
       {columns.map((column) => {
         const value = row[column.id];
         return (
-          <TableCell key={column.id} align={column.align} onClick={handleGet}>
+          <TableCell key={column.id} align={column.align}>
             {isLoading ? (
               <Skeleton />
-            ) : column.id === "accion" ? (
-              <>
-                <IconButton onClick={handleEdit}>
-                  <Edit color="secondary" />
-                </IconButton>
-                <IconButton onClick={activateAlert}>
-                  <DeleteForever color="warning" />
-                </IconButton>
-              </>
             ) : column.id === "estado" ? (
               <>
-                <SelectState
-                  selectedValue={row.estado || ""}
-                  nroDoc={row.nroDoc}
-                />
+                <SelectState selectedValue={row.estado || ""} id={id} />
               </>
             ) : column.format && typeof value === "number" ? (
               column.format(value)

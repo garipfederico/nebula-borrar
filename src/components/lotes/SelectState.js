@@ -8,7 +8,8 @@ import Select from "@mui/material/Select";
 // Redux
 import {useDispatch, useSelector} from "react-redux";
 import {putState} from "../../states/lotesState";
-export default function SelectState({selectedValue, nroDoc}) {
+
+export default function SelectState({selectedValue, id}) {
   const dispatch = useDispatch();
   const [estado, setEstado] = React.useState(selectedValue);
   const {optionsState} = useSelector((state) => state.lotes);
@@ -16,7 +17,7 @@ export default function SelectState({selectedValue, nroDoc}) {
   const handleChange = (event) => {
     const name = event.target.value;
     setEstado(event.target.value);
-    dispatch(putState({name, nroDoc}));
+    dispatch(putState({name, id}));
   };
 
   // Array that have indexes numbers for each elements
@@ -25,7 +26,7 @@ export default function SelectState({selectedValue, nroDoc}) {
   return (
     <Box sx={{minWidth: 120}}>
       <FormControl fullWidth size="small" variant="standard">
-        <InputLabel id="demo-simple-select-label">Cambiar estado</InputLabel>
+        <InputLabel id="demo-simple-select-label" key={id}>Cambiar estado</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"

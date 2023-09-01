@@ -79,8 +79,8 @@ function* workGetDocuments() {
 
 function* workPutDocuments(action) {
   console.log(action.payload);
-  const {name, nroDoc }= action.payload
-  const URLRequest =  URL_BASE + parcialURLdocument + nroDoc + '/manage-status'
+  const {name, id }= action.payload
+  const URLRequest =  URL_BASE + parcialURLdocument + id + '/manage-status'
   console.log(URLRequest)
   try {
     const documentsResponse = yield requestManager(axiosBase.put, URLRequest, {
