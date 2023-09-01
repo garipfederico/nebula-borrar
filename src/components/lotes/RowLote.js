@@ -8,7 +8,6 @@ import SelectState from "./SelectState";
 // Redux
 import {useDispatch, useSelector} from "react-redux";
 // Data
-// import {setRequestTypeDelete, setRequestTypePut} from '../../redux/store/misProductosState'
 
 function RowLote({key, row, columns, _id}) {
   const isLoading = useSelector((state) => state.lotes.isLoading);

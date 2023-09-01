@@ -19,7 +19,7 @@ function useMessage(isError, messageType, actionToDispatch, state) {
       openAlertDialog({
         icon: "SentimentDissatisfied",
         title: 'Sin resultados',
-        content: 'La busqueda no ha arrojado ningun resultado',
+        content: 'No encontramos lo que buscabas.',
         open: false,
         actionCancelButton: () => {
             actionToDispatch(state());
