@@ -13,6 +13,7 @@ import PropTypes from "prop-types";
 // Reusables
 import useError from "../../hooks/useError";
 import useMessage from "../../hooks/useMessage";
+import useAlert from "../../hooks/useAlert"
 // Components
 import Row from "./Row";
 // Redux
@@ -38,7 +39,7 @@ export default function Tabla({
   const dispatch = useDispatch();
   const {messageType} = useSelector((state) => state.documents);
   useError(isError, response);
-  useMessage(isError, messageType, dispatch, resetState);
+  // useMessage(isError, messageType, dispatch, resetState);
 
   const [page, setPage] = useState(() => 0);
   // const [rowsPerPage, setRowsPerPage] = useState(() => 10);
@@ -60,8 +61,11 @@ export default function Tabla({
     dispatch(reduxStateGetter({page, rowsPerPage}));
   }, [page, rowsPerPage]);
 
+  const alert = useAlert(isError, messageType)
   return (
+    
     <Paper sx={{width: "100%", overflow: "hidden"}}>
+
       <TableContainer sx={{overflowX: "auto"}}>
         <Table stickyHeader aria-label="sticky table" size="small">
           <TableHead>

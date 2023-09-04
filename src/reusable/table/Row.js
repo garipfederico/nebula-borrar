@@ -19,7 +19,6 @@ function Row({
       navigate("./" + row[columnKeyName]);
     }
   };
-console.log("row ",row )
   // {/* <Skeleton >{value}</Skeleton> */}
   return (
     <TableRow hover role="checkbox" tabIndex={-1} key={idRow}>

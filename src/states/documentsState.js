@@ -33,6 +33,8 @@ export const documentsSlice = createSlice({
       state.isLoading = false;
       state.documents = action.payload.documents;
       state.count = action.payload.count;
+      state.messageType = ''
+
     },
     getDocumentsFail: (state, action) => {
       console.log("action.payload", action.payload);
@@ -71,6 +73,7 @@ export const documentsSlice = createSlice({
       state.isLoading = false;
       state.documents = [action.payload.documentsResponse.data]
       state.count = 1;
+      state.messageType = ''
     },
     searchDocumentsEmpty : (state, action) => {
       state.isLoading = false;

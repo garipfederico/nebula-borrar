@@ -4,7 +4,8 @@ import {Stack} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
 // Reusables
-import useError from "../../hooks/useError"
+import useAlert from "../../hooks/useAlert";
+import useError from "../../hooks/useError";
 import SearchBar from "../../reusable/searchBar/SearchBar";
 import Table from "../../reusable/table/Table";
 import TitleCard from "../../reusable/card/TitleCard";
@@ -41,15 +42,13 @@ const columnKeyName = "id";
 
 function Documents() {
   const dispatch = useDispatch();
-  const {isError, isLoading, response, documents, count} = useSelector(
+  const {isError, isLoading, response, documents, count, messageType} = useSelector(
     (state) => state.documents
   );
   const [textToSearch, setTextToSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
   const {id: documentId} = useParams();
   const [rowsPerPage, setRowsPerPage] = useState(() => 10);
-
-    useError(isError, response)
 
   useEffect(() => {
     if (documentId !== undefined) {
@@ -71,9 +70,13 @@ function Documents() {
 
   const handleCleanSearchInput = () => {
     setTextToSearch("");
-    dispatch(getDocuments({page:0, rowsPerPage}));
+    dispatch(getDocuments({page: 0, rowsPerPage}));
   };
 
+  const alert = useAlert(isError, messageType) 
+  // const alert = useAlert(false, 'noResults') 
+console.log('alert', alert)
+  useError(isError, response);
   return (
     <TitleCard title="Documentos" subtitle="Un subtitulo" width="80%">
       <Stack direction="column" spacing={2} width="90%" sx={{mb: 5}}>
@@ -88,6 +91,7 @@ function Documents() {
           inputFieldWidth="60%"
           handleCleanSearchInput={handleCleanSearchInput}
         />
+        {alert}
         <Table
           columnsDefinition={columnsDefinition}
           columnKeyName={columnKeyName}

@@ -5,10 +5,16 @@ import {useDispatch} from "react-redux";
 import {openAlertDialog} from "../states/reusable/AlertDialogSlice";
 
 /**
- * 
- * @param {*} isError 
- * @param {*} messageType 
- * @param {*} actionToDispatch 
+ * Hook personalizado para mostrar mensajes y realizar acciones en función de isError y messageType.
+ * @param {boolean} isError - Indica si se ha producido un error.
+ * @param {string} messageType - Tipo de mensaje (puede ser 'noResults' u otros).
+ * @param {function} actionToDispatch - Función que se ejecutará cuando se cancele la alerta.
+ * @param {function} state - Función que proporciona el estado final o sea  el que tendremos al cerrar el mensaje.
+ * @example 
+ * import { resetState } from "../../states/documentsState";
+ * const {messageType} = useSelector((state) => state.documents);
+ * const dispatch = useDispatch();
+ *  useMessage(isError, messageType, dispatch, resetState);
  */
 function useMessage(isError, messageType, actionToDispatch, state) {
 // function useMessage(isError, messageType ) {
