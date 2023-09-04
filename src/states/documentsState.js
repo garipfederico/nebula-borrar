@@ -1,22 +1,23 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
-  searchText: '',
+  searchText: "",
   requestType: null,
   isLoading: false,
   isError: false,
-  messageType: '',
+  messageType: "",
   response: {},
   documents: [],
   document: {
-    isLoading:false,
-    isError:false,
+    isLoading: false,
+    isError: false,
     response: {},
-    data:{
-      all_confidentialities:[{}],
-      all_document_types:[{}]
+    data: {
+      all_confidentialities: [{}],
+      all_document_types: [{}],
+      all_document_locations: [""],
     },
-    requestType: null
+    requestType: null,
   },
   count: null,
 };
@@ -33,8 +34,7 @@ export const documentsSlice = createSlice({
       state.isLoading = false;
       state.documents = action.payload.documents;
       state.count = action.payload.count;
-      state.messageType = ''
-
+      state.messageType = "";
     },
     getDocumentsFail: (state, action) => {
       console.log("action.payload", action.payload);
@@ -48,50 +48,57 @@ export const documentsSlice = createSlice({
     getOneDocumentSuccess: (state, action) => {
       state.document.isLoading = false;
       state.document = action.payload.document;
-      state.document.requestType = 'GET';
+      state.document.requestType = "GET";
     },
     getOneDocumentFail: (state, action) => {
       console.log("action.payload", action.payload);
-      console.log("action.payload.e.response ",action.payload.e )
+      console.log("action.payload.e.response ", action.payload.e);
       state.document.isLoading = false;
       state.document.isError = true;
       state.document.response = action.payload.e.response;
       // state.documents = [];
     },
     editOneDocument: (state) => {
-      state.document.editing = true
-      state.document.requestType = "PUT"
+      state.document.editing = true;
+      state.document.requestType = "PUT";
     },
     putOneDocument: (state, action) => {
       state.document.isLoading = true;
-
+    },
+    putOneDocumentSuccess: (state, action) => {
+      state.document.isLoading = false;
+    },
+    putOneDocumentFail: (state, action) => {
+      state.document.isLoading = false;
+      state.document.isError = true;
+      state.document.response = action.payload.e.response;
     },
     searchDocuments: (state, action) => {
       state.isLoading = true;
     },
-    searchDocumentsSuccess : (state, action) => {
+    searchDocumentsSuccess: (state, action) => {
       state.isLoading = false;
-      state.documents = [action.payload.documentsResponse.data]
+      state.documents = [action.payload.documentsResponse.data];
       state.count = 1;
-      state.messageType = ''
+      state.messageType = "";
     },
-    searchDocumentsEmpty : (state, action) => {
+    searchDocumentsEmpty: (state, action) => {
       state.isLoading = false;
       state.documents = [];
-      state.messageType = 'noResults'
+      state.messageType = "noResults";
       state.count = 1;
     },
-    searchDocumentsFail : (state, action) => {
+    searchDocumentsFail: (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.response = action.payload.e.response
+      state.response = action.payload.e.response;
     },
     resetState: (state) => {
       state.isLoading = false;
       state.isError = false;
       state.response = {};
-      state.messageType = ''
-      state.document = initialState.document
+      state.messageType = "";
+      state.document = initialState.document;
     },
   },
 });
@@ -105,10 +112,12 @@ export const {
   getOneDocumentFail,
   editOneDocument,
   putOneDocument,
+  putOneDocumentSuccess,
+  putOneDocumentFail,
   searchDocuments,
+  searchDocumentsFail,
   searchDocumentsSuccess,
   searchDocumentsEmpty,
-  searchDocumentsFail,
   resetState,
 } = documentsSlice.actions;
 

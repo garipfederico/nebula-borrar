@@ -7,7 +7,9 @@ import {
   searchDocumentsSuccess,
   searchDocumentsEmpty,
   searchDocumentsFail,
-  resetState
+  putOneDocumentSuccess,
+  putOneDocumentFail,
+  resetState,
 } from "../states/documentsState";
 import axiosBase from "../utils/axiosBase";
 import MockAdapter from "axios-mock-adapter";
@@ -60,45 +62,58 @@ function* workGetDocuments(action) {
   return;
 }
 
-
 function* workGetOneDocument(action) {
-  const { id } = action.payload
-  const URL = URL_documents + id + '/get-document/'
+  const {id} = action.payload;
+  const URL = URL_documents + id + "/get-document/";
   try {
-    const mock = MockAdapter
+    const mock = MockAdapter;
     // mock.get(URL).reply(401, {response:'Unautrizado'})
     const documentsResponse = yield requestManager(axiosBase.get, URL);
     // const documentsResponse = yield call(axiosBase.get, URL);
     // mock.restore()
-    yield put(getOneDocumentSuccess({document:documentsResponse}))
-  } catch (e){
-    yield put(getOneDocumentFail({e}))
+    yield put(getOneDocumentSuccess({document: documentsResponse}));
+  } catch (e) {
+    yield put(getOneDocumentFail({e}));
   }
 }
 
-function* workSearchDocuments(action){
-  const {textToSearch} = action.payload
-  try{
-  const URL = URL_documents + 'get-document-by-number/' + textToSearch + '/'
-  const documentsResponse = yield requestManager(axiosBase.get, URL)
-  yield put(searchDocumentsSuccess({documentsResponse}))
-}
-catch(e){
-  console.log("e ",e.response )
-  if(e.response.status === 404){
-    console.log("e.response.status ",e.response.status )
-    yield put(searchDocumentsEmpty())
-    // yield put(resetState())
-  } else {
-    yield put(searchDocumentsFail({e}))
+function* workPutOneDocument(action) {
+  const {id, editedDocument} = action.payload;
+  const URL = URL_documents + id + "/edit-document/";
+  try {
+    const documentsResponse = yield requestManager(
+      axiosBase.patch,
+      URL,
+      editedDocument
+    );
+    yield put(putOneDocumentSuccess())
+  } catch (e) {
+    yield put(putOneDocumentFail({e}));
   }
 }
-}
 
+function* workSearchDocuments(action) {
+  const {textToSearch} = action.payload;
+  try {
+    const URL = URL_documents + "get-document-by-number/" + textToSearch + "/";
+    const documentsResponse = yield requestManager(axiosBase.get, URL);
+    yield put(searchDocumentsSuccess({documentsResponse}));
+  } catch (e) {
+    console.log("e ", e.response);
+    if (e.response.status === 404) {
+      console.log("e.response.status ", e.response.status);
+      yield put(searchDocumentsEmpty());
+      // yield put(resetState())
+    } else {
+      yield put(searchDocumentsFail({e}));
+    }
+  }
+}
 
 function* documentsSaga() {
   yield takeEvery("documents/getDocuments", workGetDocuments);
   yield takeEvery("documents/getOneDocument", workGetOneDocument);
+  // yield takeEvery("documents/putOneDocument", workPutOneDocument);
   yield takeEvery("documents/searchDocuments", workSearchDocuments);
 }
 

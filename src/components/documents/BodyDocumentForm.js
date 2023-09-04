@@ -20,16 +20,24 @@ import documentSchema from "./documentSchema";
 function BodyDocumentForm() {
   const dispatch = useDispatch();
   const {document,  isError, response} = useSelector((state) => state.documents);
-  const {editing, requestType, isLoading} = useSelector(
+  const {editing, requestType, isLoading, id } = useSelector(
     (state) => state.documents.document
   );
-  const {all_document_types, all_confidentialities} = document.data;
+  const {all_document_types, all_confidentialities, all_document_locations} = document.data;
   const allDocumentTypes = all_document_types.map((aType) => {
     return {name: aType.type};
   });
-  const allConfidentialities = all_confidentialities.map((aConfidentiality) => {
+  const allConfidentialities = all_confidentialities?.map((aConfidentiality) => {
     return {name: aConfidentiality.level};
   });
+console.log("all_document_locations ",all_document_locations )
+  // const optionsLocation = all_document_locations.map(cadena => ({ name: cadena }));
+  const optionsLocation = Object.keys(allConfidentialities).map((key) => {
+    return { name: allConfidentialities[key] };
+  });
+
+console.log("optionsLocation ",optionsLocation )
+
 console.log("isError ",isError )
 console.log("response ",response )
   useError(isError, response) 
@@ -46,7 +54,8 @@ console.log("response ",response )
       if (requestType === "GET") {
         dispatch(editOneDocument());
       } else if (requestType === "PUT") {
-        dispatch(putOneDocument());
+        // const editedDocument = formik.values
+        // dispatch(putOneDocument({id, editedDocument}));
       }
       return values;
     },
@@ -56,6 +65,12 @@ console.log("response ",response )
   useEffect(() => {
     formik.setValues(document.data);
   }, [document]);
+
+
+
+  
+  
+
 
   return (
     <>
@@ -161,6 +176,7 @@ console.log("response ",response )
                       {name: "Anexo I"},
                       {name: "Anexo II"},
                     ]}
+                    // optionsState={optionsLocation}
                     editing={editing}
                     isLoading={isLoading}
                   />
