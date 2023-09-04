@@ -3,6 +3,7 @@ import {Box, Button, Paper, Stack, Typography} from "@mui/material";
 import {useFormik} from "formik";
 
 // Reusables
+import useError from "../../hooks/useError"
 import TextInput from "../../reusable/textInput/TextInput";
 import DatePicker from "../../reusable/DatePicker";
 import SelectDocument from "../../reusable/SelectDocument";
@@ -18,7 +19,7 @@ import documentSchema from "./documentSchema";
 
 function BodyDocumentForm() {
   const dispatch = useDispatch();
-  const {document} = useSelector((state) => state.documents);
+  const {document,  isError, response} = useSelector((state) => state.documents);
   const {editing, requestType, isLoading} = useSelector(
     (state) => state.documents.document
   );
@@ -29,6 +30,9 @@ function BodyDocumentForm() {
   const allConfidentialities = all_confidentialities.map((aConfidentiality) => {
     return {name: aConfidentiality.level};
   });
+console.log("isError ",isError )
+console.log("response ",response )
+  useError(isError, response) 
   const formik = useFormik({
     initialValues: {
       internal_id: null,
@@ -160,7 +164,7 @@ function BodyDocumentForm() {
                     editing={editing}
                     isLoading={isLoading}
                   />
-                  <SelectDocument
+                  {/* <SelectDocument
                     label="Piso"
                     formik={formik}
                     valueName="confidenciality"
@@ -222,7 +226,7 @@ function BodyDocumentForm() {
                     ]}
                     editing={editing}
                     isLoading={isLoading}
-                  />
+                  /> */}
                 </Stack>
               </Stack>
             </Stack>

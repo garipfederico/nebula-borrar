@@ -4,6 +4,7 @@ import {Stack} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
 // Reusables
+import useError from "../../hooks/useError"
 import SearchBar from "../../reusable/searchBar/SearchBar";
 import Table from "../../reusable/table/Table";
 import TitleCard from "../../reusable/card/TitleCard";
@@ -47,6 +48,8 @@ function Documents() {
   const [showForm, setShowForm] = useState(false);
   const {id: documentId} = useParams();
   const [rowsPerPage, setRowsPerPage] = useState(() => 10);
+
+    useError(isError, response)
 
   useEffect(() => {
     if (documentId !== undefined) {

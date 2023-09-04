@@ -9,6 +9,9 @@ const initialState = {
   response: {},
   documents: [],
   document: {
+    isLoading:false,
+    isError:false,
+    response: {},
     data:{
       all_confidentialities:[{}],
       all_document_types:[{}]
@@ -47,10 +50,11 @@ export const documentsSlice = createSlice({
     },
     getOneDocumentFail: (state, action) => {
       console.log("action.payload", action.payload);
+      console.log("action.payload.e.response ",action.payload.e )
       state.document.isLoading = false;
-      state.isError = true;
-      state.response = action.payload.e.response;
-      state.documents = [];
+      state.document.isError = true;
+      state.document.response = action.payload.e.response;
+      // state.documents = [];
     },
     editOneDocument: (state) => {
       state.document.editing = true

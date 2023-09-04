@@ -27,7 +27,8 @@ function* requestManager(apiCallFunction, anUrl, anObject = null) {
     mock
       // .onGet(URL_documents).reply(200, {...documents})
       .onGet(anUrl)
-      .reply(401, {message: "Unauthorized"})
+      .reply(200, {...documents})
+      // .reply(401, {message: "Unauthorized"})
       .onPut(anUrl)
       .reply(200);
     request = yield call(apiCallFunction, anUrl, anObject);
@@ -43,10 +44,7 @@ function* requestManager(apiCallFunction, anUrl, anObject = null) {
 function* workGetDocuments(action) {
   // Call to get the documents for the table
   const {page, rowsPerPage} = action.payload;
-  
   const offset = page * rowsPerPage;
-  console.log("page ", page);
-  console.log("rowsPerPage ", rowsPerPage);
   let URL = URL_documents;
   URL += "?limit=" + rowsPerPage + "&offset=" + offset;
   console.log(URL_documents);
@@ -67,10 +65,14 @@ function* workGetOneDocument(action) {
   const { id } = action.payload
   const URL = URL_documents + id + '/get-document/'
   try {
+    const mock = MockAdapter
+    // mock.get(URL).reply(401, {response:'Unautrizado'})
     const documentsResponse = yield requestManager(axiosBase.get, URL);
+    // const documentsResponse = yield call(axiosBase.get, URL);
+    // mock.restore()
     yield put(getOneDocumentSuccess({document:documentsResponse}))
   } catch (e){
-    yield put(getOneDocumentFail(e))
+    yield put(getOneDocumentFail({e}))
   }
 }
 
