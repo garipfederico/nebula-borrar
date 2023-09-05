@@ -3,10 +3,12 @@ import {Box, Button, Paper, Stack, Typography} from "@mui/material";
 import {useFormik} from "formik";
 
 // Reusables
-import useError from "../../hooks/useError"
+import { findValueByKey, transformArray } from "../../utils/transformBackData";
+import useError from "../../hooks/useError";
 import TextInput from "../../reusable/textInput/TextInput";
 import DatePicker from "../../reusable/DatePicker";
-import SelectDocument from "../../reusable/SelectDocument";
+import SelectString from "../../reusable/SelectString";
+import SelectKeyValue from "../../reusable/SelectKeyValue";
 import SubmitButton from "../../reusable/buttons/SubmitButton";
 // Components
 
@@ -16,28 +18,38 @@ import {editOneDocument, putOneDocument} from "../../states/documentsState";
 
 // Data
 import documentSchema from "./documentSchema";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 function BodyDocumentForm() {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
-  const {document,  isError, response} = useSelector((state) => state.documents);
-  const {editing, requestType, isLoading } = useSelector(
+  const navigate = useNavigate();
+  const {document, isError, response} = useSelector((state) => state.documents);
+  const {editing, requestType, isLoading} = useSelector(
     (state) => state.documents.document
   );
-  const {all_document_types, all_confidentialities, all_document_locations} = document.data;
+  const {all_document_types, all_confidentialities, all_document_locations} =
+    document.data;
   const allDocumentTypes = all_document_types.map((aType) => {
     return {name: aType.type};
   });
-  const allConfidentialities = all_confidentialities?.map((aConfidentiality) => {
-    return {name: aConfidentiality.level};
-  });
+  const allConfidentialities = all_confidentialities?.map(
+    (aConfidentiality) => {
+      return {name: aConfidentiality.level};
+    }
+  );
+  console.log("all_document_locations ", all_document_locations);
+  // const optionsLocation = all_document_locations.map(cadena => ({ name: cadena }));
+  const optionsLocation = transformArray(all_document_locations, 'id', 'name')
+console.log("optionsLocation ",optionsLocation )
+
 
   // const optionsLocation = all_document_locations?.map((aLocation) => {
   //   return {name: aLocation.name};
   // });
 
-  useError(isError, response) 
+  console.log("isError ", isError);
+  console.log("response ", response);
+  useError(isError, response);
   const formik = useFormik({
     initialValues: {
       internal_id: null,
@@ -46,29 +58,30 @@ function BodyDocumentForm() {
       confidentiality: "",
       status: "",
       created_at: "",
-      location:"",
-      locationId:""
+      location: "",
+      locationDescription: "",
     },
     onSubmit: (values) => {
       if (requestType === "GET") {
         dispatch(editOneDocument());
       } else if (requestType === "PUT") {
-        const id= document.data.id
-        console.log("id ",id )
-        const editedDocument = formik.values
-        editedDocument.location = parseInt(formik.values.locationId)
-        dispatch(putOneDocument({id, editedDocument, navigate, url: '/documents'}));
-        
+        const id = document.data.id;
+        console.log("id ", id);
+        const editedDocument = formik.values;
+        editedDocument.location = parseInt(formik.values.location);
+        dispatch(
+          putOneDocument({id, editedDocument, navigate, url: "/documents"})
+        );
       }
       return values;
     },
     documentSchema,
   });
-  
+
   useEffect(() => {
     formik.setValues(document.data);
+    formik.setFieldValue('locationDescription', findValueByKey(optionsLocation,formik.values.location));
   }, [document]);
-
 
   return (
     <>
@@ -91,6 +104,8 @@ function BodyDocumentForm() {
                   isLoading={isLoading}
                   formik={formik}
                   label="Nro documento" // default nombreVariable
+                  // sxTextFieldProp={null}
+                  // type='password' //default string
                 />
                 <TextInput
                   nombreVariable="document_description"
@@ -101,9 +116,10 @@ function BodyDocumentForm() {
                   formik={formik}
                   label="Nombre" // default nombreVariable
                   sxTextFieldProp={null}
+                  // type='password' //default string
                   data-cy="nombre"
                 />
-                <Box width={"70%"}>
+                <Box sx={{width:"70%", p:2}}   >
                   <DatePicker
                     value={formik.values.created_at || ""}
                     id="created_at"
@@ -127,7 +143,7 @@ function BodyDocumentForm() {
                 spacing={10}
                 sx={{px: 10}}
               >
-                <SelectDocument
+                <SelectString
                   label="Categoria"
                   formik={formik}
                   valueName={"document_type"}
@@ -138,7 +154,7 @@ function BodyDocumentForm() {
                   editing={editing}
                   isLoading={isLoading}
                 />
-                <SelectDocument
+                <SelectString
                   label="Nivel de Confidencialidad"
                   formik={formik}
                   valueName="confidentiality"
@@ -162,80 +178,16 @@ function BodyDocumentForm() {
                 justifyContent={"space-around"}
               >
                 <Stack direction="column" spacing={2} width="40%">
-                  <SelectDocument
+                  <SelectKeyValue
+                    selectedKey ={ formik.values.location }
                     label="Edificio"
+                    options={optionsLocation}
                     formik={formik}
-                    // CONTINUAR valueName sera el value y el idName sera la key
                     valueName="location"
-                    idName=""
-                    optionsState={all_document_locations}
-                    // optionsState={optionsLocation}
                     editing={editing}
                     isLoading={isLoading}
                   />
-                  {/* <SelectDocument
-                    label="Piso"
-                    formik={formik}
-                    valueName="confidenciality"
-                    optionsState={[
-                      {name: "Oficina"},
-                      {name: "Anexo I"},
-                      {name: "Anexo II"},
-                    ]}
-                    editing={editing}
-                    isLoading={isLoading}
-                  />
-                  <SelectDocument
-                    label="Oficina"
-                    formik={formik}
-                    valueName="confidenciality"
-                    optionsState={[
-                      {name: "Edificio central"},
-                      {name: "Anexo I"},
-                      {name: "Anexo II"},
-                    ]}
-                    editing={editing}
-                    isLoading={isLoading}
-                  />
-                  <SelectDocument
-                    label="Estante"
-                    formik={formik}
-                    valueName="confidenciality"
-                    optionsState={[
-                      {name: "Edificio central"},
-                      {name: "Anexo I"},
-                      {name: "Anexo II"},
-                    ]}
-                    editing={editing}
-                    isLoading={isLoading}
-                  />
-                  <SelectDocument
-                    label="Caja"
-                    formik={formik}
-                    valueName="confidenciality"
-                    optionsState={[
-                      {name: "Edificio central"},
-                      {name: "Anexo I"},
-                      {name: "Anexo II"},
-                    ]}
-                    editing={editing}
-                    isLoading={isLoading}
-                  />
-                </Stack>
-
-                <Stack width="50%">
-                  <SelectDocument
-                    label="Estado"
-                    formik={formik}
-                    valueName="status"
-                    optionsState={[
-                      {name: "inicializado"},
-                      {name: "en progreso"},
-                      {name: "escaneado"},
-                    ]}
-                    editing={editing}
-                    isLoading={isLoading}
-                  /> */}
+                  
                 </Stack>
               </Stack>
             </Stack>
