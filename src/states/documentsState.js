@@ -8,6 +8,7 @@ const initialState = {
   messageType: "",
   response: {},
   documents: [],
+  showForm: false,
   document: {
     isLoading: false,
     isError: false,
@@ -44,6 +45,7 @@ export const documentsSlice = createSlice({
     },
     getOneDocument: (state) => {
       state.document.isLoading = true;
+      state.showForm = true
     },
     getOneDocumentSuccess: (state, action) => {
       state.document.isLoading = false;
@@ -67,6 +69,7 @@ export const documentsSlice = createSlice({
     },
     putOneDocumentSuccess: (state, action) => {
       state.document.isLoading = false;
+      state.showForm = false
     },
     putOneDocumentFail: (state, action) => {
       state.document.isLoading = false;

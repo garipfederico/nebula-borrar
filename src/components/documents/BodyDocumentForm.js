@@ -16,11 +16,13 @@ import {editOneDocument, putOneDocument} from "../../states/documentsState";
 
 // Data
 import documentSchema from "./documentSchema";
+import { useNavigate } from "react-router-dom";
 
 function BodyDocumentForm() {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const {document,  isError, response} = useSelector((state) => state.documents);
-  const {editing, requestType, isLoading, id } = useSelector(
+  const {editing, requestType, isLoading } = useSelector(
     (state) => state.documents.document
   );
   const {all_document_types, all_confidentialities, all_document_locations} = document.data;
@@ -30,16 +32,11 @@ function BodyDocumentForm() {
   const allConfidentialities = all_confidentialities?.map((aConfidentiality) => {
     return {name: aConfidentiality.level};
   });
-console.log("all_document_locations ",all_document_locations )
-  // const optionsLocation = all_document_locations.map(cadena => ({ name: cadena }));
-  const optionsLocation = Object.keys(allConfidentialities).map((key) => {
-    return { name: allConfidentialities[key] };
-  });
 
-console.log("optionsLocation ",optionsLocation )
+  // const optionsLocation = all_document_locations?.map((aLocation) => {
+  //   return {name: aLocation.name};
+  // });
 
-console.log("isError ",isError )
-console.log("response ",response )
   useError(isError, response) 
   const formik = useFormik({
     initialValues: {
@@ -49,27 +46,28 @@ console.log("response ",response )
       confidentiality: "",
       status: "",
       created_at: "",
+      location:"",
+      locationId:""
     },
     onSubmit: (values) => {
       if (requestType === "GET") {
         dispatch(editOneDocument());
       } else if (requestType === "PUT") {
-        // const editedDocument = formik.values
-        // dispatch(putOneDocument({id, editedDocument}));
+        const id= document.data.id
+        console.log("id ",id )
+        const editedDocument = formik.values
+        editedDocument.location = parseInt(formik.values.locationId)
+        dispatch(putOneDocument({id, editedDocument, navigate, url: '/documents'}));
+        
       }
       return values;
     },
     documentSchema,
   });
-
+  
   useEffect(() => {
     formik.setValues(document.data);
   }, [document]);
-
-
-
-  
-  
 
 
   return (
@@ -93,8 +91,6 @@ console.log("response ",response )
                   isLoading={isLoading}
                   formik={formik}
                   label="Nro documento" // default nombreVariable
-                  // sxTextFieldProp={null}
-                  // type='password' //default string
                 />
                 <TextInput
                   nombreVariable="document_description"
@@ -105,14 +101,13 @@ console.log("response ",response )
                   formik={formik}
                   label="Nombre" // default nombreVariable
                   sxTextFieldProp={null}
-                  // type='password' //default string
                   data-cy="nombre"
                 />
                 <Box width={"70%"}>
                   <DatePicker
                     value={formik.values.created_at || ""}
-                    id="createdAt"
-                    name="createdAt"
+                    id="created_at"
+                    name="created_at"
                     editable={editing}
                     onChange={formik.setFieldValue}
                     errorProp={
@@ -170,12 +165,10 @@ console.log("response ",response )
                   <SelectDocument
                     label="Edificio"
                     formik={formik}
-                    valueName="confidenciality"
-                    optionsState={[
-                      {name: "Edificio central"},
-                      {name: "Anexo I"},
-                      {name: "Anexo II"},
-                    ]}
+                    // CONTINUAR valueName sera el value y el idName sera la key
+                    valueName="location"
+                    idName=""
+                    optionsState={all_document_locations}
                     // optionsState={optionsLocation}
                     editing={editing}
                     isLoading={isLoading}

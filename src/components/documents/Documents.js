@@ -42,20 +42,19 @@ const columnKeyName = "id";
 
 function Documents() {
   const dispatch = useDispatch();
-  const {isError, isLoading, response, documents, count, messageType} = useSelector(
+  const {isError, isLoading, response, documents, count, messageType, showForm} = useSelector(
     (state) => state.documents
   );
   const [textToSearch, setTextToSearch] = useState("");
-  const [showForm, setShowForm] = useState(false);
   const {id: documentId} = useParams();
   const [rowsPerPage, setRowsPerPage] = useState(() => 10);
 
+
   useEffect(() => {
     if (documentId !== undefined) {
-      setShowForm(true);
       dispatch(getOneDocument({id: documentId}));
     } else {
-      setShowForm(false);
+      dispatch(getDocuments({page: 0, rowsPerPage}));
     }
   }, [documentId]);
 
@@ -74,8 +73,6 @@ function Documents() {
   };
 
   const alert = useAlert(isError, messageType) 
-  // const alert = useAlert(false, 'noResults') 
-console.log('alert', alert)
   useError(isError, response);
   return (
     <TitleCard title="Documentos" subtitle="Un subtitulo" width="80%">
@@ -104,7 +101,8 @@ console.log('alert', alert)
           rowsPerPage={rowsPerPage}
           setRowsPerPage={setRowsPerPage}
         />
-        {showForm ? <DocumentForm /> : null}
+        {showForm ? <DocumentForm 
+        /> : null}
       </Stack>
     </TitleCard>
   );

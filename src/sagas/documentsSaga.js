@@ -7,6 +7,7 @@ import {
   searchDocumentsSuccess,
   searchDocumentsEmpty,
   searchDocumentsFail,
+  getDocuments,
   putOneDocumentSuccess,
   putOneDocumentFail,
   resetState,
@@ -64,7 +65,7 @@ function* workGetDocuments(action) {
 
 function* workGetOneDocument(action) {
   const {id} = action.payload;
-  const URL = URL_documents + id + "/get-document/";
+  const URL = URL_documents + id + "/get-document-to-edit/";
   try {
     const mock = MockAdapter;
     // mock.get(URL).reply(401, {response:'Unautrizado'})
@@ -78,7 +79,8 @@ function* workGetOneDocument(action) {
 }
 
 function* workPutOneDocument(action) {
-  const {id, editedDocument} = action.payload;
+  const {id, editedDocument, navigate, url} = action.payload;
+  console.log("editedDocument ",editedDocument )
   const URL = URL_documents + id + "/edit-document/";
   try {
     const documentsResponse = yield requestManager(
@@ -87,6 +89,7 @@ function* workPutOneDocument(action) {
       editedDocument
     );
     yield put(putOneDocumentSuccess())
+    yield call(navigate,url)
   } catch (e) {
     yield put(putOneDocumentFail({e}));
   }
@@ -95,7 +98,7 @@ function* workPutOneDocument(action) {
 function* workSearchDocuments(action) {
   const {textToSearch} = action.payload;
   try {
-    const URL = URL_documents + "get-document-by-number/" + textToSearch + "/";
+    const URL = URL_documents + "search-document-by-number/" + textToSearch + "/";
     const documentsResponse = yield requestManager(axiosBase.get, URL);
     yield put(searchDocumentsSuccess({documentsResponse}));
   } catch (e) {
@@ -113,7 +116,7 @@ function* workSearchDocuments(action) {
 function* documentsSaga() {
   yield takeEvery("documents/getDocuments", workGetDocuments);
   yield takeEvery("documents/getOneDocument", workGetOneDocument);
-  // yield takeEvery("documents/putOneDocument", workPutOneDocument);
+  yield takeEvery("documents/putOneDocument", workPutOneDocument);
   yield takeEvery("documents/searchDocuments", workSearchDocuments);
 }
 

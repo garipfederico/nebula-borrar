@@ -10,6 +10,7 @@ import BodyDocumentForm from "./BodyDocumentForm";
 // Data
 
 export default function DocumentForm() {
+  const [open, setOpen] = React.useState(true);
   return (
     <>
       <DialogForm 
