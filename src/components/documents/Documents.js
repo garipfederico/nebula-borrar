@@ -19,6 +19,7 @@ import {
   getDocuments,
   getOneDocument,
   searchDocuments,
+  oneDocumentCancel,
 } from "../../states/documentsState";
 
 // Data
@@ -51,9 +52,11 @@ function Documents() {
 
 
   useEffect(() => {
+    console.log("documentId ",documentId )
     if (documentId !== undefined) {
       dispatch(getOneDocument({id: documentId}));
     } else {
+      dispatch(oneDocumentCancel())
       dispatch(getDocuments({page: 0, rowsPerPage}));
     }
   }, [documentId]);

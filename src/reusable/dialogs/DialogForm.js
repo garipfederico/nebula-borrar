@@ -18,8 +18,10 @@ export default function DialogForm({
   navigateOnClose,
   title,
   subtitle,
+  open,
+  setOpen
 }) {
-  const [open, setOpen] = React.useState(true);
+  // const [open, setOpen] = React.useState(true);
   const navigate = useNavigate();
 
   const handleClose = () => {

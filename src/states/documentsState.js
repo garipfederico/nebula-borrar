@@ -45,7 +45,7 @@ export const documentsSlice = createSlice({
     },
     getOneDocument: (state) => {
       state.document.isLoading = true;
-      state.showForm = true
+      state.showForm = true;
     },
     getOneDocumentSuccess: (state, action) => {
       state.document.isLoading = false;
@@ -76,6 +76,11 @@ export const documentsSlice = createSlice({
       state.document.isError = true;
       state.document.response = action.payload.e.response;
     },
+    oneDocumentCancel: (state) => {
+      state.showForm = false;
+      state.document.editing = false;
+      state.document.requestType = "";
+    },
     searchDocuments: (state, action) => {
       state.isLoading = true;
     },
@@ -102,6 +107,7 @@ export const documentsSlice = createSlice({
       state.response = {};
       state.messageType = "";
       state.document = initialState.document;
+      state.showForm = false
     },
   },
 });
@@ -117,6 +123,7 @@ export const {
   putOneDocument,
   putOneDocumentSuccess,
   putOneDocumentFail,
+  oneDocumentCancel,
   searchDocuments,
   searchDocumentsFail,
   searchDocumentsSuccess,
