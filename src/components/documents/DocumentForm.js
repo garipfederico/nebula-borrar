@@ -89,7 +89,6 @@ function DocumentForm() {
     );
   }, [document]);
 
-  
   useEffect(() => {
     setOpen(showForm);
     if (showForm === false) {
@@ -116,44 +115,41 @@ function DocumentForm() {
               <Typography variant="h6">Datos del Documento Digital</Typography>
               <Stack direction="row" spacing={5}>
                 <TextInput
+                  isLoading={isLoading}
                   nombreVariable="internal_id"
                   text={formik.values.internal_id}
                   variant="h6"
-                  editing={editing}
-                  isLoading={isLoading}
+                  editing={false}
                   formik={formik}
                   label="Nro documento" // default nombreVariable
-                  // sxTextFieldProp={null}
-                  // type='password' //default string
                 />
                 <TextInput
+                  isLoading={isLoading}
                   nombreVariable="document_description"
                   text={formik.values.document_description}
                   variant="h6"
-                  editing={editing}
-                  isLoading={isLoading}
+                  editing={false}
                   formik={formik}
                   label="Nombre" // default nombreVariable
                   sxTextFieldProp={null}
-                  // type='password' //default string
                   data-cy="nombre"
                 />
-                <Box sx={{width: "70%", p: 2}}>
-                  <DatePicker
-                    value={formik.values.created_at || ""}
-                    id="created_at"
-                    name="created_at"
-                    editable={editing}
-                    onChange={formik.setFieldValue}
-                    errorProp={
-                      formik.touched.created_at &&
-                      Boolean(formik.errors.created_at)
-                    }
-                    helperTextProp={
-                      formik.touched.created_at && formik.errors.created_at
-                    }
-                    isLoading={isLoading}
-                  />
+                <Box sx={{width: "70%", p: 0}}>
+                <DatePicker
+                  value={formik.values.created_at || ""}
+                  id="created_at"
+                  name="created_at"
+                  editable={false}
+                  onChange={formik.setFieldValue}
+                  errorProp={
+                    formik.touched.created_at &&
+                    Boolean(formik.errors.created_at)
+                  }
+                  helperTextProp={
+                    formik.touched.created_at && formik.errors.created_at
+                  }
+                  isLoading={isLoading}
+                />
                 </Box>
               </Stack>
               <Stack
@@ -194,18 +190,21 @@ function DocumentForm() {
               <Stack
                 direction="row"
                 spacing={15}
-                justifyContent={"space-around"}
+                justifyContent={"center"}
+                sx={{px: 10}}
               >
-                <Stack direction="column" spacing={2} width="40%">
-                  <SelectKeyValue
-                    selectedKey={formik.values.location}
-                    label="Edificio"
-                    options={optionsLocation}
-                    formik={formik}
-                    valueName="location"
-                    editing={editing}
-                    isLoading={isLoading}
-                  />
+                <Stack direction="column" spacing={2} width="40%" padding={2}>
+                  <Box>
+                    <SelectKeyValue
+                      label="Edificio"
+                      options={optionsLocation}
+                      selectedKey={formik.values.location}
+                      valueName="location"
+                      formik={formik}
+                      editing={editing}
+                      isLoading={isLoading}
+                    />
+                  </Box>
                 </Stack>
               </Stack>
             </Stack>
