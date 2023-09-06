@@ -62,7 +62,7 @@ function DocumentForm() {
       status: "",
       created_at: "",
       location: "",
-      locationDescription: "",
+      locationDescription: "", // Valor agregado, no viene del back
     },
     onSubmit: (values) => {
       if (requestType === "GET") {
@@ -80,13 +80,23 @@ function DocumentForm() {
     },
     documentSchema,
   });
-
+console.log("formik.values ",formik.values )
   useEffect(() => {
+    console.log("findValueByKey(optionsLocation, formik.values.location) ",findValueByKey(optionsLocation, formik.values.location) )
     formik.setValues(document.data);
     formik.setFieldValue(
       "locationDescription",
       findValueByKey(optionsLocation, formik.values.location)
     );
+  }, []);
+  useEffect(() => {
+    console.log("formik.values DocumentForm [document]document.data ",document.data )
+    formik.setValues(document.data);
+    formik.setFieldValue(
+      "locationDescription",
+      findValueByKey(optionsLocation, formik.values.location)
+      );
+      console.log("formik.values DocumentForm [document]",formik.values )
   }, [document]);
 
   useEffect(() => {
@@ -162,7 +172,7 @@ function DocumentForm() {
                   label="Categoria"
                   formik={formik}
                   valueName={"document_type"}
-                  optionsState={
+                  options={
                     allDocumentTypes
                     // [{name: "document"}, {name: "document2"}]
                   }
@@ -173,11 +183,10 @@ function DocumentForm() {
                   label="Nivel de Confidencialidad"
                   formik={formik}
                   valueName="confidentiality"
-                  optionsState={
+                  options={
                     allConfidentialities
                     // [{name: "1"}, {name: "2"}]
                   }
-                  value={formik.values.confidentiality}
                   editing={editing}
                   isLoading={isLoading}
                 />

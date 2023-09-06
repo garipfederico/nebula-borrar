@@ -4,7 +4,8 @@
 import { wait } from "@testing-library/user-event/dist/utils";
 
 describe("Document page - Consultar documento", () => {
-  beforeEach("Logueo", () => {
+  // beforeEach("Logueo", () => {
+  before("Logueo", () => {
     const username = "garip.federico@gmail.com";
     const password = "123";
     cy.login(username, password);
@@ -48,7 +49,7 @@ describe("Document page - Consultar documento", () => {
     });
   
     // DatePicker
-    cy.datePicker('createdAt')
+    cy.datePicker('created_at')
 
     // Selects
     cy.comboBox('Categoria','document_type', ['document'])

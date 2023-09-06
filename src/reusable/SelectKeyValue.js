@@ -51,6 +51,11 @@ export default function SelectKeyValue({
   // console.log("locationDescription",formik.values[`${valueName}Description`] )
   // console.log("formik.values[{valueName}+Description] ",formik.values[`${valueName}Description`] )
 
+
+  console.log("formik.values[valueName}Description] ",formik.values )
+  console.log("formik.values[valueName}Description] ",formik.values[`${valueName}Description`] )
+  console.log("formik.values[valueName}Description] ",`${valueName}Description` )
+
   return (
     <>
       {isLoading ? (
@@ -74,7 +79,8 @@ export default function SelectKeyValue({
               id="demo-simple-select"
               // value={formik.values[valueName]}
               // name={`${valueName}`}
-              value={formik.values[`${valueName}Description`]}
+              // value={formik.values[`${valueName}Description`]}
+              value={formik.values['locationDescription']}
               // value={"Berazategui Barrio las Palmas - 2 - 5 - 6 - 18"}
               label="Estado"
               onChange={handleChange}

@@ -16,6 +16,7 @@ import axiosBase from "../utils/axiosBase";
 import MockAdapter from "axios-mock-adapter";
 
 import {OptionsState, documents} from "./mockData";
+import {findValueByKey, transformArray} from "../utils/transformBackData";
 
 //URLs
 const URL_BASE = process.env.REACT_APP_BASE_URL;
@@ -67,11 +68,26 @@ function* workGetOneDocument(action) {
   const {id} = action.payload;
   const URL = URL_documents + id + "/get-document-to-edit/";
   try {
-    const mock = MockAdapter;
-    // mock.get(URL).reply(401, {response:'Unautrizado'})
     const documentsResponse = yield requestManager(axiosBase.get, URL);
-    // const documentsResponse = yield call(axiosBase.get, URL);
-    // mock.restore()
+
+    console.log("documentsResponse.data ", documentsResponse.data);
+    console.log(
+      "documentsResponse.data.location ",
+      documentsResponse.data.location
+    );
+    const location = documentsResponse.data.location;
+    console.log("location ", location);
+
+    const allLocation = documentsResponse.data.all_document_locations;
+    console.log("allLocation ", allLocation);
+    const preparedArray =  yield call(transformArray,allLocation, 'id', 'name')
+    const locationDescription = yield call(
+      findValueByKey,
+      preparedArray,
+      location
+    );
+    console.log("locationDescription ", locationDescription);
+    documentsResponse.data.locationDescription = locationDescription
     yield put(getOneDocumentSuccess({document: documentsResponse}));
   } catch (e) {
     yield put(getOneDocumentFail({e}));
@@ -80,7 +96,7 @@ function* workGetOneDocument(action) {
 
 function* workPutOneDocument(action) {
   const {id, editedDocument, navigate, url} = action.payload;
-  console.log("editedDocument ",editedDocument )
+  console.log("editedDocument ", editedDocument);
   const URL = URL_documents + id + "/edit-document/";
   try {
     const documentsResponse = yield requestManager(
@@ -88,8 +104,8 @@ function* workPutOneDocument(action) {
       URL,
       editedDocument
     );
-    yield put(putOneDocumentSuccess())
-    yield call(navigate,url)
+    yield put(putOneDocumentSuccess());
+    yield call(navigate, url);
   } catch (e) {
     yield put(putOneDocumentFail({e}));
   }
@@ -98,7 +114,8 @@ function* workPutOneDocument(action) {
 function* workSearchDocuments(action) {
   const {textToSearch} = action.payload;
   try {
-    const URL = URL_documents + "search-document-by-number/" + textToSearch + "/";
+    const URL =
+      URL_documents + "search-document-by-number/" + textToSearch + "/";
     const documentsResponse = yield requestManager(axiosBase.get, URL);
     yield put(searchDocumentsSuccess({documentsResponse}));
   } catch (e) {

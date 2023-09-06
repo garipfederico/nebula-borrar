@@ -49,36 +49,46 @@ function Documents() {
   const [textToSearch, setTextToSearch] = useState("");
   const {id: documentId} = useParams();
   const [rowsPerPage, setRowsPerPage] = useState(() => 10);
-
-
+  useEffect(() => {
+    console.log("documentId Primero",documentId )
+    if (documentId !== undefined) {
+      console.log("documentId Primero",documentId )
+      dispatch(getOneDocument({id: documentId}));
+    } else {
+      dispatch(oneDocumentCancel())
+      dispatch(getDocuments({page: 0, rowsPerPage}));
+    }
+  }, []);
+  
   useEffect(() => {
     console.log("documentId ",documentId )
     if (documentId !== undefined) {
+      console.log("documentId ",documentId )
       dispatch(getOneDocument({id: documentId}));
     } else {
       dispatch(oneDocumentCancel())
       dispatch(getDocuments({page: 0, rowsPerPage}));
     }
   }, [documentId]);
-
+  
   const documentsDateConverted = convertDateFieldObjectsArray(
     documents,
     "created_at"
-  );
-
-  const handleSubmit = () => {
-    dispatch(searchDocuments({textToSearch}));
-  };
-
-  const handleCleanSearchInput = () => {
-    setTextToSearch("");
-    dispatch(getDocuments({page: 0, rowsPerPage}));
-  };
-
-  const alert = useAlert(isError, messageType) 
-  useError(isError, response);
-  return (
-    <TitleCard title="Documentos" subtitle="Un subtitulo" width="80%">
+    );
+    
+    const handleSubmit = () => {
+      dispatch(searchDocuments({textToSearch}));
+    };
+    
+    const handleCleanSearchInput = () => {
+      setTextToSearch("");
+      dispatch(getDocuments({page: 0, rowsPerPage}));
+    };
+    
+    const alert = useAlert(isError, messageType) 
+    useError(isError, response);
+    return (
+      <TitleCard title="Documentos" subtitle="Un subtitulo" width="80%">
       <Stack direction="column" spacing={2} width="90%" sx={{mb: 5}}>
         <SearchBar
           textToSearch={textToSearch}
