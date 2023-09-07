@@ -41,7 +41,7 @@ describe("Document page - Consultar documento", () => {
     cy.login(username, password);
     cy.verifyClickAndNavigate("documents");
   });
-  it.skip("Verificar navegacion, existencia de elementos visuales y tipos de datos . ", () => {
+  it.only("Verificar navegacion, existencia de elementos visuales y tipos de datos . ", () => {
     cy.get(".MuiTableBody-root > :nth-child(1) > :nth-child(2)").click();
     cy.url().should("match", /http:\/\/localhost:3000\/documents\/\d+/);
     // espera carga de datos
@@ -83,8 +83,8 @@ describe("Document page - Consultar documento", () => {
     cy.datePicker("created_at");
 
     // Selects
-    cy.comboBox("Categoria", "document_type", ["document"]);
-    cy.comboBox("Nivel de Confidencialidad", "confidentiality", ["1", "2"]);
+    cy.comboBox("Categoria", "document_type", ["document","Multas","Impuestos"]);
+    cy.comboBox("Nivel de Confidencialidad", "confidentiality", ["1", "2","3"]);
     // cy.comboBox('Edificio','location', ['	Berazategui Barrio las Palmas - 2 - 5 - 6 - 18','Berazategui Centro - 1 - 2 - 5 - 14','1 - 1 - - - '])
 
     //  Existencia de titulo de seccion Situacion fisica
@@ -95,7 +95,7 @@ describe("Document page - Consultar documento", () => {
   });
 
   it("Verificar combobox Ubicacion", () => {
-    cy.table_fileClick(1)
+    cy.table_fileClick(1);
     // cy.get('[data-cy="location"] > #demo-simple-select').should('have.text','Edificio')
     // cy.get('[data-cy="location"] > #demo-simple-select').should('have.text','Berazategui Barrio las Palmas - 2 - 5 - 6 - 18')
     // cy.comboBox_open()
@@ -106,18 +106,33 @@ describe("Document page - Consultar documento", () => {
     ]);
   });
 
-  it.skip("Verificar modificacion de documento campo Categoria", () => {
-
+  it("Verificar modificacion de documento campo Categoria(en n filas)", () => {
     const documentTypes = ["document", "Multas", "Impuestos"];
     for (let i = 1; i <= numberOfFilesToTest; i++) {
       goToFileChangingOneComboboxType(documentTypes, "document_type", i);
     }
   });
-  it.skip("Verificar modificacion de documento campo Confidencialidad", () => {
+  it("Verificar modificacion de documento campo Confidencialidad(en n filas)", () => {
+    const confidentialityTypes = ["1", "2", "3"];
+    for (let i = 1; i <= numberOfFilesToTest; i++) {
+      goToFileChangingOneComboboxType(
+        confidentialityTypes,
+        "confidentiality",
+        i
+      );
+    }
+  });
+
+  it("Verificar modificacion de documento campo Ubicacion(en n filas)", () => {
+    const locationTypes = [
+      "Berazategui Barrio las Palmas - 2 - 5 - 6 - 18",
+      "Berazategui Centro - 1 - 2 - 5 - 14",
+      "Berazategui Barrio Los Paraisos - 2 - 3 - 4 - 30",
+    ];
 
     const confidentialityTypes = ["1", "2", "3"];
     for (let i = 1; i <= numberOfFilesToTest; i++) {
-      goToFileChangingOneComboboxType(confidentialityTypes, "confidentiality", i);
+      goToFileChangingOneComboboxType(locationTypes, "location", i);
     }
   });
 });
