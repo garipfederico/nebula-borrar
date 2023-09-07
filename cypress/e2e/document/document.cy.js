@@ -102,7 +102,7 @@ describe("Document page - Consultar documento", () => {
     cy.comboBox("Edificio", "location", [
       "Berazategui Barrio las Palmas - 2 - 5 - 6 - 18",
       "Berazategui Centro - 1 - 2 - 5 - 14",
-      "1 - 1 - - - ",
+      "Berazategui Barrio Los Paraisos - 2 - 3 - 4 - 30",
     ]);
   });
 

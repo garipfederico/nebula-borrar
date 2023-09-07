@@ -3,7 +3,7 @@ import {Box, Button, Paper, Stack, Typography} from "@mui/material";
 import {useFormik} from "formik";
 
 // Reusables
-import {findValueByKey, transformArray} from "../../utils/transformBackData";
+import {findValueByKey, mapAttributesArrayToKeyValueArray} from "../../utils/transformBackData";
 import useError from "../../hooks/useError";
 import TextInput from "../../reusable/textInput/TextInput";
 import DatePicker from "../../reusable/DatePicker";
@@ -45,7 +45,7 @@ function DocumentForm() {
       return {name: aConfidentiality.level};
     }
   );
-  const optionsLocation = transformArray(all_document_locations, "id", "name");
+  const optionsLocation = mapAttributesArrayToKeyValueArray(all_document_locations, "id", "name");
 
   useError(isError, response);
   const formik = useFormik({
@@ -64,10 +64,7 @@ function DocumentForm() {
         dispatch(editOneDocument());
       } else if (requestType === "PUT") {
         const id = document.data.id;
-        // console.log("id ", id);
         const editedDocument = formik.values;
-        // delete editedDocument.created_at
-        // editedDocument.location = parseInt(formik.values.location);
         dispatch(
           putOneDocument({id, editedDocument, navigate, url: "/documents"})
         );
@@ -76,17 +73,11 @@ function DocumentForm() {
     },
     documentSchema,
   });
-console.log("formik.values ",formik.values )
+
   useEffect(() => {
-    console.log("findValueByKey(optionsLocation, formik.values.location) ",findValueByKey(optionsLocation, formik.values.location) )
-    formik.setValues(document.data);
-    formik.setFieldValue(
-      "locationDescription",
-      // findValueByKey(optionsLocation, formik.values.location)
-"Berazategui Barrio las Palmas - 2 - 5 - 6 - 18"
-      );
+    formik.setValues(document.data);    
   }, [document]);
-  
+
   useEffect(() => {
     setOpen(showForm);
     if (showForm === false) {
@@ -119,7 +110,7 @@ console.log("formik.values ",formik.values )
                   variant="h6"
                   editing={false}
                   formik={formik}
-                  label="Nro documento" // default nombreVariable
+                  label="Nro documento"
                 />
                 <TextInput
                   isLoading={isLoading}
@@ -128,7 +119,7 @@ console.log("formik.values ",formik.values )
                   variant="h6"
                   editing={false}
                   formik={formik}
-                  label="Nombre" // default nombreVariable
+                  label="Nombre" 
                   sxTextFieldProp={null}
                   data-cy="nombre"
                 />
@@ -162,7 +153,6 @@ console.log("formik.values ",formik.values )
                   valueName={"document_type"}
                   options={
                     allDocumentTypes
-                    // [{name: "document"}, {name: "document2"}]
                   }
                   editing={editing}
                   isLoading={isLoading}
@@ -173,7 +163,6 @@ console.log("formik.values ",formik.values )
                   valueName="confidentiality"
                   options={
                     allConfidentialities
-                    // [{name: "1"}, {name: "2"}]
                   }
                   editing={editing}
                   isLoading={isLoading}
@@ -194,9 +183,9 @@ console.log("formik.values ",formik.values )
                   <Box>
                     <SelectKeyValue
                       label="Edificio"
-                      options={optionsLocation}
-                      selectedKey={formik.values.location}
                       valueName="location"
+                      selectedValue={formik.values.locationDescription}
+                      options={optionsLocation}
                       formik={formik}
                       editing={editing}
                       isLoading={isLoading}
@@ -220,7 +209,7 @@ console.log("formik.values ",formik.values )
           <SubmitButton
             dataCy={"editar"}
             requestType={document.requestType}
-            isLoading={isLoading} // suele podria se useSelector de redux o un useState
+            isLoading={isLoading} 
             textForRequestType={["Editar", "", "Guardar"]}
             handleSubmit={formik.handleSubmit}
           />

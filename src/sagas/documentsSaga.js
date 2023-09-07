@@ -16,7 +16,7 @@ import axiosBase from "../utils/axiosBase";
 import MockAdapter from "axios-mock-adapter";
 
 import {OptionsState, documents} from "./mockData";
-import {findValueByKey, transformArray} from "../utils/transformBackData";
+import {findValueByKey, mapAttributesArrayToKeyValueArray} from "../utils/transformBackData";
 
 //URLs
 const URL_BASE = process.env.REACT_APP_BASE_URL;
@@ -80,7 +80,7 @@ function* workGetOneDocument(action) {
 
     const allLocation = documentsResponse.data.all_document_locations;
     console.log("allLocation ", allLocation);
-    const preparedArray =  yield call(transformArray,allLocation, 'id', 'name')
+    const preparedArray =  yield call(mapAttributesArrayToKeyValueArray,allLocation, 'id', 'name')
     const locationDescription = yield call(
       findValueByKey,
       preparedArray,

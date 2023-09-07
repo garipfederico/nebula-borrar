@@ -14,7 +14,7 @@
  *   { nombre: 'Carlos', edad: 35 }
  * ];
  *
- * const nuevoArray = transformArray(arrayDeObjetos, 'nombre', 'edad');
+ * const nuevoArray = mapAttributesArrayToKeyValueArray(arrayDeObjetos, 'nombre', 'edad');
  *
  * // El resultado será un nuevo array de objetos con propiedades "key" y "value".
  * // [
@@ -23,7 +23,7 @@
  * //   { key: 'Carlos', value: 35 }
  * // ]
  */
-export function transformArray(arr, keyName, valueName) {
+export function mapAttributesArrayToKeyValueArray(arr, keyName, valueName) {
   arr = arr || [{[keyName]: '', [valueName]:''}]
     return arr.map(item => {
       return {
