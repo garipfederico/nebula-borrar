@@ -26,15 +26,18 @@ export default function SelectKeyValue({
     // formik.setFieldValue(valueName, event.target.value);
     // formik.setFieldValue(valueName, event.target.value);
     const selectedOption = options.find((option) => option.value === event.target.value);
-    
     // Check if a valid option was selected
     if (selectedOption) {
       // Set both key and name in formik
       formik.setFieldValue(valueName, selectedOption.key);
       formik.setFieldValue(valueName+'Description', event.target.value);
     }
+    
   };
-  
+  React.useEffect(()=>{
+console.log('$$ effect', formik.values.locationDescription)
+},[formik.values])
+
   // React.useEffect(()=>{
   //   console.log("selectedKey ",selectedKey )
   //   console.log("selectedKey options ",options )
@@ -52,9 +55,9 @@ export default function SelectKeyValue({
   // console.log("formik.values[{valueName}+Description] ",formik.values[`${valueName}Description`] )
 
 
-  console.log("formik.values[valueName}Description] ",formik.values )
-  console.log("formik.values[valueName}Description] ",formik.values[`${valueName}Description`] )
-  console.log("formik.values[valueName}Description] ",`${valueName}Description` )
+  console.log("$$ formik.values",formik.values )
+  console.log("$$ formik.values[`{valueName}Description`] ",formik.values[`${valueName}Description`] )
+  console.log("$$ `{valueName}Description` ",`${valueName}Description` )
 
   return (
     <>

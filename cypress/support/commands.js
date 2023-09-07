@@ -43,6 +43,22 @@ Cypress.Commands.add("table_verifyColumnsNames", (arrayNames) => {
   );
 });
 
+Cypress.Commands.add("table_fileClick",(fileToClick) => {
+cy.get(`.MuiTableBody-root > :nth-child(${fileToClick}) > :nth-child(1)`).click()
+})
+
+Cypress.Commands.add("documentChangeType", (fileToClick, estadoACambiar) => {
+  cy.get(`.MuiTableBody-root > :nth-child(${fileToClick}) > :nth-child(1)`).click()
+   cy.get('[data-cy="editar"]').should("have.text", "Editar").click();
+    cy.get('[data-cy="document_type"] > #demo-simple-select').click();
+    cy.get(`[data-value=${estadoACambiar}]`).click();
+    cy.get('[data-cy="editar"]').click();
+
+})
+
+
+
+
 Cypress.Commands.add("table_verifyCellsDataType", () => {});
 Cypress.Commands.add("table_isCellNumber", (row, column) => {
   cy.get(
@@ -112,9 +128,19 @@ Cypress.Commands.add("comboBox", (labelName, variableName, possiblesNames)=>{
     const actualText = $select.text();
     expect(possibleTexts.some((text) => actualText.includes(text))).to.be
       .true;
-  })
-
+  }) 
 })
+
+
+Cypress.Commands.add("comboBox_open", (data_cy) => {
+  cy.get(`[data-cy=${data_cy}] > #demo-simple-select`).click();
+})
+
+Cypress.Commands.add("combobox_selectOption", (stringOption)=>{
+    cy.get(`[data-value="${stringOption}"]`).should("be.visible").click();
+})
+
+
 
 
 //

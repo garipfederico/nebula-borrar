@@ -69,9 +69,10 @@ function DocumentForm() {
         dispatch(editOneDocument());
       } else if (requestType === "PUT") {
         const id = document.data.id;
-        console.log("id ", id);
+        // console.log("id ", id);
         const editedDocument = formik.values;
-        editedDocument.location = parseInt(formik.values.location);
+        // delete editedDocument.created_at
+        // editedDocument.location = parseInt(formik.values.location);
         dispatch(
           putOneDocument({id, editedDocument, navigate, url: "/documents"})
         );
@@ -83,6 +84,7 @@ function DocumentForm() {
 console.log("formik.values ",formik.values )
   useEffect(() => {
     console.log("findValueByKey(optionsLocation, formik.values.location) ",findValueByKey(optionsLocation, formik.values.location) )
+    
     formik.setValues(document.data);
     formik.setFieldValue(
       "locationDescription",
@@ -91,6 +93,7 @@ console.log("formik.values ",formik.values )
   }, []);
   useEffect(() => {
     console.log("formik.values DocumentForm [document]document.data ",document.data )
+
     formik.setValues(document.data);
     formik.setFieldValue(
       "locationDescription",
