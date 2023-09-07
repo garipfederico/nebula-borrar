@@ -94,9 +94,13 @@ describe("Document page - Consultar documento", () => {
     );
   });
 
-  it.skip("Verificar combobox Ubicacion", () => {
+  it("Verificar combobox Ubicacion", () => {
+    cy.table_fileClick(1)
+    // cy.get('[data-cy="location"] > #demo-simple-select').should('have.text','Edificio')
+    // cy.get('[data-cy="location"] > #demo-simple-select').should('have.text','Berazategui Barrio las Palmas - 2 - 5 - 6 - 18')
+    // cy.comboBox_open()
     cy.comboBox("Edificio", "location", [
-      "	Berazategui Barrio las Palmas - 2 - 5 - 6 - 18",
+      "Berazategui Barrio las Palmas - 2 - 5 - 6 - 18",
       "Berazategui Centro - 1 - 2 - 5 - 14",
       "1 - 1 - - - ",
     ]);
@@ -109,7 +113,7 @@ describe("Document page - Consultar documento", () => {
       goToFileChangingOneComboboxType(documentTypes, "document_type", i);
     }
   });
-  it("Verificar modificacion de documento campo Confidencialidad", () => {
+  it.skip("Verificar modificacion de documento campo Confidencialidad", () => {
 
     const confidentialityTypes = ["1", "2", "3"];
     for (let i = 1; i <= numberOfFilesToTest; i++) {

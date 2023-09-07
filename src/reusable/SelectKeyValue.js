@@ -82,8 +82,8 @@ console.log('$$ effect', formik.values.locationDescription)
               id="demo-simple-select"
               // value={formik.values[valueName]}
               // name={`${valueName}`}
-              // value={formik.values[`${valueName}Description`]}
-              value={formik.values['locationDescription']}
+              value={formik.values[`${valueName}Description`]}
+              // value={formik.values.locationDescription}
               // value={"Berazategui Barrio las Palmas - 2 - 5 - 6 - 18"}
               label="Estado"
               onChange={handleChange}

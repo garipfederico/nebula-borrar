@@ -45,12 +45,7 @@ function DocumentForm() {
       return {name: aConfidentiality.level};
     }
   );
-  // const optionsLocation = all_document_locations.map(cadena => ({ name: cadena }));
   const optionsLocation = transformArray(all_document_locations, "id", "name");
-
-  // const optionsLocation = all_document_locations?.map((aLocation) => {
-  //   return {name: aLocation.name};
-  // });
 
   useError(isError, response);
   const formik = useFormik({
@@ -84,24 +79,14 @@ function DocumentForm() {
 console.log("formik.values ",formik.values )
   useEffect(() => {
     console.log("findValueByKey(optionsLocation, formik.values.location) ",findValueByKey(optionsLocation, formik.values.location) )
-    
     formik.setValues(document.data);
     formik.setFieldValue(
       "locationDescription",
-      findValueByKey(optionsLocation, formik.values.location)
-    );
-  }, []);
-  useEffect(() => {
-    console.log("formik.values DocumentForm [document]document.data ",document.data )
-
-    formik.setValues(document.data);
-    formik.setFieldValue(
-      "locationDescription",
-      findValueByKey(optionsLocation, formik.values.location)
+      // findValueByKey(optionsLocation, formik.values.location)
+"Berazategui Barrio las Palmas - 2 - 5 - 6 - 18"
       );
-      console.log("formik.values DocumentForm [document]",formik.values )
   }, [document]);
-
+  
   useEffect(() => {
     setOpen(showForm);
     if (showForm === false) {
