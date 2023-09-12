@@ -6,7 +6,30 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 
-import { useMediaQuery } from '@mui/material';
+import { Skeleton, useMediaQuery } from '@mui/material';
+
+/**
+ * 
+ * @param {*} props 
+ * @example
+ *   <DatePicker
+ *      value={formik.values.fechaNacimiento || ""}
+ *      id="fechaNacimiento"
+ *      name="fechaNacimiento"
+ *      editable={true}
+ *      onChange={formik.setFieldValue}
+ *      errorProp={
+ *          formik.touched.fechaNacimiento &&
+ *          Boolean(formik.errors.fechaNacimiento)
+ *      }
+ *      helperTextProp={
+ *          formik.touched.fechaNacimiento &&
+ *          formik.errors.fechaNacimiento
+ *      }
+ * />
+ * @returns 
+ */
+
 
 export default function DatePicker(props) {
 
@@ -18,9 +41,14 @@ export default function DatePicker(props) {
         inputFormat: "dd/MM/yyyy",
         readOnly: !props.editable,
         id: props.id,
+        InputProps:{'data-cy': props.name}
     }
 
     return (
+        <>
+        {props.isLoading ? (
+         <Skeleton width={"100%"} height='50px' />
+         ) : (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <Stack spacing={3}>
                 {isMediumDevice ?
@@ -32,9 +60,11 @@ export default function DatePicker(props) {
                             <TextField {...params}
                                 error={props.errorProp}
                                 helperText={props.helperTextProp} />}
+                    inputRef={{'data-cy': props.name}}
                     />
                     :
                     <DesktopDatePicker
+                    // InputProps={{'data-cy': props.name}}
                         {...datePickerCommonProperties}
                         value={props.value}
                         onChange={value => props.onChange(props.id, value)}
@@ -46,22 +76,9 @@ export default function DatePicker(props) {
                 }
             </Stack>
         </LocalizationProvider>
-    );
+    
+    )}</>)
 }
 
 
-            // <DatePicker
-            //     value={formik.values.fechaNacimiento || ""}
-            //     id="fechaNacimiento"
-            //     name="fechaNacimiento"
-            //     editable={true}
-            //     onChange={formik.setFieldValue}
-            //     errorProp={
-            //         formik.touched.fechaNacimiento &&
-            //         Boolean(formik.errors.fechaNacimiento)
-            //     }
-            //     helperTextProp={
-            //         formik.touched.fechaNacimiento &&
-            //         formik.errors.fechaNacimiento
-            //     }
-            // />
+          

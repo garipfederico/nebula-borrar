@@ -5,17 +5,15 @@ import {useSelector} from "react-redux";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 // Reusables
+import useError from "../../hooks/useError"
 import TextInput from "../../reusable/textInput/TextInput";
 import SubmitButton from "../../reusable/buttons/SubmitButton";
 // Componentes
 import labelsSchema from "./labelsValidationSchema";
 // Redux
 import {postCrearLote, postCrearLoteReset} from "../../states/etiquetasState";
-import {openAlertDialog} from "../../states/reusable/AlertDialogSlice";
 import {openSnackbar} from "../../states/reusable/SnackbarSlice";
 // Data
-import {responseStrings, weSorryMessage} from "../../utils/responseStrings";
-import {mockImagesLabelData} from "../../sagas/mockLabelData";
 
 // function CrearLoteForm() {
 function CrearLoteForm() {
@@ -55,18 +53,7 @@ function CrearLoteForm() {
     }
   }, [isLoading]);
 
-  useEffect(() => {
-    if (isLoading === false && isError === true && response !== null) {
-      dispatch(
-        openAlertDialog({
-          title: weSorryMessage,
-          content: responseStrings(response.status),
-          icon: "cancel",
-          actionCancelButton: () => dispatch(postCrearLoteReset()),
-        })
-      );
-    }
-  }, [isLoading, isError, response]);
+  useError(isError, response)
 
   return (
     <Stack {...nth1StackStyle}>

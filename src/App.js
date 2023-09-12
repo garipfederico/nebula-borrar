@@ -8,7 +8,7 @@ import Dashboard from "./reusable/dashboard/Dashboard";
 //Pages
 import Labels from "./components/labels/Labels";
 import Lotes from "./components/lotes/Lotes";
-import Documentos from "./components/documentos/Documentos";
+import Documents from "./components/documents/Documents";
 import GestionDeUsuarios from "./components/gestionDeUsuarios/GestionDeUsuarios";
 import Landing from "./components/landing/Landing";
 import {useDispatch, useSelector} from "react-redux";
@@ -20,7 +20,7 @@ import {isTokenExpired} from "./utils/tokenValidator";
 import {openAlertDialog} from "./states/reusable/AlertDialogSlice";
 
 //Data
-import {sessionExpiredString} from "./utils/responseStrings";
+import {sessionExpiredString} from "./data/responseStrings";
 function App() {
   const {isLoggedIn, isError, isLoading} = useSelector((state) => state.auth);
   const {exp} = useSelector((state) => state.auth.activeUser.accessDecoded);
@@ -76,7 +76,8 @@ function App() {
                     path="/gestionDeUsuarios"
                     element={<GestionDeUsuarios />}
                   />
-                  <Route path="/documentos" element={<Documentos />} />
+                  <Route path="/documents" element={<Documents />} />
+                  <Route path="/documents/:id" element={<Documents />} />
                   <Route path="/login" element={<MenuCard />} />
                   <Route path="/*" element={<Navigate to="/home" />} />
                 </>

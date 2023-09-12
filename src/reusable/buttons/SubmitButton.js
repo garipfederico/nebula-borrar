@@ -13,7 +13,7 @@ import { Button } from '@mui/material';
  * @param {handleSubmit} La funcion que maneja el submit
  * @example
  * <SubmitButton
- *      requestType={requestType}      // suele podria se useSelector de redux o un useState
+ *      requestType={requestType}      // useSelector de redux o un useState GET | POST | PUT
  *      isLoading={isLoading}          // suele podria se useSelector de redux o un useState
  *      textForRequestType={["Crear","Guardar"]}
  *      handleSubmit={formik.handleSubmit}
@@ -26,6 +26,10 @@ const isLoading = props.isLoading
 const requestType = props.requestType
 const textForRequestType = props.textForRequestType
 const handleSubmit = props.handleSubmit
+const icon = props.icon
+const size = props.size
+const width = props.width
+const dataCy = props.dataCy
 
   return (
     <>
@@ -44,8 +48,12 @@ const handleSubmit = props.handleSubmit
               type="submit"
               variant="contained"
               onClick={handleSubmit}
+              size={size && size}
+              startIcon={icon && icon}
+              sx={width ? {width:width}: null}
+              data-cy= {dataCy}
             >
-              { requestType === "GET" && textForRequestType[0]}
+              {requestType === "GET" && textForRequestType[0]}
               {requestType === "POST" && textForRequestType[1]}
               {requestType === "PUT" && textForRequestType[2]}
               

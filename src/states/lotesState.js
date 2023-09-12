@@ -1,12 +1,14 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
-  typeRequest: null,
+  requestType: null,
   isLoading: false,
   isError: false,
-  response: {},
+  response: {
+    status:null
+  },
   optionsState: [],
-  documents: [],
+  documents: {results:['']},
 };
 
 export const lotesSlice = createSlice({
@@ -36,7 +38,7 @@ export const lotesSlice = createSlice({
     getDocumentsFail: (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.response = action.payload
+      state.response = action.payload.e.response
     },
     putState: (state, action) => {
       state.isLoading = true

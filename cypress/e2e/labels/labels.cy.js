@@ -4,7 +4,6 @@ describe("Labels page - Caso de Uso imprimir etiquetas", () => {
   const username = "garip.federico@gmail.com";
   const password = "123";
   beforeEach("Logueo", () => {
-
     // Logueo
     cy.visit("http://localhost:3000/landing");
     cy.get("#username").type("garip.federico@gmail.com");
@@ -45,12 +44,12 @@ describe("Labels page - Caso de Uso imprimir etiquetas", () => {
     cy.get(".MuiStack-root > .MuiButtonBase-root")
       .should("have.text", "Crear e Imprimir")
       .click();
-    // });
-    // cy.get("@consoleLog").should("be.calledWith", "Pdf generado correctamente");
-    cy.window().then((win) => {
+
+      cy.window().then((win) => {
       // Verificar que la referencia a la nueva ventana no sea nula
       expect(win).to.not.be.null;
     });
+
     cy.url().should("include", "/home");
     cy.get(".MuiSnackbar-root > .MuiPaper-root").should(
       "have.text",
@@ -59,83 +58,50 @@ describe("Labels page - Caso de Uso imprimir etiquetas", () => {
   });
 
   it("Imprimir etiquetas, 404 Recurso no encontrado", () => {
-    const apiUrl =
-      Cypress.env("API_URL") + "/api/document/create-document-and-labels/";
-    cy.log(`La URL de la API es: ${apiUrl}`);
-    cy.intercept(
-      {
-        method: "POST", // Route all GET requests
-        url: apiUrl, // that have a URL that matches '/users/*'
-      },
-      {
-        statusCode: 404, // and force the response to be: []
-      }
-    ).as("getUsers"); // and assign an alias
+    cy.request_interceptor(
+      "/api/document/create-document-and-labels/",
+      "POST",
+      404,
+      "getUsers"
+    );
 
     cy.get(".MuiStack-root > .MuiButtonBase-root")
       .should("have.text", "Crear e Imprimir")
       .click();
 
-    cy.get("#alert-dialog-title").should(
-      "have.text",
-      "Lo sentimos ha ocurrido un error"
-    );
-
-    cy.get(".MuiDialogContent-root > .MuiStack-root > :nth-child(1)").should(
-      "have.text",
-      "Recurso no encontrado "
-    );
+    cy.alertDialog_verifier("Recurso no encontrado ", 404);
   });
+
   it("Imprimir etiquetas, 403 No tiene permisos o no está autenticado", () => {
-    const apiUrl =
-      Cypress.env("API_URL") + "/api/document/create-document-and-labels/";
-    cy.log(`La URL de la API es: ${apiUrl}`);
-    cy.intercept(
-      {
-        method: "POST", // Route all GET requests
-        url: apiUrl, // that have a URL that matches '/users/*'
-      },
-      {
-        statusCode: 403, // and force the response to be: []
-      }
-    ).as("getUsers"); // and assign an alias
+    cy.request_interceptor(
+      "/api/document/create-document-and-labels/",
+      "POST",
+      403,
+      "getUsers"
+    );
 
     cy.get(".MuiStack-root > .MuiButtonBase-root")
       .should("have.text", "Crear e Imprimir")
       .click();
-    cy.get("#alert-dialog-title").should(
-      "have.text",
-      "Lo sentimos ha ocurrido un error"
-    );
-    cy.get(".MuiDialogContent-root > .MuiStack-root > :nth-child(1)").should(
-      "have.text",
-      "No tiene permisos o no está autenticado - Inicie nuevamente la sesión "
+
+    cy.alertDialog_verifier(
+      "No tiene permisos o no está autenticado - Inicie nuevamente la sesión ",
+      403
     );
   });
+
   it("Imprimir etiquetas, 401 No autorizado", () => {
-    const apiUrl =
-      Cypress.env("API_URL") + "/api/document/create-document-and-labels/";
-    cy.log(`La URL de la API es: ${apiUrl}`);
-    cy.intercept(
-      {
-        method: "POST", // Route all GET requests
-        url: apiUrl, // that have a URL that matches '/users/*'
-      },
-      {
-        statusCode: 401, // and force the response to be: []
-      }
-    ).as("getUsers"); // and assign an alias
+    cy.request_interceptor(
+      "/api/document/create-document-and-labels/",
+      "POST",
+      401,
+      "getUsers"
+    );
 
     cy.get(".MuiStack-root > .MuiButtonBase-root")
       .should("have.text", "Crear e Imprimir")
       .click();
-    cy.get("#alert-dialog-title").should(
-      "have.text",
-      "Lo sentimos ha ocurrido un error"
-    );
-    cy.get(".MuiDialogContent-root > .MuiStack-root > :nth-child(1)").should(
-      "have.text",
-      "No autorizado "
-    );
+
+    cy.alertDialog_verifier("No autorizado ", 401);
   });
 });

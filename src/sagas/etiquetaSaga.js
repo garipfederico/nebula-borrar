@@ -27,8 +27,10 @@ function* requestManager(apiCallFunction, anUrl, anObject = null) {
   if (process.env.REACT_APP_ENVIRONMENT_TYPE === "mocked") {
     var mock = new MockAdapter(axiosBase);
     console.log("Executing in mocked mode");
-    mock.onGet(firstURL, anObject).reply(200, {...mockLabelData});
-    mock.onGet(secondURL).reply(200, {...mockImagesLabelData});
+    // mock.onPost(firstURL, anObject).reply(200, {...mockLabelData});
+    // mock.onPost(secondURL).reply(200, {...mockImagesLabelData});
+    mock.onPost(firstURL, anObject).reply(401);
+    mock.onPost(secondURL).reply(401);
     request = yield call(apiCallFunction, anUrl, anObject);
     mock.restore();
   } else {
@@ -89,7 +91,7 @@ function* workPostLabelsFetch(action) {
       );
     }
   } catch (error) {
-    yield put(postCrearLoteFail(error));
+    yield put(postCrearLoteFail({error}));
   }
 }
 

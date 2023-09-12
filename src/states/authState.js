@@ -60,7 +60,7 @@ export const authSlice = createSlice({
       state.isLoggedIn = false;
     },
     getUserSuccess: (state, action) => {
-      console.log(action)
+      // console.log(action)
       state.isLoggedIn = true;
       state.activeUser.accessDecoded = action.payload;
     },

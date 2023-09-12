@@ -9,45 +9,58 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
+// Reusables
+
+// Components
 import RowLote from "./RowLote";
+
+// Redux
 import {useSelector, useDispatch} from "react-redux";
-import {getOptionsState, getDocuments} from "../../states/lotesState";
-import { openAlertDialog } from "../../states/reusable/AlertDialogSlice";
-import { responseStrings, weSorryMessage } from "../../utils/responseStrings";
+import {getOptionsState} from "../../states/lotesState";
+
+// Data
+import {convertDateFieldObjectsArray} from "../../utils/timeISOtoDDMMYYYY";
 
 const columns = [
-  // {id: "accion", label: "Acciones", minWidth: 50},
-  {id: "nroLote", label: "N° Lote", minWidth: 100},
-  {id: "operador", label: "Operador", minWidth: 100},
+  {id: "nroDoc", label: "N° de Documento", minWidth: 100},
   {id: "fecha", label: "Fecha", minWidth: 20},
-  // {id: "cantidadDocs", label: "Cantidad de documentos", minWidth: 20},
+  {id: "descripcion", label: "Descripción del documento", minWidth: 20},
   {id: "estado", label: "Estado", minWidth: 50},
 ];
 
+// Hacer un navigate al id o sea al id de python
+// El internal_id es para mostrar en el front
+// Debo pasar una columna o un parametro id para poder hacer la solicitud al back
+// con el id
+
 export default function StickyHeadTable() {
   const dispatch = useDispatch();
-  const {results, isError} = useSelector((state) => state.lotes.documents);
+  const {results} = useSelector((state) => state.lotes.documents);
   const documents = results || [];
-  console.log("results", documents);
   // Adapt the  structure's data of the response from API to the frontend structure
   const transformData = documents.map((unDoc) => {
-    console.log(unDoc.status)
     return {
-      nroLote: unDoc.id,
-      operador: unDoc.internal_id,
-      fecha: "12/04/2021",
+      id: unDoc.id,
+      nroDoc: unDoc.internal_id,
+      fecha: unDoc.created_at,
+      descripcion: unDoc.document_description,
       estado: unDoc.status,
     };
   });
 
-  const documentos = transformData;
+  const ArrayDateFieldFormatted = convertDateFieldObjectsArray(
+    transformData,
+    "fecha"
+  );
 
+  const documentos = ArrayDateFieldFormatted;
   const rows = documentos.map((unProducto) => {
-    const {nroLote, operador, fecha, estado} = unProducto;
+    const {id, nroDoc, fecha, descripcion, estado} = unProducto;
     return {
-      nroLote,
-      operador,
+      id,
+      nroDoc,
       fecha,
+      descripcion,
       estado,
     };
   });
@@ -66,10 +79,10 @@ export default function StickyHeadTable() {
   useEffect(() => {
     dispatch(getOptionsState());
   }, []);
- 
+
   return (
     <Paper sx={{width: "100%", overflow: "hidden"}}>
-      <TableContainer sx={{ overflowX: "auto"}} >
+      <TableContainer sx={{overflowX: "auto"}}>
         <Table stickyHeader aria-label="sticky table" size="small">
           <TableHead>
             <TableRow>
@@ -90,10 +103,11 @@ export default function StickyHeadTable() {
               .map((row) => {
                 return (
                   <RowLote
-                    key={row.nroLote}
+                    key={row.nroDoc}
                     row={row}
                     columns={columns}
                     _id={row._id}
+                    id={row.id}
                   />
                 );
               })}

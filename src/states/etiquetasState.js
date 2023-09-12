@@ -16,7 +16,7 @@ export const etiquetasSlice = createSlice({
     postCrearLoteFail: (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.response = action.payload.response;
+      state.response = action.payload.error.response;
     },
     postCrearLoteSuccess: (state, action) => {
       state.isError = false;
