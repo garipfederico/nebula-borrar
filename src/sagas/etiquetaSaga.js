@@ -46,7 +46,7 @@ function* workPostLabelsFetch(action) {
     const body = {
       internal_id: expedientNumber,
       labels_quantity: parseInt(quantity),
-      document_description: "sarasa",
+      document_description: "peraza",
     };
 
     //First call to the API

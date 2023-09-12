@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useFormik} from "formik";
 import {Stack} from "@mui/material";
 
@@ -21,10 +21,11 @@ function Lotes() {
   const dispatch = useDispatch();
   const {results} = useSelector((state) => state.lotes.documents);
   const {isError, response} = useSelector((state) => state.lotes);
+  const [rowsPerPage, setRowsPerPage] = useState(() => 10);
   const batch = results[0].batch;
 
   useEffect(() => {
-    dispatch(getDocuments());
+    dispatch(getDocuments({page:0, rowsPerPage}));
   }, []);
 
   useError(isError, response);
@@ -45,7 +46,10 @@ function Lotes() {
     >
       <Stack direction="column" spacing={2} width="90%" sx={{mb: 5}}>
         {/* <SearchForm formik={formik} /> */}
-        <TablaLotes />
+        <TablaLotes 
+          rowsPerPage = {rowsPerPage}
+          setRowsPerPage = {setRowsPerPage}
+        />
       </Stack>
     </TitleCard>
   );

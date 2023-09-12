@@ -9,7 +9,7 @@ import Select from "@mui/material/Select";
 import {useDispatch, useSelector} from "react-redux";
 import {putState} from "../../states/lotesState";
 
-export default function SelectState({selectedValue, id}) {
+export default function SelectState({selectedValue, id, page, rowsPerPage}) {
   const dispatch = useDispatch();
   const [estado, setEstado] = React.useState(selectedValue);
   const {optionsState} = useSelector((state) => state.lotes);
@@ -17,7 +17,7 @@ export default function SelectState({selectedValue, id}) {
   const handleChange = (event) => {
     const name = event.target.value;
     setEstado(event.target.value);
-    dispatch(putState({name, id}));
+    dispatch(putState({name, id, page, rowsPerPage}));
   };
 
   // Array that have indexes numbers for each elements

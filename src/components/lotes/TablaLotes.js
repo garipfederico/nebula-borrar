@@ -16,7 +16,7 @@ import RowLote from "./RowLote";
 
 // Redux
 import {useSelector, useDispatch} from "react-redux";
-import {getOptionsState} from "../../states/lotesState";
+import {getOptionsState, getDocuments} from "../../states/lotesState";
 
 // Data
 import {convertDateFieldObjectsArray} from "../../utils/timeISOtoDDMMYYYY";
@@ -33,9 +33,9 @@ const columns = [
 // Debo pasar una columna o un parametro id para poder hacer la solicitud al back
 // con el id
 
-export default function StickyHeadTable() {
+export default function StickyHeadTable({rowsPerPage, setRowsPerPage}) {
   const dispatch = useDispatch();
-  const {results} = useSelector((state) => state.lotes.documents);
+  const {results, count} = useSelector((state) => state.lotes.documents);
   const documents = results || [];
   // Adapt the  structure's data of the response from API to the frontend structure
   const transformData = documents.map((unDoc) => {
@@ -65,7 +65,7 @@ export default function StickyHeadTable() {
     };
   });
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  // const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -75,6 +75,10 @@ export default function StickyHeadTable() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  useEffect(() => {
+    dispatch(getDocuments({page, rowsPerPage}));
+  }, [page, rowsPerPage]);
 
   useEffect(() => {
     dispatch(getOptionsState());
@@ -98,26 +102,28 @@ export default function StickyHeadTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <RowLote
-                    key={row.nroDoc}
-                    row={row}
-                    columns={columns}
-                    _id={row._id}
-                    id={row.id}
-                  />
-                );
-              })}
+            {rows.map((row, index) => {
+              return (
+                <RowLote
+                  page={page}
+                  rowsPerPage={rowsPerPage}
+                  // key={row.nroDoc}
+                  key={index}
+                  row={row}
+                  columns={columns}
+                  _id={row._id}
+                  id={row.id}
+                />
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
+        labelRowsPerPage="Documentos por pagina"
+        rowsPerPageOptions={[5, 10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={count}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

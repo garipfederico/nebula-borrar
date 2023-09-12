@@ -63,10 +63,17 @@ function* workGetOptionsStates() {
   }
 }
 
-function* workGetDocuments() {
+function* workGetDocuments(action) {
+  const {page, rowsPerPage} = action.payload;
+  const offset = page * rowsPerPage;
+  let URL = URL_document;
+  URL += "?limit=" + rowsPerPage + "&offset=" + offset;
+  console.log(URL_document);
+
+
   // Call to get the documents for the table
   try {
-    const documentsRequest = yield requestManager(axiosBase.get, URL_document)
+    const documentsRequest = yield requestManager(axiosBase.get, URL)
     console.log("documentsRequest ", documentsRequest.data);
     yield put(getDocumentsSuccess({documents: {...documentsRequest.data}}));
   } catch (e) {
@@ -77,18 +84,18 @@ function* workGetDocuments() {
   return;
 }
 
-function* workPutDocuments(action) {
+function* workPutDocumentState(action) {
   console.log(action.payload);
-  const {name, id }= action.payload
+  try {
+  const {name, id, page, rowsPerPage }= action.payload
   const URLRequest =  URL_BASE + parcialURLdocument + id + '/manage-status'
   console.log(URLRequest)
-  try {
     const documentsResponse = yield requestManager(axiosBase.put, URLRequest, {
       status: name
     });
     console.log("documentsResponse ", documentsResponse);
     yield put(putStateSuccess());
-    yield put(getDocuments())
+    yield put(getDocuments({page, rowsPerPage}))
   } catch (e) {
     console.log("Error trying to get from API the documents");
     console.log(e);
@@ -100,7 +107,7 @@ function* workPutDocuments(action) {
 function* lotesSaga() {
     yield takeEvery("lotes/getOptionsState", workGetOptionsStates);
     yield takeEvery("lotes/getDocuments", workGetDocuments);
-    yield takeEvery("lotes/putState", workPutDocuments);
+    yield takeEvery("lotes/putState", workPutDocumentState);
 }
 
 export default lotesSaga;
