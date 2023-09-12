@@ -41,15 +41,9 @@ function Lotes() {
     <TitleCard
       title="Lote"
       subtitle={"Consulta del Lote nro.:" + batch}
-      width="50%"
-      sx={{index: 3}}
+      width="80%"
     >
-      <Stack
-        direction={{xs: "column", lg: "row"}}
-        wrap="wrap"
-        justifyContent={"center"}
-        spacing={5}
-      >
+      <Stack direction="column" spacing={2} width="90%" sx={{mb: 5}}>
         {/* <SearchForm formik={formik} /> */}
         <TablaLotes />
       </Stack>
