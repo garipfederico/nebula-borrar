@@ -3,7 +3,7 @@ import {Box, Button, Paper, Stack, Typography} from "@mui/material";
 import {useFormik} from "formik";
 
 // Reusables
-import {findValueByKey, mapAttributesArrayToKeyValueArray} from "../../utils/transformBackData";
+import { mapAttributesArrayToKeyValueArray} from "../../utils/transformBackData";
 import useError from "../../hooks/useError";
 import TextInput from "../../reusable/textInput/TextInput";
 import DatePicker from "../../reusable/DatePicker";
@@ -29,10 +29,10 @@ function DocumentForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(true);
-  const {document, isError, response, showForm} = useSelector(
+  const {document, showForm} = useSelector(
     (state) => state.documents
   );
-  const {editing, requestType, isLoading} = useSelector(
+  const {editing, isError, response, requestType, isLoading} = useSelector(
     (state) => state.documents.document
   );
   const {all_document_types, all_confidentialities, all_document_locations} =

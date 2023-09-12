@@ -81,9 +81,8 @@ export const menuItem = [
     text: "Documentos",
     icon: <FolderCopy />,
     iconName: "Mail",
-    url: "/documentos",
-    permiso: "mis-planes",
-    descripcion: "Entra al plan que tenes vigente y entrena!",
+    url: "/documents",
+    permiso: "",
   },
   {
     text: "Gestion de Usuarios",
