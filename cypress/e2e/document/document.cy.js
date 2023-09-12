@@ -1,10 +1,10 @@
 // import "../../support/commands";
 
 describe("Document page - Consultar documento", () => {
-  const accessToken = JSON.parse(localStorage.getItem("docu.auth")).access;
   const username = "garip.federico@gmail.com";
   const password = "123";
   const numberOfFilesToTest = 2;
+  let accessToken = null;
 
   /**
    * @description Cambia el valor del combobox, guarda, ingresa nuevamente
@@ -44,10 +44,15 @@ describe("Document page - Consultar documento", () => {
   };
 
   beforeEach("Logueo", () => {
-    cy.login(username, password);
+    cy.login(username, password).then(() => {
+      accessToken = JSON.parse(localStorage.getItem("docu.auth")).access;
+    });
     cy.verifyClickAndNavigate("documents");
+    // cy.wait(500).then(() => {
+    //   accessToken = JSON.parse(localStorage.getItem("docu.auth")).access;
+    // });
   });
-  it.only("Verificar estructura de la respuesta del back", () => {
+  it("Verificar estructura de la respuesta del back", () => {
     // Realiza una solicitud al servidor y obtén la respuesta
     cy.request({
       method: "GET",
@@ -106,15 +111,15 @@ describe("Document page - Consultar documento", () => {
         },
       ];
 
-// Hacer de esto una funcion para reutilizar, sirve para dos niveles
-// 
+      // Hacer de esto una funcion para reutilizar, sirve para dos niveles
+      //
       responseStructure.forEach((attribute) => {
         cy.expect(response.body).to.have.property(attribute.name);
         cy.expect(response.body[attribute.name]).to.be.a(attribute.type);
-      
+
         if (attribute.type === "array" && attribute.subType === "object") {
           const arrayProp = attribute;
-      
+
           // Verificar la estructura de datos anidados
           cy.expect(response.body[arrayProp.name]).to.be.an("array");
           response.body[arrayProp.name].forEach((item) => {
@@ -170,12 +175,12 @@ describe("Document page - Consultar documento", () => {
     cy.datePicker("created_at");
 
     // Selects
-    cy.comboBox("Categoria", "document_type", [
+    cy.comboBox_verifySelectedValue("Categoria", "document_type", [
       "document",
       "Multas",
       "Impuestos",
     ]);
-    cy.comboBox("Nivel de Confidencialidad", "confidentiality", [
+    cy.comboBox_verifySelectedValue("Nivel de Confidencialidad", "confidentiality", [
       "1",
       "2",
       "3",
@@ -190,20 +195,20 @@ describe("Document page - Consultar documento", () => {
 
   it("Verificar combobox Ubicacion", () => {
     cy.table_fileClick(numberOfFilesToTest);
-    cy.comboBox("Edificio", "location", [
+    cy.comboBox_verifySelectedValue("Edificio", "location", [
       "Berazategui Barrio las Palmas - 2 - 5 - 6 - 18",
       "Berazategui Centro - 1 - 2 - 5 - 14",
       "Berazategui Barrio Los Paraisos - 2 - 3 - 4 - 30",
     ]);
   });
 
-  it("Verificar modificacion de documento campo Categoria(en n filas)", () => {
+  it(`Verificar modificacion de documento campo Categoria(en ${numberOfFilesToTest} filas)`, () => {
     const documentTypes = ["document", "Multas", "Impuestos"];
     for (let i = 1; i <= numberOfFilesToTest; i++) {
       goToFileChangingOneComboboxType(documentTypes, "document_type", i);
     }
   });
-  it("Verificar modificacion de documento campo Confidencialidad(en n filas)", () => {
+  it(`Verificar modificacion de documento campo Confidencialidad(en ${numberOfFilesToTest} filas)`, () => {
     const confidentialityTypes = ["1", "2", "3"];
     for (let i = 1; i <= numberOfFilesToTest; i++) {
       goToFileChangingOneComboboxType(
@@ -214,7 +219,7 @@ describe("Document page - Consultar documento", () => {
     }
   });
 
-  it("Verificar modificacion de documento campo Ubicacion(en n filas)", () => {
+  it(`Verificar modificacion de documento campo Ubicacion(en ${numberOfFilesToTest} filas)`, () => {
     const locationTypes = [
       "Berazategui Barrio las Palmas - 2 - 5 - 6 - 18",
       "Berazategui Centro - 1 - 2 - 5 - 14",
@@ -224,5 +229,33 @@ describe("Document page - Consultar documento", () => {
     for (let i = 1; i <= numberOfFilesToTest; i++) {
       goToFileChangingOneComboboxType(locationTypes, "location", i);
     }
+  });
+
+  it("Verificar manejo de errores del back. 401", () => {
+  cy.table_fileClick(2)
+  cy.request_interceptor("/api/document/\\d+/edit-document/", "PATCH", 401, "getUsers")
+  cy.get('[data-cy="editar"]').should("have.text", "Editar").click();
+  
+  cy.get('[data-cy="editar"]').should("have.text", "Guardar").click();
+  cy.alertDialog_verifier("No autorizado ", 401)
+});
+
+  it("Verificar manejo de errores del back. 402", () => {
+  cy.table_fileClick(2)
+  cy.request_interceptor("/api/document/\\d+/edit-document/", "PATCH", 402, "getUsers")
+  cy.get('[data-cy="editar"]').should("have.text", "Editar").click();
+  
+  cy.get('[data-cy="editar"]').should("have.text", "Guardar").click();
+  cy.alertDialog_verifier("Estado de respuesta no reconocido ", 402)
+
+  });
+  it("Verificar manejo de errores del back. 404", () => {
+  cy.table_fileClick(2)
+  cy.request_interceptor("/api/document/\\d+/edit-document/", "PATCH", 404, "getUsers")
+  cy.get('[data-cy="editar"]').should("have.text", "Editar").click();
+  
+  cy.get('[data-cy="editar"]').should("have.text", "Guardar").click();
+  cy.alertDialog_verifier("Recurso no encontrado ", 404)
+
   });
 });

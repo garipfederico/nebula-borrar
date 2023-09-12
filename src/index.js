@@ -19,7 +19,6 @@ import lotesSaga from "./sagas/lotesSaga";
 import etiquetaSaga from "./sagas/etiquetaSaga";
 import authSaga from "./sagas/authSaga";
 import documentsSaga from "./sagas/documentsSaga"
-import axiosBase from "./utils/axiosBase";
 
 const saga = createSagaMiddleware();
 const store = configureStore({
@@ -45,7 +44,3 @@ root.render(
     <App />
   </Provider>
 );
-
-// if (window.Cypress) {
-//   window.store = store
-// }

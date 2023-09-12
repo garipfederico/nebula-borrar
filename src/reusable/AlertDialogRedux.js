@@ -6,7 +6,12 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import {Stack} from "@mui/material";
-import {Error, Cancel, HourglassBottom, SentimentDissatisfied} from "@mui/icons-material";
+import {
+  Error,
+  Cancel,
+  HourglassBottom,
+  SentimentDissatisfied,
+} from "@mui/icons-material";
 // Reusables
 // Components
 // Redux
@@ -47,15 +52,15 @@ function AlertDialogRedux(props) {
     textAcceptButton,
     textCancelButton,
     otherMessages,
-    timer
+    timer,
   } = useSelector((state) => state.alertDialog);
   const [count, setCount] = useState(timer);
 
   // Remember that any click outside de box it's the same that cancel action
   const handleClose = () => {
     dispatch(closeAlertDialog());
-    if(actionCancelButton){
-      actionCancelButton()
+    if (actionCancelButton) {
+      actionCancelButton();
     }
     // actionCancelButton();
   };
@@ -68,7 +73,11 @@ function AlertDialogRedux(props) {
   };
 
   const messages = otherMessages.map((aMessage, index) => (
-    <DialogContentText id="alert-dialog-description" key={index}>
+    <DialogContentText
+      id="alert-dialog-description"
+      data-cy={"alertDialogOtherMessages"}
+      key={index}
+    >
       <span>{aMessage}</span>
     </DialogContentText>
   ));
@@ -84,7 +93,7 @@ function AlertDialogRedux(props) {
     }
   };
   useEffect(() => {
-    if(timer > 0){
+    if (timer > 0) {
       contarHastaCero(count);
     }
   }, []);
@@ -96,6 +105,7 @@ function AlertDialogRedux(props) {
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        data-cy="alertDialog"
       >
         {
           // Here goes the icons. To agregate another one you must to create en new line, assign an string
@@ -120,10 +130,12 @@ function AlertDialogRedux(props) {
                   sx={{margin: "auto", fontSize: "70px"}}
                 />
               )}
-              {icon==='SentimentDissatisfied' && (
-                <SentimentDissatisfied  
-                  color='error' sx={{margin:'auto', fontSize:"70px"}}/>
-                  )}
+              {icon === "SentimentDissatisfied" && (
+                <SentimentDissatisfied
+                  color="error"
+                  sx={{margin: "auto", fontSize: "70px"}}
+                />
+              )}
 
               {/*  icon==='StringExample') && (
                 //   <ExampleComponent  color='error' sx={{margin:'auto', fontSize:"70px"}}/>
@@ -135,13 +147,14 @@ function AlertDialogRedux(props) {
         <DialogTitle
           id="alert-dialog-title"
           alignItems="center"
+          data-cy="alertDialogTitle"
           // aligntContent="center"
         >
           {title}
         </DialogTitle>
         <DialogContent>
           <Stack direction="column" justifyContent="center" alignItems="center">
-            <DialogContentText id="alert-dialog-description" key="01">
+            <DialogContentText id="alert-dialog-description" key="01" data-cy="alertDialogContent">
               {content} {count > 0 ? count : null}
             </DialogContentText>
             {messages}
