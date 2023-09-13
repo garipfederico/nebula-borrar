@@ -1,3 +1,6 @@
+// TODO: el test "Comprobacion de existencia de filas con datos" suele arrojar
+//       falsos positivos. Optimizar
+
 describe("Batch page - Caso de uso cambiar estado de documento del lote", () => {
   const username = "garip.federico@gmail.com";
   const password = "123";
@@ -54,6 +57,7 @@ describe("Batch page - Caso de uso cambiar estado de documento del lote", () => 
     );
   });
 
+  // El siguiente test suele arrojar falsos positivos
   it("Comprobacion de existencia de filas con datos", () => {
     cy.get(".MuiTableBody-root > :nth-child(1) > :nth-child(1)").should(
       ($element) => {
@@ -148,4 +152,12 @@ describe("Batch page - Caso de uso cambiar estado de documento del lote", () => 
       ":nth-child(1) > :nth-child(4) > .MuiBox-root > .MuiFormControl-root > .MuiInputBase-root > #demo-simple-select"
     ).should("have.text", "escaneado");
   });
+
+  it("Comprobando paginacion - Navegacion inicio a fin y luego al inicio nuevamente", () => {
+    cy.table_verifyNavigation();
+  });
+
+  it("Comprobando paginacion - Paging Control, el numero de filas mostradas deberá coincidir con la opcion seleccionada", ()=>{
+    cy.table_verifyRowsPerPageForEachValueOf(["5", "10", "25", "100"], 3)
+  })
 });

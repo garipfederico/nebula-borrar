@@ -1,8 +1,9 @@
-// TODO: 
-// Combobox: tomar datos del back para verificar que esten todas las opciones
-// disponibles en el front del combobox, para que si hay un cambio en el back
-//  no haya que modificar el test
-
+// TODO:
+// - Combobox: tomar datos del back para verificar que esten todas las opciones
+//            disponibles en el front del combobox, para que si hay un cambio en
+//             el back no haya que modificar el test
+// - Table: Hacer que table_verifyNavigation o una funcion similar verifique que
+//          los valores que vienen del back se vean reflejados en la tabla
 
 /** Make a login and verify tha is redirected to the home page
  * @description Make a login and verify tha is redirected to the home page
@@ -46,9 +47,15 @@ Cypress.Commands.add("table_fileClick", (fileToClick) => {
 });
 
 Cypress.Commands.add("table_verifyNumberOfRows", (rowFileNumber) => {
-  cy.get(
-    `.MuiTableBody-root > :nth-child(${rowFileNumber}) > :nth-child(1)`
-  ).should("exist");
+  // From the table it selects the rows (tr) and then it can access
+  // to the length property. Finally compares with the value rowFileNumber
+  cy.get('.MuiTableBody-root')
+  .find('tr')
+  .then((rows) => {
+    const rowCount = rows.length;
+    expect(rowCount).to.be.lte(parseInt(rowFileNumber));
+  });
+
 });
 
 Cypress.Commands.add("table_isCellNumber", (row, column) => {
@@ -80,6 +87,66 @@ Cypress.Commands.add("table_isCellDate", (row, column) => {
   });
 });
 
+Cypress.Commands.add("table_verifyNavigation", () => {
+  cy.get(".MuiTablePagination-displayedRows")
+    .invoke("text")
+    .then((text) => {
+      const matches = text.match(/(\d+)\s*–\s*(\d+)\s*of\s*(\d+)/);
+      cy.log(text);
+      if (matches) {
+        const firstRow = parseInt(matches[1]);
+        cy.log("firstRow: ", firstRow);
+        const lastRow = parseInt(matches[2]);
+        cy.log("lastRow: ", lastRow);
+        const totalRows = parseInt(matches[3]);
+        cy.log("totalRows: ", totalRows);
+
+        const rowsPerPage = lastRow - firstRow + 1;
+        const amountOfPages = Math.floor(totalRows / rowsPerPage);
+
+        // Advance the pagination to the end
+        cy.log("documentPerPage: ", rowsPerPage);
+        for (let aPage = 0; aPage < amountOfPages; aPage++) {
+          const isLastPage = aPage === amountOfPages;
+          const lowerRange = aPage * 10 + 1;
+          const upperRange = isLastPage ? totalRows : (aPage + 1) * 10;
+          const expectedText =
+            lowerRange + "-" + upperRange + " of " + totalRows;
+          // Controls the string value of the pagination info (ex.: 1-10 of 37)
+          cy.get(".MuiTablePagination-displayedRows")
+            .invoke("text")
+            .should("to.be", expectedText);
+
+          cy.get('[aria-label="Go to next page"]').click();
+        }
+        // go back the pagination to the beginning
+        for (let x = 0; x < amountOfPages; x++) {
+          cy.get('[aria-label="Go to previous page"]').click();
+        }
+      }
+    });
+});
+
+
+/**
+ * id_r its the value of the selector id. ex.: #\\:r4\\:
+ * So the parameter value must a number like 4 for this case.
+ * In the cypress inspector you must to watch this number
+ */
+Cypress.Commands.add("table_verifyRowsPerPageForEachValueOf", (arrayOfValues, id_r) => {
+  cy.table_dropdown_verifyValues(arrayOfValues, id_r);
+  for (let value of arrayOfValues) {
+    cy.table_dropdown_selectAnOption(value,id_r);
+    cy.table_verifyNumberOfRows(value);
+  }
+
+
+  // cy.table_dropdown_selectAnOption("10");
+  // cy.table_verifyNumberOfRows(10);
+  // cy.table_dropdown_selectAnOption("25");
+  // cy.table_verifyNumberOfRows(12); // Actualmente solo hay cargados 12 documentos
+});
+
 Cypress.Commands.add("datePicker", (variableName) => {
   cy.get(`[data-cy="${variableName}"]`)
     .children("input")
@@ -90,17 +157,20 @@ Cypress.Commands.add("datePicker", (variableName) => {
     });
 });
 
-Cypress.Commands.add("comboBox_verifySelectedValue", (labelName, variableName, possiblesNames) => {
-  cy.get(`[data-cy="${variableName}-label"]`).should("have.text", labelName);
-  cy.get(`[data-cy="${variableName}"] > #demo-simple-select`).should(
-    ($select) => {
-      const possibleTexts = possiblesNames;
-      const actualText = $select.text();
-      expect(possibleTexts.some((text) => actualText.includes(text))).to.be
-        .true;
-    }
-  );
-});
+Cypress.Commands.add(
+  "comboBox_verifySelectedValue",
+  (labelName, variableName, possiblesNames) => {
+    cy.get(`[data-cy="${variableName}-label"]`).should("have.text", labelName);
+    cy.get(`[data-cy="${variableName}"] > #demo-simple-select`).should(
+      ($select) => {
+        const possibleTexts = possiblesNames;
+        const actualText = $select.text();
+        expect(possibleTexts.some((text) => actualText.includes(text))).to.be
+          .true;
+      }
+    );
+  }
+);
 
 Cypress.Commands.add("comboBox_open", (data_cy) => {
   cy.get(`[data-cy=${data_cy}] > #demo-simple-select`).click();
@@ -110,10 +180,17 @@ Cypress.Commands.add("combobox_selectOption", (stringOption) => {
   cy.get(`[data-value="${stringOption}"]`).should("be.visible").click();
 });
 
-Cypress.Commands.add("table_dropdown_verifyValues", (textValuesArray) => {
-  cy.get("#\\:r4\\:").click();
-  for (let x of textValuesArray) {
-    cy.get(`[data-value=${x}]`).should("be.visible");
+
+/**
+ * id_r its the value of the selector id. ex.: #\\:r4\\:
+ * So the parameter value must a number like 4 for this case.
+ * In the cypress inspector you must to watch this number
+ */
+Cypress.Commands.add("table_dropdown_verifyValues", (textValuesArray, id_r) => {
+  cy.log("id_r}",`#\\:r${id_r}\\:` )
+  cy.get(`#\\:r${id_r}\\:`).click();
+  for (let value of textValuesArray) {
+    cy.get(`[data-value=${value}]`).should("be.visible");
   }
   cy.get(`[data-value=${textValuesArray[0]}]`).click();
 });
@@ -141,19 +218,18 @@ Cypress.Commands.add(
   "alertDialog_verifier",
   (content, status, title = "Lo sentimos ha ocurrido un error") => {
     cy.get('[data-cy="alertDialogTitle"]').should("have.text", title);
-    cy.get('[data-cy="alertDialogContent"]').should(
+    cy.get('[data-cy="alertDialogContent"]').should("have.text", content);
+    cy.get('[data-cy="alertDialogOtherMessages"] > span').should(
       "have.text",
-      content
+      "Status: " + status
     );
-    cy.get('[data-cy="alertDialogOtherMessages"] > span')
-    .should('have.text', 'Status: '+ status)
   }
 );
 
 // Especificos de tablas que tienen un componente Dropdown. Ver si conviene pasarlo
 // a funciones locales.
-Cypress.Commands.add("table_dropdown_selectAnOption", (stringOption) => {
-  cy.get("#\\:r4\\:").click();
+Cypress.Commands.add("table_dropdown_selectAnOption", (stringOption, id_r) => {
+  cy.get(`#\\:r${id_r}\\:`).click();
   cy.get(`[data-value=${stringOption}]`).click();
 });
 

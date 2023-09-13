@@ -28,37 +28,9 @@ describe("Documents page - Caso de uso cambiar comprobar existencia de documento
   });
 
   it("Comprobar la paginacion ", () => {
-    cy.get(".MuiTablePagination-displayedRows")
-      .invoke("text")
-      .then((text) => {
-        const matches = text.match(/(\d+)\s*–\s*(\d+)\s*of\s*(\d+)/);
-
-        if (matches) {
-          const firstRow = parseInt(matches[1]);
-          const lastRow = parseInt(matches[2]);
-          const totalRows = parseInt(matches[3]);
-
-          const documentPerPage = totalRows - firstRow + 1;
-          const numberOfClicks = Math.floor(totalRows / documentPerPage);
-
-          for (let x = 1; x <= numberOfClicks; x++) {
-            cy.wait(1500);
-            cy.get('[aria-label="Go to next page"]').click();
-          }
-          for (let x = 1; x <= numberOfClicks; x++) {
-            cy.wait(1500);
-            cy.get('[aria-label="Go to previous page"]').click();
-          }
-        }
-      });
+    cy.table_verifyNavigation()
   });
-  it("Comprobar funcionalidad de cantidad de documentos por paginas", () => {
-    cy.table_dropdown_verifyValues(["5", "10", "25", "100"]);
-    cy.table_dropdown_selectAnOption("5");
-    cy.table_verifyNumberOfRows(5)
-    cy.table_dropdown_selectAnOption("10");
-    cy.table_verifyNumberOfRows(10)
-    cy.table_dropdown_selectAnOption("25");
-    cy.table_verifyNumberOfRows(12) // Actualmente solo hay cargados 12 documentos
+  it("Comprobar funcionalidad de cantidad de documentos por paginas (displayedRows)", () => {
+    cy.table_verifyRowsPerPageForEachValueOf(["5", "10", "25", "100"], 4)
   });
 });
