@@ -1,5 +1,5 @@
 import React from "react";
-import { Skeleton, TableCell, TableRow} from "@mui/material";
+import {Skeleton, TableCell, TableRow} from "@mui/material";
 // Reusables
 // Components
 import SelectState from "./SelectState";
@@ -7,7 +7,7 @@ import SelectState from "./SelectState";
 import {useSelector} from "react-redux";
 // Data
 
-function RowLote({row, columns, id}) {
+function RowLote({row, columns, id, page, rowsPerPage}) {
   const isLoading = useSelector((state) => state.lotes.isLoading);
 
   return (
@@ -20,7 +20,12 @@ function RowLote({row, columns, id}) {
               <Skeleton />
             ) : column.id === "estado" ? (
               <>
-                <SelectState selectedValue={row.estado || ""} id={id} />
+                <SelectState
+                  selectedValue={row.estado || ""}
+                  id={id}
+                  page={page}
+                  rowsPerPage={rowsPerPage}
+                />
               </>
             ) : column.format && typeof value === "number" ? (
               column.format(value)

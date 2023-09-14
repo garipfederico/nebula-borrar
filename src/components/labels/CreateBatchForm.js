@@ -42,7 +42,6 @@ function CrearLoteForm() {
   };
   useEffect(() => {
     if (isLoading === false && isError === false && response !== null) {
-      // Uncomment next line to navigate to home page after print labels
       navigate("/home");
       dispatch(
         openSnackbar({
@@ -65,7 +64,6 @@ function CrearLoteForm() {
         editing={true}
         isLoading={isLoading}
         formik={formik}
-        // type="number" ver esto, le paso type number y lo visualiza como password
       />
       <TextInput
         nombreVariable="quantity"
