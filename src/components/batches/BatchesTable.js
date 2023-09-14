@@ -65,7 +65,6 @@ export default function BatchesTable({rowsPerPage, setRowsPerPage}) {
     };
   });
   const [page, setPage] = useState(0);
-  // const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -107,7 +106,6 @@ export default function BatchesTable({rowsPerPage, setRowsPerPage}) {
                 <RowBatch
                   page={page}
                   rowsPerPage={rowsPerPage}
-                  // key={row.nroDoc}
                   key={index}
                   row={row}
                   columns={columns}

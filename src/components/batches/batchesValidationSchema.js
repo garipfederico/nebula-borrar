@@ -6,7 +6,8 @@ const debeSerStringTXT = "Este campo debe ser de texto";
 
 const validationSchema = yup.object({
   dateToSearch: yup
-    .date().max(new Date(), "La fecha máxima permitida es la fecha actual")
+    .date()
+    .max(new Date(), "La fecha máxima permitida es la fecha actual"),
 });
 const batcheschema = {
   validationSchema,
