@@ -1,21 +1,14 @@
 // TODO: el test "Comprobacion de existencia de filas con datos" suele arrojar
-//       falsos positivos. Optimizar
+//       falsos positivos. Optimizar (Viene de Commands.table_isCellNumber) 
 
 describe("Batch page - Caso de uso cambiar estado de documento del lote", () => {
   const username = "garip.federico@gmail.com";
   const password = "123";
 
   beforeEach("Logueo", () => {
-    cy.visit("http://localhost:3000/landing");
-    // if (cy.get(".MuiDialog-container > .MuiPaper-root").should("be.visible")) {
-    //   cy.get(".MuiDialog-container").click(100, 100);
-    // }
-    cy.get("#username").type("garip.federico@gmail.com");
-    cy.get("#password").type("123");
-    cy.get(".MuiStack-root > .MuiButtonBase-root").click();
-    cy.url().should("include", "http://localhost:3000/home");
-    cy.get('[data-cy="digitalization"]').should("exist").click();
-    cy.get('[data-cy="lotes"]').should("exist").click();
+    cy.login(username, password);
+    cy.verifyClickAndNavigate("digitalization");
+    cy.verifyClickAndNavigate("lotes","digitalization/lotes");
   });
 
   it("Navegacion", () => {
@@ -39,51 +32,15 @@ describe("Batch page - Caso de uso cambiar estado de documento del lote", () => 
   });
 
   it("Comprobacion de nombres de columnas", () => {
-    cy.get(".MuiTableHead-root > .MuiTableRow-root > :nth-child(1)").should(
-      "have.text",
-      "N° de Documento"
-    );
-    cy.get(".MuiTableHead-root > .MuiTableRow-root > :nth-child(2)").should(
-      "have.text",
-      "Fecha"
-    );
-    cy.get(".MuiTableHead-root > .MuiTableRow-root > :nth-child(3)").should(
-      "have.text",
-      "Descripción del documento"
-    );
-    cy.get(".MuiTableHead-root > .MuiTableRow-root > :nth-child(4)").should(
-      "have.text",
-      "Estado"
-    );
+    cy.table_verifyColumnsNames(["N° de Documento", "Fecha", "Descripción del documento", "Estado"]);
   });
 
   // El siguiente test suele arrojar falsos positivos
-  it("Comprobacion de existencia de filas con datos", () => {
-    cy.get(".MuiTableBody-root > :nth-child(1) > :nth-child(1)").should(
-      ($element) => {
-        const text = $element.text();
-        const isNumber = !isNaN(parseFloat(text)) && isFinite(text);
+  it("Comprobacion de tipo de datos en la fila 1", () => {
+    cy.table_isCellNumber(1,1)
+    cy.table_isCellDate(1,2)
 
-        expect(isNumber).to.equal(true, "El texto debe ser un número");
-      }
-    );
-
-    cy.get(".MuiTableBody-root > :nth-child(1) > :nth-child(2)").should(
-      ($element) => {
-        const text = $element.text();
-
-        // Expresión regular para validar el formato de fecha (dd/mm/yyyy)
-        const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
-
-        const isDate = dateRegex.test(text);
-
-        expect(isDate).to.equal(
-          true,
-          "El texto debe tener el formato de fecha dd/mm/yyyy"
-        );
-      }
-    );
-
+    
     cy.get(
       ":nth-child(1) > :nth-child(4) > .MuiBox-root > .MuiFormControl-root > .MuiInputBase-root > #demo-simple-select"
     )
@@ -153,7 +110,7 @@ describe("Batch page - Caso de uso cambiar estado de documento del lote", () => 
     ).should("have.text", "escaneado");
   });
 
-  it("Comprobando paginacion - Navegacion inicio a fin y luego al inicio nuevamente", () => {
+  it.only("Comprobando paginacion - Navegacion inicio a fin y luego al inicio nuevamente", () => {
     cy.table_verifyNavigation();
   });
 

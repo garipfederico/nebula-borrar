@@ -15,18 +15,15 @@
  */
 Cypress.Commands.add("login", (email, password) => {
   cy.visit("http://localhost:3000/landing");
-  // if (cy.get(".MuiDialog-container > .MuiPaper-root").should("be.visible")) {
-  //   cy.get(".MuiDialog-container").click(100, 100);
-  // }
   cy.get("#username").type(email);
   cy.get("#password").type(password);
   cy.get(".MuiStack-root > .MuiButtonBase-root").click();
   cy.url().should("include", "http://localhost:3000/home");
 });
 
-Cypress.Commands.add("verifyClickAndNavigate", (data_cy) => {
+Cypress.Commands.add("verifyClickAndNavigate", (data_cy, url = data_cy) => {
   cy.get(`[data-cy=${data_cy}]`).should("exist").click();
-  cy.url().should("include", "http://localhost:3000/" + data_cy);
+  cy.url().should("include", "http://localhost:3000/" + url);
 });
 
 Cypress.Commands.add("table_verifyColumnsNames", (arrayNames) => {
@@ -71,10 +68,10 @@ Cypress.Commands.add("table_isCellNumber", (row, column) => {
 
 Cypress.Commands.add("table_isCellDate", (row, column) => {
   cy.get(
-    `MuiTableBody-root > :nth-child(${row}) > :nth-child(${column})`
+    `.MuiTableBody-root > :nth-child(${row}) > :nth-child(${column})`
   ).should(($element) => {
     const text = $element.text();
-
+// cy.log("text ",text )
     // Expresión regular para validar el formato de fecha (dd/mm/yyyy)
     const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
 
@@ -107,20 +104,22 @@ Cypress.Commands.add("table_verifyNavigation", () => {
         // Advance the pagination to the end
         cy.log("documentPerPage: ", rowsPerPage);
         for (let aPage = 0; aPage < amountOfPages; aPage++) {
+          cy.wait(600);
           const isLastPage = aPage === amountOfPages;
           const lowerRange = aPage * 10 + 1;
           const upperRange = isLastPage ? totalRows : (aPage + 1) * 10;
           const expectedText =
-            lowerRange + "-" + upperRange + " of " + totalRows;
+          lowerRange + "-" + upperRange + " of " + totalRows;
           // Controls the string value of the pagination info (ex.: 1-10 of 37)
           cy.get(".MuiTablePagination-displayedRows")
-            .invoke("text")
-            .should("to.be", expectedText);
-
+          .invoke("text")
+          .should("to.be", expectedText);
+          
           cy.get('[aria-label="Go to next page"]').click();
         }
         // go back the pagination to the beginning
         for (let x = 0; x < amountOfPages; x++) {
+          cy.wait(600);
           cy.get('[aria-label="Go to previous page"]').click();
         }
       }
@@ -134,17 +133,11 @@ Cypress.Commands.add("table_verifyNavigation", () => {
  * In the cypress inspector you must to watch this number
  */
 Cypress.Commands.add("table_verifyRowsPerPageForEachValueOf", (arrayOfValues, id_r) => {
-  cy.table_dropdown_verifyValues(arrayOfValues, id_r);
+  cy.table_pagingControlDropdown_verifyValues(arrayOfValues, id_r);
   for (let value of arrayOfValues) {
     cy.table_dropdown_selectAnOption(value,id_r);
     cy.table_verifyNumberOfRows(value);
   }
-
-
-  // cy.table_dropdown_selectAnOption("10");
-  // cy.table_verifyNumberOfRows(10);
-  // cy.table_dropdown_selectAnOption("25");
-  // cy.table_verifyNumberOfRows(12); // Actualmente solo hay cargados 12 documentos
 });
 
 Cypress.Commands.add("datePicker", (variableName) => {
@@ -186,7 +179,7 @@ Cypress.Commands.add("combobox_selectOption", (stringOption) => {
  * So the parameter value must a number like 4 for this case.
  * In the cypress inspector you must to watch this number
  */
-Cypress.Commands.add("table_dropdown_verifyValues", (textValuesArray, id_r) => {
+Cypress.Commands.add("table_pagingControlDropdown_verifyValues", (textValuesArray, id_r) => {
   cy.log("id_r}",`#\\:r${id_r}\\:` )
   cy.get(`#\\:r${id_r}\\:`).click();
   for (let value of textValuesArray) {
