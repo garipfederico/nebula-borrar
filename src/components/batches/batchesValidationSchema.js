@@ -8,8 +8,8 @@ const validationSchema = yup.object({
   dateToSearch: yup
     .date().max(new Date(), "La fecha máxima permitida es la fecha actual")
 });
-const loteSchema = {
+const batcheschema = {
   validationSchema,
 };
 
-export default loteSchema;
+export default batcheschema;

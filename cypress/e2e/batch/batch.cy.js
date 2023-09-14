@@ -8,11 +8,11 @@ describe("Batch page - Caso de uso cambiar estado de documento del lote", () => 
   beforeEach("Logueo", () => {
     cy.login(username, password);
     cy.verifyClickAndNavigate("digitalization");
-    cy.verifyClickAndNavigate("lotes","digitalization/lotes");
+    cy.verifyClickAndNavigate("batches","digitalization/batches");
   });
 
   it("Navegacion", () => {
-    cy.url().should("include", "http://localhost:3000/digitalization/lotes");
+    cy.url().should("include", "http://localhost:3000/digitalization/batches");
   });
 
   it("Comprobacion de la estructura del backend", () => {
@@ -104,13 +104,13 @@ describe("Batch page - Caso de uso cambiar estado de documento del lote", () => 
     // Click en digitalizacion
     cy.get('[data-cy="digitalization"] > .css-1shxafo-MuiStack-root').click();
     // Click en lotes
-    cy.get('[data-cy="lotes"] > .css-1shxafo-MuiStack-root').click();
+    cy.get('[data-cy="batches"] > .css-1shxafo-MuiStack-root').click();
     cy.get(
       ":nth-child(1) > :nth-child(4) > .MuiBox-root > .MuiFormControl-root > .MuiInputBase-root > #demo-simple-select"
     ).should("have.text", "escaneado");
   });
 
-  it.only("Comprobando paginacion - Navegacion inicio a fin y luego al inicio nuevamente", () => {
+  it("Comprobando paginacion - Navegacion inicio a fin y luego al inicio nuevamente", () => {
     cy.table_verifyNavigation();
   });
 

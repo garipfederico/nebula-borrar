@@ -7,8 +7,8 @@ import SelectState from "./SelectState";
 import {useSelector} from "react-redux";
 // Data
 
-function RowLote({row, columns, id, page, rowsPerPage}) {
-  const isLoading = useSelector((state) => state.lotes.isLoading);
+function RowBatch({row, columns, id, page, rowsPerPage}) {
+  const isLoading = useSelector((state) => state.batches.isLoading);
 
   return (
     <TableRow hover role="checkbox" tabIndex={-1} key={row.nroDoc}>
@@ -39,4 +39,4 @@ function RowLote({row, columns, id, page, rowsPerPage}) {
   );
 }
 
-export default RowLote;
+export default RowBatch;

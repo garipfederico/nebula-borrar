@@ -7,12 +7,12 @@ import Select from "@mui/material/Select";
 
 // Redux
 import {useDispatch, useSelector} from "react-redux";
-import {putState} from "../../states/lotesState";
+import {putState} from "../../states/batchesState";
 
 export default function SelectState({selectedValue, id, page, rowsPerPage}) {
   const dispatch = useDispatch();
   const [estado, setEstado] = React.useState(selectedValue);
-  const {optionsState} = useSelector((state) => state.lotes);
+  const {optionsState} = useSelector((state) => state.batches);
 
   const handleChange = (event) => {
     const name = event.target.value;

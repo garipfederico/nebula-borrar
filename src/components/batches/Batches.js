@@ -8,19 +8,19 @@ import TitleCard from "../../reusable/card/TitleCard";
 import SearchForm from "./SearchForm";
 
 // Components
-import TablaLotes from "./TablaLotes";
+import BatchesTable from "./BatchesTable";
 
 // Redux
 import {useDispatch, useSelector} from "react-redux";
-import {getDocuments} from "../../states/lotesState";
+import {getDocuments} from "../../states/batchesState";
 
 // Data
-import loteSchema from "./loteValidationSchema";
+import batchesSchema from "./batchesValidationSchema";
 
-function Lotes() {
+function Batches() {
   const dispatch = useDispatch();
-  const {results} = useSelector((state) => state.lotes.documents);
-  const {isError, response} = useSelector((state) => state.lotes);
+  const {results} = useSelector((state) => state.batches.documents);
+  const {isError, response} = useSelector((state) => state.batches);
   const [rowsPerPage, setRowsPerPage] = useState(() => 10);
   const batch = results[0].batch;
 
@@ -34,7 +34,7 @@ function Lotes() {
     initialValues: {
       dateToSearch: "",
     },
-    validationSchema: loteSchema.validationSchema,
+    validationSchema: batchesSchema.validationSchema,
     onSubmit: (dateToSearch) => {},
   });
 
@@ -46,7 +46,7 @@ function Lotes() {
     >
       <Stack direction="column" spacing={2} width="90%" sx={{mb: 5}}>
         {/* <SearchForm formik={formik} /> */}
-        <TablaLotes 
+        <BatchesTable 
           rowsPerPage = {rowsPerPage}
           setRowsPerPage = {setRowsPerPage}
         />
@@ -55,4 +55,4 @@ function Lotes() {
   );
 }
 
-export default Lotes;
+export default Batches;
