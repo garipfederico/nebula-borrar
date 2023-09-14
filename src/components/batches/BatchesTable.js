@@ -12,11 +12,11 @@ import {
 // Reusables
 
 // Components
-import RowLote from "./RowLote";
+import RowBatch from "./RowBatch";
 
 // Redux
 import {useSelector, useDispatch} from "react-redux";
-import {getOptionsState, getDocuments} from "../../states/lotesState";
+import {getOptionsState, getDocuments} from "../../states/batchesState";
 
 // Data
 import {convertDateFieldObjectsArray} from "../../utils/timeISOtoDDMMYYYY";
@@ -33,9 +33,9 @@ const columns = [
 // Debo pasar una columna o un parametro id para poder hacer la solicitud al back
 // con el id
 
-export default function StickyHeadTable({rowsPerPage, setRowsPerPage}) {
+export default function BatchesTable({rowsPerPage, setRowsPerPage}) {
   const dispatch = useDispatch();
-  const {results, count} = useSelector((state) => state.lotes.documents);
+  const {results, count} = useSelector((state) => state.batches.documents);
   const documents = results || [];
   // Adapt the  structure's data of the response from API to the frontend structure
   const transformData = documents.map((unDoc) => {
@@ -65,7 +65,6 @@ export default function StickyHeadTable({rowsPerPage, setRowsPerPage}) {
     };
   });
   const [page, setPage] = useState(0);
-  // const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -104,10 +103,9 @@ export default function StickyHeadTable({rowsPerPage, setRowsPerPage}) {
           <TableBody>
             {rows.map((row, index) => {
               return (
-                <RowLote
+                <RowBatch
                   page={page}
                   rowsPerPage={rowsPerPage}
-                  // key={row.nroDoc}
                   key={index}
                   row={row}
                   columns={columns}

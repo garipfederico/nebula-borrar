@@ -11,8 +11,8 @@ const initialState = {
   documents: {results:['']},
 };
 
-export const lotesSlice = createSlice({
-  name: "lotes",
+export const batchesSlice = createSlice({
+  name: "batches",
   initialState: initialState,
   reducers: {
     getOptionsState: (state) => {
@@ -71,6 +71,6 @@ putState,
 putStateSuccess,
 putStateFail,
 resetState,
-} = lotesSlice.actions;
+} = batchesSlice.actions;
 
-export default lotesSlice.reducer;
+export default batchesSlice.reducer;

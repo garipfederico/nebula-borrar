@@ -7,7 +7,7 @@ import {
   getDocumentsFail,
   putStateSuccess,
   putStateFail,
-} from "../states/lotesState";
+} from "../states/batchesState";
 import axiosBase from "../utils/axiosBase";
 import MockAdapter from "axios-mock-adapter";
 
@@ -104,10 +104,10 @@ function* workPutDocumentState(action) {
   return;
 }
 
-function* lotesSaga() {
-    yield takeEvery("lotes/getOptionsState", workGetOptionsStates);
-    yield takeEvery("lotes/getDocuments", workGetDocuments);
-    yield takeEvery("lotes/putState", workPutDocumentState);
+function* batchesSaga() {
+    yield takeEvery("batches/getOptionsState", workGetOptionsStates);
+    yield takeEvery("batches/getDocuments", workGetDocuments);
+    yield takeEvery("batches/putState", workPutDocumentState);
 }
 
-export default lotesSaga;
+export default batchesSaga;

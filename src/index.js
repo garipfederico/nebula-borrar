@@ -9,13 +9,13 @@ import {configureStore} from "@reduxjs/toolkit";
 //States
 import authState from "./states/authState";
 import etiquetasReducer from "./states/etiquetasState";
-import lotesReducer from "./states/lotesState";
+import batchesReducer from "./states/batchesState";
 import alertDialogSlice from "./states/reusable/AlertDialogSlice";
 import snackbarSlice from "./states/reusable/SnackbarSlice";
 import documentsSlice from "./states/documentsState";
 
 //Sagas
-import lotesSaga from "./sagas/lotesSaga";
+import batchesSaga from "./sagas/batchesSaga";
 import etiquetaSaga from "./sagas/etiquetaSaga";
 import authSaga from "./sagas/authSaga";
 import documentsSaga from "./sagas/documentsSaga"
@@ -25,7 +25,7 @@ const store = configureStore({
   reducer: {
     auth: authState,
     etiquetas: etiquetasReducer,
-    lotes: lotesReducer,
+    batches: batchesReducer,
     alertDialog: alertDialogSlice,
     snackbar: snackbarSlice, 
     documents: documentsSlice
@@ -35,7 +35,7 @@ const store = configureStore({
 
 saga.run(authSaga);
 saga.run(etiquetaSaga);
-saga.run(lotesSaga);
+saga.run(batchesSaga);
 saga.run(documentsSaga);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

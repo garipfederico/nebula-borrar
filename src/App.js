@@ -7,7 +7,7 @@ import MenuCard from "./reusable/card/MenuCard";
 import Dashboard from "./reusable/dashboard/Dashboard";
 //Pages
 import Labels from "./components/labels/Labels";
-import Lotes from "./components/lotes/Lotes";
+import Batches from "./components/batches/Batches";
 import Documents from "./components/documents/Documents";
 import GestionDeUsuarios from "./components/gestionDeUsuarios/GestionDeUsuarios";
 import Landing from "./components/landing/Landing";
@@ -15,12 +15,9 @@ import {useDispatch, useSelector} from "react-redux";
 import AppLayout from "./AppLayout";
 import {useEffect} from "react";
 //States
-import {getUser, loggingOut} from "./states/authState";
-import {isTokenExpired} from "./utils/tokenValidator";
-import {openAlertDialog} from "./states/reusable/AlertDialogSlice";
+import {getUser} from "./states/authState";
 
 //Data
-import {sessionExpiredString} from "./data/responseStrings";
 function App() {
   const {isLoggedIn, isError, isLoading} = useSelector((state) => state.auth);
   const {exp} = useSelector((state) => state.auth.activeUser.accessDecoded);
@@ -70,8 +67,8 @@ function App() {
                     }
                   />
                   <Route path="/digitalization/labels" element={<Labels />} />
-                  <Route path="/digitalization/lotes" element={<Lotes />} />
-                  <Route path="/digitalization/lotes/:id" element={<Lotes />} />
+                  <Route path="/digitalization/batches" element={<Batches />} />
+                  <Route path="/digitalization/batches/:id" element={<Batches />} />
                   <Route
                     path="/gestionDeUsuarios"
                     element={<GestionDeUsuarios />}
