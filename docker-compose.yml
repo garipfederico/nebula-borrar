@@ -1,7 +1,7 @@
 version: '3'
 services:
   nebula_container:
-    image: nebula_f
+    image: nebula-front:0.1
     ports:
       - "3000:80"
     container_name: nebula_container

@@ -56,7 +56,7 @@ describe("Document page - Consultar documento", () => {
     // Realiza una solicitud al servidor y obtén la respuesta
     cy.request({
       method: "GET",
-      url: "http://localhost:8003/api/document/88/get-document-to-edit/",
+      url: "http://localhost:8003/api/document/88/edit-document/",
       headers: {
         Authorization: `Bearer ${accessToken}`, // Utiliza el token en el encabezado de autorización
         // Otros encabezados si son necesarios
