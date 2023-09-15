@@ -66,7 +66,7 @@ function* workGetDocuments(action) {
 
 function* workGetOneDocument(action) {
   const {id} = action.payload;
-  const URL = URL_documents + id + "/get-document-to-edit/";
+  const URL = URL_documents + id + "/edit-document/";
   try {
     const documentsResponse = yield requestManager(axiosBase.get, URL);
 

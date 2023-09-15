@@ -39,6 +39,9 @@ FROM node:16-alpine as build
 WORKDIR /app
 COPY package.json ./
 
+ENV REACT_APP_ENVIRONMENT_TYPE=dev
+ENV REACT_APP_BASE_URL=3000
+
 RUN npm install
 COPY . .
 RUN npm run build
