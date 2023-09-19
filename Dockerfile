@@ -24,6 +24,28 @@ CMD ["serve", "-s", "build"]
 # Opcion 1 HASTA aca
 
 
+
+
+# OPCION 2 DESDE ACA
+# Tutorial de 14 de agosto aprox react con nginx
+
+# #STEP 1 BUILD OF REACT PROJECT
+# FROM node:16-alpine as build
+# WORKDIR /app
+# COPY package.json ./
+# RUN npm install
+# COPY . .
+# RUN npm run build
+
+# #STEP 2 CREATE NGINX SERVER
+# FROM nginx:1.19.0-alpine AS prod-stage
+# COPY --from=build /app/build /usr/share/nginx/html
+# expose 3000
+# CMD ["nginx","-g","daemon off;"]
+
+# OPCION 2 HASTA ACA
+
+
 # # Utiliza una imagen base oficial de Node.js en su variante "alpine"
 # FROM node:19.0-alpine
 # EXPOSE 3000
@@ -59,25 +81,3 @@ CMD ["serve", "-s", "build"]
 # EXPOSE 3000
 
 # CMD ["npm", "startDev"]
-
-
-
-
-# OPCION 2 DESDE ACA
-# Tutorial de 14 de agosto aprox react con nginx
-
-#STEP 1 BUILD OF REACT PROJECT
-FROM node:16-alpine as build
-WORKDIR /app
-COPY package.json ./
-RUN npm install
-COPY . .
-RUN npm run build
-
-#STEP 2 CREATE NGINX SERVER
-FROM nginx:1.19.0-alpine AS prod-stage
-COPY --from=build /app/build /usr/share/nginx/html
-expose 3000
-CMD ["nginx","-g","daemon off;"]
-
-# OPCION 2 HASTA ACA
