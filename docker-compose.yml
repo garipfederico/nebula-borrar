@@ -1,9 +1,9 @@
 version: '3'
 services:
-  nebula_container:
-    image: nebula-front:0.1
+  cliente:
+    image: cliente-image:0.1
+    container_name: cliente
     ports:
-      - "3000:80"
-    container_name: nebula_container
-    command: sh -c "echo 'Container is running at http://localhost:3000' && sleep infinity"
-     
+      - "3000:3000"
+    stdin_open: true
+    tty: true
