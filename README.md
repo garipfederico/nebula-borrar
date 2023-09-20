@@ -1,7 +1,7 @@
 # ScanXtract
-#####Software para la digitalizacion de documentos
+##### Software para la digitalizacion de documentos
 ---
-###Instalacion con Docker
+### Instalacion con Docker
 Requisitos:
     - Tener instalado docker (y docker compose en versiones viejas)
 ##### 1 - Contruir la imagen.

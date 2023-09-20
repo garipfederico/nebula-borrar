@@ -4,21 +4,21 @@
 # docker build -t cliente-image:0.1 .
 # docker run -it -p 3000:3000 --name cliente cliente-image:0.1
 
-FROM node:16-alpine as builder
+# FROM node:16-alpine as builder
 
-WORKDIR /usr/src/app
+# WORKDIR /usr/src/app
 
-# ENV PATH /usr/src/app/node_modules/.bin:$PATH
+# # ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
-COPY package.json ./
+# COPY package.json ./
 
-RUN npm i
-COPY . .
-RUN npm run build
+# RUN npm i
+# COPY . .
+# RUN npm run build
 
-EXPOSE 3000
-RUN npm install -g serve
-CMD ["serve", "-s", "build"]
+# EXPOSE 3000
+# RUN npm install -g serve
+# CMD ["serve", "-s", "build"]
 # CMD ["npm", "run", "startDev"]
 
 # Opcion 1 HASTA aca
@@ -29,19 +29,19 @@ CMD ["serve", "-s", "build"]
 # OPCION 2 DESDE ACA
 # Tutorial de 14 de agosto aprox react con nginx
 
-# #STEP 1 BUILD OF REACT PROJECT
-# FROM node:16-alpine as build
-# WORKDIR /app
-# COPY package.json ./
-# RUN npm install
-# COPY . .
-# RUN npm run build
+#STEP 1 BUILD OF REACT PROJECT
+FROM node:16-alpine as build
+WORKDIR /app
+COPY package.json ./
+RUN npm install
+COPY . .
+RUN npm run build
 
-# #STEP 2 CREATE NGINX SERVER
-# FROM nginx:1.19.0-alpine AS prod-stage
-# COPY --from=build /app/build /usr/share/nginx/html
-# expose 3000
-# CMD ["nginx","-g","daemon off;"]
+#STEP 2 CREATE NGINX SERVER
+FROM nginx:1.19.0-alpine AS prod-stage
+COPY --from=build /app/build /usr/share/nginx/html
+expose 3000
+CMD ["nginx","-g","daemon off;"]
 
 # OPCION 2 HASTA ACA
 
