@@ -1,11 +1,11 @@
 // client/src/components/LogIn.js
 
 import React, {useEffect, useState} from "react";
-import {Formik, useFormik} from "formik";
+import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 // import { Alert, Breadcrumb, Button, Card, Form } from 'react-bootstrap'; // new
-import {Link, Navigate, useNavigate} from "react-router-dom";
-import {Button, Stack, Typography} from "@mui/material";
+import {Navigate, useNavigate} from "react-router-dom";
+import { Stack} from "@mui/material";
 import TextInput from "../../reusable/textInput/TextInput";
 import loginSchema from "./logInValidationSchema";
 import SubmitButton from "../../reusable/buttons/SubmitButton";
@@ -100,70 +100,6 @@ function LogIn(props) {
           />
         </Stack>
       </Stack>
-      {/* <Breadcrumb>
-        <Breadcrumb.Item href='/#/'>Inicio</Breadcrumb.Item>
-        <Breadcrumb.Item active>Ingreso</Breadcrumb.Item>
-      </Breadcrumb>
-      <Card>
-        <Card.Header>Log in</Card.Header>
-        <Card.Body>
-          <Formik
-            initialValues={{
-              username: '',
-              password: ''
-            }}
-            onSubmit={onSubmit}
-          >
-            {({
-              errors,
-              handleChange,
-              handleSubmit,
-              isSubmitting,
-              values
-            }) => (
-              <>
-                {
-                  '__all__' in errors && (
-                    <Alert variant='danger'>
-                      {errors.__all__}
-                    </Alert>
-                  )
-                }
-                <Form noValidate onSubmit={handleSubmit}>
-                  <Form.Group className='mb-3' controlId='username'>
-                    <Form.Label>Usuario:</Form.Label>
-                    <Form.Control 
-                      name='username'
-                      onChange={handleChange}
-                      value={values.username} 
-                    />
-                  </Form.Group>
-                  <Form.Group className='mb-3' controlId='password'>
-                    <Form.Label>Contraseña:</Form.Label>
-                    <Form.Control 
-                      name='password' 
-                      onChange={handleChange}
-                      type='password'
-                      value={values.password} 
-                    />
-                  </Form.Group>
-                  <div className='d-grid mb-3'>
-                    <Button 
-                      disabled={isSubmitting}
-                      type='submit' 
-                      variant='primary'
-                    >Ingresar
-                    </Button>
-                  </div>
-                </Form>
-              </>
-            )}
-          </Formik>
-          <Card.Text className='text-center'>
-            ¿No tenés cuenta aún? <Link to='/sign-up'>Registrate!</Link>
-          </Card.Text>
-        </Card.Body>
-      </Card> */}
     </>
   );
 }

@@ -154,7 +154,7 @@ export default function PersistentDrawerLeft() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Nebula Software ({process.env.REACT_APP_ENVIRONMENT_TYPE})
+          ScanXtract ({process.env.REACT_APP_ENVIRONMENT_TYPE})
           </Typography>
         </Toolbar>
       </AppBar>
