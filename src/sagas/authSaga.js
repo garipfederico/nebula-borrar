@@ -52,7 +52,7 @@ function* workPostAuthFetch(action) {
     yield put(loggingInSuccess({response, user}));
     // TODO mejorar deberia ejecutar un evento que actualize
     //  las credenciales en redux.
-    window.location.reload(); // TODO GDD-57  Solicitudes iniciales fallidas
+    // window.location.reload(); // TODO GDD-57  Solicitudes iniciales fallidas
     yield call(navigate, "./home");
   } catch (error) {
     console.log("Error getting user info from local storage");
