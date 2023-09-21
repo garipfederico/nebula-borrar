@@ -28,6 +28,8 @@
 
 # OPCION 2 DESDE ACA
 # Tutorial de 14 de agosto aprox react con nginx
+#  docker run -it -p 3000:80 --name cliente cliente-image:nginx
+# Funciona con el puerto 80 ya que es el predeterminado de nginx
 
 #STEP 1 BUILD OF REACT PROJECT
 FROM node:16-alpine as build
@@ -40,7 +42,7 @@ RUN npm run build
 #STEP 2 CREATE NGINX SERVER
 FROM nginx:1.19.0-alpine AS prod-stage
 COPY --from=build /app/build /usr/share/nginx/html
-expose 3000
+expose 80
 CMD ["nginx","-g","daemon off;"]
 
 # OPCION 2 HASTA ACA
