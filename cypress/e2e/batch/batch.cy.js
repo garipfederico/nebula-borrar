@@ -9,6 +9,7 @@ describe("Batch page - Caso de uso cambiar estado de documento del lote", () => 
     cy.login(username, password);
     cy.verifyClickAndNavigate("digitalization");
     cy.verifyClickAndNavigate("batches", "digitalization/batches");
+    cy.wait(1000)
   });
 
   it("Navegacion", () => {

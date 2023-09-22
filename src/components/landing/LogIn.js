@@ -1,9 +1,6 @@
-// client/src/components/LogIn.js
-
 import React, {useEffect, useState} from "react";
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
-// import { Alert, Breadcrumb, Button, Card, Form } from 'react-bootstrap'; // new
 import {Navigate, useNavigate} from "react-router-dom";
 import { Stack} from "@mui/material";
 import TextInput from "../../reusable/textInput/TextInput";
@@ -12,8 +9,9 @@ import SubmitButton from "../../reusable/buttons/SubmitButton";
 import {loggingIn, loggingReset} from "../../states/authState";
 import {openAlertDialog} from "../../states/reusable/AlertDialogSlice";
 import { alert401 as alert401 } from "../../reusable/AlertDialogObjects";
+import { setAxiosToken } from "../../utils/axiosBase";
 
-// changed
+
 function LogIn(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -64,6 +62,13 @@ function LogIn(props) {
       dispatch(loggingReset({}))
     }
   }, [isError]);
+
+  useEffect(()=>{
+    return ()=> {
+      // Al demontar el componente
+      setAxiosToken()
+    };
+  }, [])
 
   if (props.isLoggedIn || isSubmitted) {
     return <Navigate to="/menu" />;
