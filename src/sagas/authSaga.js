@@ -26,43 +26,49 @@ const getUser = () => {
   return undefined;
 };
 
-function* workPostAuthFetch(action) {
-  try{
 
-    console.log('A')
+
+function* workPostAuthFetch(action) {
+  try {
+    console.log("A");
     const {username, password, navigate} = action.payload;
     console.info("username saga ", username);
     const url = `${process.env.REACT_APP_BASE_URL}/api/log-in/`;
     let response = {};
+    // PETICION DE AUTENTICACION AL BACK 
     try {
       response = yield call(axios.post, url, {
         email: username,
-      password: password,
-    });
+        password: password,
+      });
+    } catch (error) {
+      console.log("Error realizando la peticion del login: ", error);
+      yield put(loggingInFail({error}));
+      console.log("error ", error);
+      throw error;
+    }
+    // GUARDADO DE TOKENS EN DISCO
+    try {
+      window.localStorage.setItem("docu.auth", JSON.stringify(response?.data));
+      window.localStorage.setItem(
+        "docu.auth.response",
+        JSON.stringify(response)
+      );
+      const user = getUser(); // en modo mocked en el puerto 3001 no logra obtener el usuario
+      yield put(loggingInSuccess({response, user}));
+      // TODO mejorar deberia ejecutar un evento que actualize
+      //  las credenciales en redux.
+      window.location.reload(); // TODO GDD-57  Solicitudes iniciales fallidas
+      yield call(navigate, "./home");
+    } catch (error) {
+      console.log("Error getting user info from local storage");
+      console.error(error);
+      yield put(loggingInFail({error}));
+    }
   } catch (error) {
-    console.log("Error realizando la peticion del login: ", error);
-    yield put(loggingInFail({error}));
-    console.log("error ",error )
-    throw error
+    console.log("Error tomando datos del front");
+    console.log(error);
   }
-  try {
-    window.localStorage.setItem("docu.auth", JSON.stringify(response?.data));
-    window.localStorage.setItem("docu.auth.response", JSON.stringify(response));
-    const user = getUser(); // en modo mocked en el puerto 3001 no logra obtener el usuario
-    yield put(loggingInSuccess({response, user}));
-    // TODO mejorar deberia ejecutar un evento que actualize
-    //  las credenciales en redux.
-    // window.location.reload(); // TODO GDD-57  Solicitudes iniciales fallidas
-    yield call(navigate, "./home");
-  } catch (error) {
-    console.log("Error getting user info from local storage");
-    console.error(error);
-    yield put(loggingInFail({error}));
-  }
-}catch(error){
-  console.log('otro error')
-  console.log(error)
-}
 }
 
 function* workDeleteAuthFetch() {
@@ -77,7 +83,6 @@ function* workGetUserFetch(action) {
     if (user) {
       yield put(getUserSuccess(user));
     } else {
-      
       yield put(getUserFail(user));
     }
   } catch (error) {

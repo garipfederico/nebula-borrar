@@ -19,7 +19,7 @@ describe("Login/ Landing page - Component verification and Login successful and 
     cy.get('.MuiButton-text').should('have.text', 'No tenes usuario aun?')
   });
   
-  it.only("Login succesfull and redirect to home page", () => {
+  it("Login succesfull and redirect to home page", () => {
     cy.get("#username").type("garip.federico@gmail.com");
     cy.get("#password").type("123");
     cy.get(".MuiStack-root > .MuiButtonBase-root").click();

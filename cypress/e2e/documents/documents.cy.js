@@ -15,7 +15,7 @@ describe("Documents page - Caso de uso cambiar comprobar existencia de documento
     cy.table_isCellNumber(1,2)
   })
   
-  it.only("Comprobar la paginacion ", () => {
+  it("Comprobar la paginacion ", () => {
     cy.table_verifyNavigation()
   });
   it("Comprobar funcionalidad de cantidad de documentos por paginas (displayedRows)", () => {
