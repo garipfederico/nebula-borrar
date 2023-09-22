@@ -20,7 +20,6 @@ const getUser = () => {
   if (access_token) {
     const [, payload] = access_token.split(".");
     const decoded = window.atob(payload);
-    // console.log("decoded ", decoded);
     return JSON.parse(decoded);
   }
   return undefined;
@@ -56,9 +55,6 @@ function* workPostAuthFetch(action) {
       );
       const user = getUser(); // en modo mocked en el puerto 3001 no logra obtener el usuario
       yield put(loggingInSuccess({response, user}));
-      // TODO mejorar deberia ejecutar un evento que actualize
-      //  las credenciales en redux.
-      window.location.reload(); // TODO GDD-57  Solicitudes iniciales fallidas
       yield call(navigate, "./home");
     } catch (error) {
       console.log("Error getting user info from local storage");

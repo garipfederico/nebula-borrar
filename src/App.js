@@ -16,6 +16,7 @@ import AppLayout from "./AppLayout";
 import {useEffect} from "react";
 //States
 import {getUser} from "./states/authState";
+import axiosBase from "./utils/axiosBase";
 
 //Data
 function App() {
@@ -68,7 +69,10 @@ function App() {
                   />
                   <Route path="/digitalization/labels" element={<Labels />} />
                   <Route path="/digitalization/batches" element={<Batches />} />
-                  <Route path="/digitalization/batches/:id" element={<Batches />} />
+                  <Route
+                    path="/digitalization/batches/:id"
+                    element={<Batches />}
+                  />
                   <Route
                     path="/gestionDeUsuarios"
                     element={<GestionDeUsuarios />}
