@@ -1,10 +1,9 @@
 version: '3'
 services:
   cliente:
-    # image: cliente-image:0.1
     image: cliente-image:nginx
     container_name: cliente
     ports:
-      - "3000:3000"
+      - "3000:80"
     stdin_open: true
     tty: true

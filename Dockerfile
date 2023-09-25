@@ -28,6 +28,7 @@
 
 # OPCION 2 DESDE ACA
 # Tutorial de 14 de agosto aprox react con nginx
+#  docker build -t cliente-image:nginx .
 #  docker run -it -p 3000:80 --name cliente cliente-image:nginx
 # Funciona con el puerto 80 ya que es el predeterminado de nginx
 
