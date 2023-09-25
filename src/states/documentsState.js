@@ -90,6 +90,8 @@ export const documentsSlice = createSlice({
     },
     oneDocumentCancel: (state) => {
       state.showForm = false;
+      state.response = {};
+      state.isError = false;
       state.document.editing = false;
       state.document.requestType = "";
     },

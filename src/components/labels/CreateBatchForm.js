@@ -5,13 +5,13 @@ import {useSelector} from "react-redux";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 // Reusables
-import useError from "../../hooks/useError"
+import useError from "../../hooks/useError";
 import TextInput from "../../reusable/textInput/TextInput";
 import SubmitButton from "../../reusable/buttons/SubmitButton";
 // Componentes
 import labelsSchema from "./labelsValidationSchema";
 // Redux
-import {postCrearLote, postCrearLoteReset} from "../../states/labelsState";
+import {postCrearLote, resetState} from "../../states/labelsState";
 import {openSnackbar} from "../../states/reusable/SnackbarSlice";
 // Data
 
@@ -40,6 +40,7 @@ function CreateBatchForm() {
     sx: {marginX: "auto", my: 4},
     spacing: 5,
   };
+
   useEffect(() => {
     if (isLoading === false && isError === false && response !== null) {
       navigate("/home");
@@ -48,11 +49,17 @@ function CreateBatchForm() {
           snackbarMessage: "Lote creado exitosamente. Un momento por favor.",
         })
       );
-      dispatch(postCrearLoteReset());
+      dispatch(resetState());
     }
   }, [isLoading]);
 
-  useError(isError, response)
+  useError(isError, response);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetState());
+    };
+  }, []);
 
   return (
     <Stack {...nth1StackStyle}>

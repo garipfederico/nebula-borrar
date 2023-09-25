@@ -23,7 +23,7 @@ export const labelsSlice = createSlice({
       state.isLoading = false;
       state.response = action.payload;
     },
-    postCrearLoteReset: () => initialState,
+    resetState: () => initialState,
   },
 });
 
@@ -31,7 +31,7 @@ export const {
   postCrearLote,
   postCrearLoteFail,
   postCrearLoteSuccess,
-  postCrearLoteReset,
+  resetState,
 } = labelsSlice.actions;
 
 export default labelsSlice.reducer;

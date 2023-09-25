@@ -4,7 +4,6 @@ import MockAdapter from "axios-mock-adapter";
 import {
   postCrearLoteSuccess,
   postCrearLoteFail,
-  postCrearLoteReset,
 } from "../states/labelsState";
 // Librerias propias
 import axiosBase from "../utils/axiosBase";
@@ -82,7 +81,6 @@ function* workPostLabelsFetch(action) {
         pdf.save("etiquetas_0to" + quantity + ".pdf");
         pdf.output("datauristring");
         console.log("PDF generated correctly");
-        // yield put(postCrearLoteReset())
       }, 1000);
     } catch (error) {
       console.log(
