@@ -114,12 +114,7 @@ export const documentsSlice = createSlice({
       state.response = action.payload.e.response;
     },
     resetState: (state) => {
-      state.isLoading = false;
-      state.isError = false;
-      state.response = {};
-      state.messageType = "";
-      state.document = initialState.document;
-      state.showForm = false
+      return initialState
     },
   },
 });

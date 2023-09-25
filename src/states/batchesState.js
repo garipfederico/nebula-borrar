@@ -5,10 +5,10 @@ const initialState = {
   isLoading: false,
   isError: false,
   response: {
-    status:null
+    status: null,
   },
   optionsState: [],
-  documents: {results:['']},
+  documents: {results: [""]},
 };
 
 export const batchesSlice = createSlice({
@@ -23,10 +23,10 @@ export const batchesSlice = createSlice({
       state.optionsState = action.payload.stateOptions;
     },
     getOptionsStateFail: (state, action) => {
-      console.log('action.payload', action.payload)
+      console.log("action.payload", action.payload);
       state.isLoading = false;
       state.isError = true;
-      state.response = action.payload.e.response
+      state.response = action.payload.e.response;
     },
     getDocuments: (state) => {
       state.isLoading = true;
@@ -38,39 +38,36 @@ export const batchesSlice = createSlice({
     getDocumentsFail: (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.response = action.payload.e.response
+      state.response = action.payload.e.response;
     },
     putState: (state, action) => {
-      state.isLoading = true
+      state.isLoading = true;
     },
     putStateSuccess: (state, action) => {
-      state.isLoading = false
+      state.isLoading = false;
     },
     putStateFail: (state, action) => {
-      state.isLoading = false
-      state.isError = true
-      state.response = action.payload.response 
+      state.isLoading = false;
+      state.isError = true;
+      state.response = action.payload.response;
     },
     resetState: (state) => {
-      state.isLoading = false;
-      state.isError = false;
-      state.response = {}
-    }
-
+      return initialState;
+    },
   },
 });
 
 export const {
-getOptionsState,
-getOptionsStateSuccess,
-getOptionsStateFail,
-getDocuments,
-getDocumentsSuccess,
-getDocumentsFail,
-putState,
-putStateSuccess,
-putStateFail,
-resetState,
+  getOptionsState,
+  getOptionsStateSuccess,
+  getOptionsStateFail,
+  getDocuments,
+  getDocumentsSuccess,
+  getDocumentsFail,
+  putState,
+  putStateSuccess,
+  putStateFail,
+  resetState,
 } = batchesSlice.actions;
 
 export default batchesSlice.reducer;
