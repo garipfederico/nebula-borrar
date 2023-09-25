@@ -11,15 +11,15 @@ import SubmitButton from "../../reusable/buttons/SubmitButton";
 // Componentes
 import labelsSchema from "./labelsValidationSchema";
 // Redux
-import {postCrearLote, postCrearLoteReset} from "../../states/etiquetasState";
+import {postCrearLote, postCrearLoteReset} from "../../states/labelsState";
 import {openSnackbar} from "../../states/reusable/SnackbarSlice";
 // Data
 
 // function CrearLoteForm() {
-function CrearLoteForm() {
+function CreateBatchForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {isError, response} = useSelector((state) => state.etiquetas);
+  const {isError, response} = useSelector((state) => state.labels);
   const formik = useFormik({
     initialValues: {
       expedientNumber: "",
@@ -31,7 +31,7 @@ function CrearLoteForm() {
     },
   });
 
-  const {isLoading} = useSelector((state) => state.etiquetas);
+  const {isLoading} = useSelector((state) => state.labels);
 
   const nth1StackStyle = {
     direction: "column",
@@ -85,4 +85,4 @@ function CrearLoteForm() {
   );
 }
 
-export default CrearLoteForm;
+export default CreateBatchForm;
