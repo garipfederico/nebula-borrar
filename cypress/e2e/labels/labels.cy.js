@@ -5,38 +5,35 @@ describe("Labels page - Caso de Uso imprimir etiquetas", () => {
   const password = "123";
   beforeEach("Logueo", () => {
     // Logueo
-    cy.visit("http://localhost:3000/landing");
-    cy.get("#username").type("garip.federico@gmail.com");
-    cy.get("#password").type("123");
-    cy.get(".MuiStack-root > .MuiButtonBase-root").click();
-    cy.url().should("include", "http://localhost:3000/home");
-    // cy.visit("http://localhost:3000/digitalizacion/etiquetas");
-    // });
-    // it("Navigation a components verification", () => {
-    // Navegacion
-    cy.url().should("include", "http://localhost:3000/home");
-    cy.get('[data-cy="digitalization"]').should("exist").click();
-    cy.get('[data-cy="labels"]').should("exist").click();
-    cy.url().should("include", "http://localhost:3000/digitalization/labels");
-
-    //Verificacion de la existencia de componentes
-    cy.get('[data-cy="tab-text"]')
-      .eq(0)
-      .should("have.text", "Crear lote nuevo");
-    cy.get('[data-cy="tab-text"]')
-      .eq(1)
-      .should("have.text", "Reimprimir etiquetas");
-    //Verificacion del texto de los componentes
-    cy.get("#expedientNumber-label").should(
-      "have.text",
-      "Numero de expediente"
-    );
-    cy.get("#quantity-label").should("have.text", "Cantidad");
-    cy.get("#expedientNumber").type("12");
+    const username = "garip.federico@gmail.com";
+    const password = "123";
+    cy.login(username, password);
+    cy.verifyClickAndNavigate("digitalization");
+    cy.verifyClickAndNavigate("labels","digitalization/labels");
+    // Tiene que tipear el nro de documento y cantidad de etiquetas para hacer cada test
+    cy.get("#expedientNumber").type("99");
     cy.get("#quantity").type("12");
   });
+  it("Imprimir etiquetas, Display two tabs and 2 inputFields ", () => {
+    //Verificacion de la existencia de componentes
+    cy.get('[data-cy="tab-text"]')
+    .eq(0)
+    .should("have.text", "Crear lote nuevo");
+  cy.get('[data-cy="tab-text"]')
+    .eq(1)
+    .should("have.text", "Reimprimir etiquetas");
+  //Verificacion del texto de los componentes
+  cy.get("#expedientNumber-label").should(
+    "have.text",
+    "Numero de expediente"
+  );
+  cy.get("#quantity-label").should("have.text", "Cantidad");
+  })
 
-  it("Imprimir etiquetas, curso normal", () => {
+  it("Imprimir etiquetas, Print labels", () => {
+  
+    
+
     cy.window().then((win) => {
       cy.stub(win.console, "log").as("consoleLog");
     });
@@ -45,7 +42,7 @@ describe("Labels page - Caso de Uso imprimir etiquetas", () => {
       .should("have.text", "Crear e Imprimir")
       .click();
 
-      cy.window().then((win) => {
+    cy.window().then((win) => {
       // Verificar que la referencia a la nueva ventana no sea nula
       expect(win).to.not.be.null;
     });
