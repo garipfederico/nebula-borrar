@@ -41,8 +41,10 @@ function CreateBatchForm() {
     spacing: 5,
   };
 
+  
   useEffect(() => {
-    if (isLoading === false && isError === false && response !== null) {
+    const isBatchCreatedSuccessful = isLoading === false && isError === false && response !== null 
+    if (isBatchCreatedSuccessful) {
       navigate("/home");
       dispatch(
         openSnackbar({
