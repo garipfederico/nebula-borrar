@@ -5,8 +5,8 @@ const initialState = {
   isError: null,
   response: null,
 };
-export const etiquetasSlice = createSlice({
-  name: "etiquetas",
+export const labelsSlice = createSlice({
+  name: "labels",
   initialState: initialState,
   imagenes: {},
   reducers: {
@@ -23,7 +23,7 @@ export const etiquetasSlice = createSlice({
       state.isLoading = false;
       state.response = action.payload;
     },
-    postCrearLoteReset: () => initialState,
+    resetState: () => initialState,
   },
 });
 
@@ -31,7 +31,7 @@ export const {
   postCrearLote,
   postCrearLoteFail,
   postCrearLoteSuccess,
-  postCrearLoteReset,
-} = etiquetasSlice.actions;
+  resetState,
+} = labelsSlice.actions;
 
-export default etiquetasSlice.reducer;
+export default labelsSlice.reducer;

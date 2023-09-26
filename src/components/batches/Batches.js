@@ -12,7 +12,7 @@ import BatchesTable from "./BatchesTable";
 
 // Redux
 import {useDispatch, useSelector} from "react-redux";
-import {getDocuments} from "../../states/batchesState";
+import {getDocuments, resetState} from "../../states/batchesState";
 
 // Data
 import batchesSchema from "./batchesValidationSchema";
@@ -25,7 +25,7 @@ function Batches() {
   const batch = results[0].batch;
 
   useEffect(() => {
-    dispatch(getDocuments({page:0, rowsPerPage}));
+    dispatch(getDocuments({page: 0, rowsPerPage}));
   }, []);
 
   useError(isError, response);
@@ -38,6 +38,12 @@ function Batches() {
     onSubmit: (dateToSearch) => {},
   });
 
+  useEffect(() => {
+    return () => {
+      dispatch(resetState());
+    };
+  }, []);
+
   return (
     <TitleCard
       title="Lote"
@@ -46,9 +52,9 @@ function Batches() {
     >
       <Stack direction="column" spacing={2} width="90%" sx={{mb: 5}}>
         {/* <SearchForm formik={formik} /> */}
-        <BatchesTable 
-          rowsPerPage = {rowsPerPage}
-          setRowsPerPage = {setRowsPerPage}
+        <BatchesTable
+          rowsPerPage={rowsPerPage}
+          setRowsPerPage={setRowsPerPage}
         />
       </Stack>
     </TitleCard>

@@ -20,6 +20,7 @@ import {
   getOneDocument,
   searchDocuments,
   oneDocumentCancel,
+  resetState
 } from "../../states/documentsState";
 
 // Data
@@ -56,28 +57,14 @@ function Documents() {
   const {id: documentId} = useParams();
   const [rowsPerPage, setRowsPerPage] = useState(() => 10);
 
-
-const handleDocumentRequest = () => {
-  if (documentId !== undefined) {
-    dispatch(getOneDocument({id: documentId}));
-  } else {
-    dispatch(oneDocumentCancel());
-    dispatch(getDocuments({page: 0, rowsPerPage}));
-  }
-}
-
-  useEffect(() => {
-    handleDocumentRequest()
-  }, []);
-
-  useEffect(() => {
-   handleDocumentRequest()
-  }, [documentId]);
-
-  const documentsDateConverted = convertDateFieldObjectsArray(
-    documents,
-    "created_at"
-  );
+  const handleDocumentRequest = () => {
+    if (documentId !== undefined) {
+      dispatch(getOneDocument({id: documentId}));
+    } else {
+      dispatch(oneDocumentCancel());
+      dispatch(getDocuments({page: 0, rowsPerPage}));
+    }
+  };
 
   const handleSubmit = () => {
     dispatch(searchDocuments({textToSearch}));
@@ -87,6 +74,25 @@ const handleDocumentRequest = () => {
     setTextToSearch("");
     dispatch(getDocuments({page: 0, rowsPerPage}));
   };
+
+  const documentsDateConverted = convertDateFieldObjectsArray(
+    documents,
+    "created_at"
+  );
+
+  useEffect(() => {
+    handleDocumentRequest();
+  }, []);
+
+  useEffect(() => {
+    handleDocumentRequest();
+  }, [documentId]);
+
+  useEffect(()=>{
+    return ()=>{
+      dispatch(resetState())
+    }
+  },[])
 
   const alert = useAlert(isError, messageType);
   useError(isError, response);

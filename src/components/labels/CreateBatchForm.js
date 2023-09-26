@@ -5,21 +5,21 @@ import {useSelector} from "react-redux";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 // Reusables
-import useError from "../../hooks/useError"
+import useError from "../../hooks/useError";
 import TextInput from "../../reusable/textInput/TextInput";
 import SubmitButton from "../../reusable/buttons/SubmitButton";
 // Componentes
 import labelsSchema from "./labelsValidationSchema";
 // Redux
-import {postCrearLote, postCrearLoteReset} from "../../states/etiquetasState";
+import {postCrearLote, resetState} from "../../states/labelsState";
 import {openSnackbar} from "../../states/reusable/SnackbarSlice";
 // Data
 
 // function CrearLoteForm() {
-function CrearLoteForm() {
+function CreateBatchForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {isError, response} = useSelector((state) => state.etiquetas);
+  const {isError, response} = useSelector((state) => state.labels);
   const formik = useFormik({
     initialValues: {
       expedientNumber: "",
@@ -31,7 +31,7 @@ function CrearLoteForm() {
     },
   });
 
-  const {isLoading} = useSelector((state) => state.etiquetas);
+  const {isLoading} = useSelector((state) => state.labels);
 
   const nth1StackStyle = {
     direction: "column",
@@ -40,19 +40,28 @@ function CrearLoteForm() {
     sx: {marginX: "auto", my: 4},
     spacing: 5,
   };
+
+  
   useEffect(() => {
-    if (isLoading === false && isError === false && response !== null) {
+    const isBatchCreatedSuccessful = isLoading === false && isError === false && response !== null 
+    if (isBatchCreatedSuccessful) {
       navigate("/home");
       dispatch(
         openSnackbar({
           snackbarMessage: "Lote creado exitosamente. Un momento por favor.",
         })
       );
-      dispatch(postCrearLoteReset());
+      dispatch(resetState());
     }
   }, [isLoading]);
 
-  useError(isError, response)
+  useError(isError, response);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetState());
+    };
+  }, []);
 
   return (
     <Stack {...nth1StackStyle}>
@@ -85,4 +94,4 @@ function CrearLoteForm() {
   );
 }
 
-export default CrearLoteForm;
+export default CreateBatchForm;
