@@ -1,0 +1,25 @@
+# Paso 3 Dockerizing our app 
+# Dockerfile.dev
+
+FROM node:14-alpine
+
+WORKDIR /app
+
+COPY package.json ./
+
+# COPY yarn.lock ./
+# # la siguiente la agrego para no instalar en yarn en el proyecto dev 
+# RUN npm install -g yarn 
+
+# RUN yarn install --frozen-lockfile
+
+COPY package.json ./
+COPY package-lock.json ./ 
+# Asegúrate de incluir package-lock.json si está presente
+
+RUN npm install
+
+
+
+
+COPY . .
