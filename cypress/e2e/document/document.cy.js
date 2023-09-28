@@ -149,7 +149,7 @@ describe("Document page - Consultar documento", () => {
     ).should("have.text", "Edicion de documento");
 
     //  Existencia de titulo de seccion Datos del documento digital
-    cy.get(".css-c789a6-MuiStack-root > .MuiTypography-root").should(
+    cy.get('[data-cy="tituloDocumentoDigital"]').should(
       "have.text",
       "Datos del Documento Digital"
     );
@@ -187,7 +187,7 @@ describe("Document page - Consultar documento", () => {
     ]);
 
     //  Existencia de titulo de seccion Situacion fisica
-    cy.get(".css-nen11g-MuiStack-root > .MuiTypography-root").should(
+    cy.get('[data-cy="tituloSituacionFisica"]').should(
       "have.text",
       "Situación Física"
     );

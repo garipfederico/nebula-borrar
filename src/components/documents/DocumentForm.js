@@ -102,7 +102,7 @@ function DocumentForm() {
         >
           <Paper sx={{p: 2}}>
             <Stack direction="column" spacing={4}>
-              <Typography variant="h6">Datos del Documento Digital</Typography>
+              <Typography data-cy='tituloDocumentoDigital' variant="h6">Datos del Documento Digital</Typography>
               <Stack direction="row" spacing={5}>
                 <TextInput
                   isLoading={isLoading}
@@ -173,7 +173,7 @@ function DocumentForm() {
           </Paper>
           <Paper sx={{p: 2}}>
             <Stack direction="column">
-              <Typography variant="h6">Situación Física</Typography>
+              <Typography data-cy='tituloSituacionFisica' variant="h6">Situación Física</Typography>
               <Stack
                 direction="row"
                 spacing={15}
