@@ -33,7 +33,7 @@
     "startDev": "cross-env REACT_APP_ENVIRONMENT_TYPE=dev port=3000 react-app-rewired start",
     "startMocked": "cross-env REACT_APP_ENVIRONMENT_TYPE=mocked PORT=3001 react-scripts start",
     "Cypress": "cypress open",
-    "Cy Document": "npx cypress run --spec \"cypress/e2e/document/document.cy.js\"",
+    "cyDocument": "npx cypress run --spec \"cypress/e2e/document/document.cy.js\"",
     "Cypress_test:all": "npx cypress run --browser chrome --spec \"cypress/e2e/landing/landing.cy.js,cypress/e2e/labels/labels.cy.js,cypress/e2e/batch/batch.cy.js,cypress/e2e/documents/documents.cy.js,cypress/e2e/document/document.cy.js\"",
     "build": "react-scripts build",
     "test": "react-scripts test",

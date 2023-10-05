@@ -1,11 +1,10 @@
-# Paso 4a Docker Compose
 # Paso 5 Docker build. On CLI
 # ejecutar en el cli la siguiente linea
 # docker-compose -f docker-compose.dev.yml up -d --build
+# Paso 4a Docker Compose
 version: "3"
 
 services:
-
   nginx:
     container_name: core_web
     image: nginx:stable
@@ -25,7 +24,6 @@ services:
     ports:
       - "3000:3000"
     command: >
-      # sh -c "yarn start"
       sh -c "npm run startDev"
 
     env_file:
