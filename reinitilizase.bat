@@ -1,0 +1,1 @@
+.\sac_stopAllCont.bat | .\dac_delAllCont.bat | .\dai_deleteAllImages.bat
