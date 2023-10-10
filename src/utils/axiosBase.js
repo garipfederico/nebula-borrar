@@ -4,6 +4,9 @@ const axiosBaseObject = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
 });
 
+
+// axiosBaseObject.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+
 export const setAxiosToken = () => {
   const authJSON = localStorage.getItem("docu.auth");
   if (authJSON) {
